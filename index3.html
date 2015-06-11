@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <title>The Parcel Assessment Tool - PAT</title>
+    <link href="css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+
+    <div id="map"></div>
+    <div id="leftBkg"></div>
+    <div id="overlay"></div>
+
+    <div class="left">
+      <div id="title"></div>
+      <p>Each point displayed represents a parcel centroid, shaded by one of the Zoning Types shown below.</p>
+      <p>Click on each parcel point to view information about that parcel.</p>
+      <div id="legendBox">
+        <ul>
+          <li>B1-1 Commercial</li>
+          <li>B3-3 Commercial</li>
+          <li>B4-2 Commercial</li>
+          <li>B4-5 Commercial</li>
+          <li>M1-5 Industrial</li>
+          <li>MPD Residential</li>
+          <li>R-0.5 Residential</li>
+          <li>R-1-5 Residential</li>
+          <li>R-2.5 Residential</li>
+          <li>UR</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="pointTT">
+      <p></p>
+    </div>
+
+    <!--Custom html for the infowindow customization-->
+    <!--You can write simple html or use Mustache templates http://mustache.github.com/-->
+    <!--Content.data contains the field info-->
+    <script type="infowindow/html" id="infowindow_template">
+      <div class="cartodb-popup">
+        <a href="#close" class="cartodb-popup-close-button close">x</a>
+         <div class="cartodb-popup-content-wrapper">
+           <div class="cartodb-popup-cont">
+            <img src="{{content.data.pic}}" />
+            <h4>{{content.data.name_to_display}}</h4>
+            {{#content.data.video_url}}
+              <a class="videoButton" href="{{content.data.video_url}}" target="_blank"> </a>
+            {{/content.data.video_url}}
+            <p>{{content.data.description}}</p>
+           </div>
+         </div>
+         <div class="cartodb-popup-tip-container"></div>
+      </div>
+    </script>
+
+    <!--Include the js. Please be sure that you use a locked version in case you go to production-->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script type="text/javascript" src="js/app2.js"></script>
+
+  </body>
+</html>
