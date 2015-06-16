@@ -7,6 +7,7 @@ function main() {
     zoom: 14, 
     zoomControl: false,  // dont add the zoom overlay (it is added by default)
     loaderControl: false //dont show tiles loader
+
   };
   
     map = new L.Map('map', options );
@@ -37,7 +38,8 @@ function main() {
         
         new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
-var layers = ['https://code4kc.cartodb.com/api/v2_1/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json',
+/*
+        var layers = ['https://code4kc.cartodb.com/api/v2_1/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json',
              'https://code4kc.cartodb.com/api/v2_1/viz/97d27fda-0d15-11e5-8183-0e0c41326911/viz.json'];
         var q = queue(3);
 
@@ -45,14 +47,28 @@ var layers = ['https://code4kc.cartodb.com/api/v2_1/viz/8167c2b8-0cf3-11e5-8080-
           q.defer(function(vizjson, callback) {
             cartodb.createLayer(map, vizjson, function(layer) { callback(null, layer); })
           }, vizjson);
-        })
 
-        q.await(function() {
-          var leafletLayers = Array.prototype.slice.call(arguments, 1);
-          leafletLayers.forEach(function(lyr) {
-            lyr.addTo(map);
-          });
+
         })
+*/
+
+        var layer = 'https://code4kc.cartodb.com/api/v2_1/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
+
+        cartodb.createLayer(map, layer).addTo(map).on('done', function(layer){
+          var sublayer = layer.getSubLayer(2);
+
+          sublayer.infowindow.set('template', $('#infowindow_templae').html());
+        }).on('error', function(){
+          console.log("error loading layer info");
+        });
+
+//        q.await(function() {
+//          var leafletLayers = Array.prototype.slice.call(arguments, 1);
+//          leafletLayers.forEach(function(lyr) {
+//            lyr.addTo(map);
+//          });
+//        })
+
 }
 
 window.onload = main;
