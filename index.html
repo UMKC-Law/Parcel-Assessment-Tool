@@ -1,10 +1,17 @@
-<html>
+<!DOCTYPE html>
+
+<html lang="eng">
   <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <title>The Parcel Assessment Tool - PAT</title>
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
+
+    <meta name="viewport" content="width=device-width, intitial-scale=1, maximum-scale=1, user-scalable=no">
+
+
   </head>
 
   <body>
@@ -44,15 +51,10 @@
       <div class="cartodb-popup">
         <a href="#close" class="cartodb-popup-close-button close">x</a>
          <div class="cartodb-popup-content-wrapper">
-           <div class="cartodb-popup-cont">
-            <img src="{{content.data.pic}}" />
-            <h4>{{content.data.name_to_display}}</h4>
-            {{#content.data.video_url}}
-              <a class="videoButton" href="{{content.data.video_url}}" target="_blank"> </a>
-            {{/content.data.video_url}}
-            <p>{{content.data.description}}</p>
-            <button type="button" class="btn btn-primary">More Info</button>
+           <div class="cartodb-popup-content">
+              <h4>{{content.data.name}}</h4>          
            </div>
+           <div class="span7 text-center"><button type="button" class="btn btn-primary" id= >More Info</button></div>
          </div>
          <div class="cartodb-popup-tip-container"></div>
       </div>
