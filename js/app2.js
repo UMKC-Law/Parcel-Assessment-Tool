@@ -36,6 +36,11 @@ function main(){
   });
 }
 
+function openpanel(){
+  $('.cd-panel').addClass('is-visible');
+  console.log("panel should have opened");
+}
+
 jQuery(document).ready(function($){
   main();
 
@@ -44,6 +49,10 @@ jQuery(document).ready(function($){
       $('.cd-panel').removeClass('is-visible');
       event.preventDefault();
     }
+  });
+
+  $(document).on('click', '#openpanel', function(event){
+    $('.cd-panel').addClass('is-visible');
   });
 
 });

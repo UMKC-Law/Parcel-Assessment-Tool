@@ -2,36 +2,35 @@
 
 <html lang="eng" class="no-js">
   <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <title>The Parcel Assessment Tool - PAT</title>
+    <meta charset="UTF-8">
+    <meta content="text/html" http-equiv="Content-Type">
+    <meta name="viewport" content="width=device-width, intitial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <link rel="css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="css/reset.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <link rel="css/panelstyle.css" rel="stylesheet" type="text/css" />
+    <link href="css/panelstyle.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
 
-    <meta name="viewport" content="width=device-width, intitial-scale=1, maximum-scale=1, user-scalable=no">
-
-
+    <title>The Parcel Assessment Tool - PAT</title>
   </head>
 
   <body>
-    <div class = "jumbotron">
 
+      <!--Main Content-->
       <main class = "cd-main-content">
         <div>
-          <div id="map"></div>
+          <div id="map" class = "cd-main-content"></div>
           <div id="leftBkg"></div>
           <div id="overlay"></div>
           <div id="pointTT">
             <p></p>
           </div>
-        <div>
+        </div>
       </main>
 
-
-
+      <!--Slide Out Panel-->
       <div class="cd-panel from-left">
         <header class="cd-panel-header">
           <h1>Parcel Information</h1>
@@ -67,7 +66,6 @@
 
 
 
-    </div><!--jumbotron-->
 
     <!--Custom html for the infowindow customization-->
     <!--You can write simple html or use Mustache templates http://mustache.github.com/-->
@@ -83,25 +81,22 @@
             {{content.data.kivapin}}
             <h4>Land use:</h4>
             {{content.data.land_bank_}}
+            <div class="span7 text-center">
+              <button type="button" class="btn btn-primary" id="openpanel">More Info</button>
+            </div>
           </div>
         </div>
         
-        <div class="cartodb-popup-tip-container span7 text-center">
-          <button type="button" class="btn btn-primary" onclick="openPanel()">More Info</button>
-        </div>
       </div>
     </script>
 
-
-  </body>
-
-  <footer>
     <!--Include the js. Please be sure that you use a locked version in case you go to production-->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
-<!--    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script> -->
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/app2.js"></script>
 
-  </footer>
+  </body>
+
 </html>
