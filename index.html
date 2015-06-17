@@ -4,10 +4,11 @@
   <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <title>The Parcel Assessment Tool - PAT</title>
-    <link href="css/reset.css" rel="stylesheet" type="text/css" />
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="css/panelstyle.css" rel="stylesheet" type="text/css" />
+    <link rel="css/reset.css" rel="stylesheet" type="text/css" />
 
     <meta name="viewport" content="width=device-width, intitial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -15,34 +16,57 @@
   </head>
 
   <body>
+    <div class = "jumbotron">
 
-    <div id="map"></div>
-    <div id="leftBkg"></div>
-    <div id="overlay"></div>
+      <main class = "cd-main-content">
+        <div>
+          <div id="map"></div>
+          <div id="leftBkg"></div>
+          <div id="overlay"></div>
+          <div id="pointTT">
+            <p></p>
+          </div>
+        <div>
+      </main>
 
-    <div class="left">
-      <div id="title"></div>
-      <p>Each point displayed represents a parcel centroid, shaded by one of the Zoning Types shown below.</p>
-      <p>Click on each parcel point to view information about that parcel.</p>
-      <div id="legendBox">
-        <ul>
-          <li>B1-1 Commercial</li>
-          <li>B3-3 Commercial</li>
-          <li>B4-2 Commercial</li>
-          <li>B4-5 Commercial</li>
-          <li>M1-5 Industrial</li>
-          <li>MPD Residential</li>
-          <li>R-0.5 Residential</li>
-          <li>R-1-5 Residential</li>
-          <li>R-2.5 Residential</li>
-          <li>UR</li>
-        </ul>
-      </div>
-    </div>
 
-    <div id="pointTT">
-      <p></p>
-    </div>
+
+      <div class="cd-panel from-left">
+        <header class="cd-panel-header">
+          <h1>Parcel Information</h1>
+          <a href="#0" class="cd-panel-close">Close</a>
+        </header>
+
+        <div class="cd-panel-container">
+          <div class="cd-panel-content">
+
+            <!--side panel content goes here-->
+            <div id="title"></div>
+            <p>Each point displayed represents a parcel centroid, shaded by one of the Zoning Types shown below.</p>
+            <p>Click on each parcel point to view information about that parcel.</p>
+            <div id="legendBox">
+              <ul>
+                <li>B1-1 Commercial</li>
+                <li>B3-3 Commercial</li>
+                <li>B4-2 Commercial</li>
+                <li>B4-5 Commercial</li>
+                <li>M1-5 Industrial</li>
+                <li>MPD Residential</li>
+                <li>R-0.5 Residential</li>
+                <li>R-1-5 Residential</li>
+                <li>R-2.5 Residential</li>
+                <li>UR</li>
+              </ul>
+            </div>
+          <!--end side panel content-->
+
+          </div>
+        </div>
+      </div><!--side panel-->
+
+
+
+    </div><!--jumbotron-->
 
     <!--Custom html for the infowindow customization-->
     <!--You can write simple html or use Mustache templates http://mustache.github.com/-->
@@ -50,22 +74,33 @@
     <script type="infowindow/html" id="infowindow_template">
       <div class="cartodb-popup">
         <a href="#close" class="cartodb-popup-close-button close">x</a>
-         <div class="cartodb-popup-content-wrapper">
-           <div class="cartodb-popup-content">
-              <h4>{{content.data.name}}</h4>          
-           </div>
-           <div class="span7 text-center"><button type="button" class="btn btn-primary" id= >More Info</button></div>
-         </div>
-         <div class="cartodb-popup-tip-container"></div>
+        <div class="cartodb-popup-content-wrapper">
+          <div class="cartodb-popup-content">
+            <span>{{content.data.address}}</span>
+            <!--content for the infowindow-->
+            <h4>Kivapin:</h4>
+            {{content.data.kivapin}}
+            <h4>Land use:</h4>
+            {{content.data.land_bank_}}
+          </div>
+        </div>
+        
+        <div class="cartodb-popup-tip-container span7 text-center">
+          <button type="button" class="btn btn-primary" onclick="openPanel()">More Info</button>
+        </div>
       </div>
     </script>
 
-    <!--Include the js. Please be sure that you use a locked version in case you go to production-->
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
-    <script src="http://d3js.org/queue.v1.min.js"></script>
-    <script type="text/javascript" src="js/app2.js"></script>
 
   </body>
+
+  <footer>
+    <!--Include the js. Please be sure that you use a locked version in case you go to production-->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/app2.js"></script>
+
+  </footer>
 </html>
