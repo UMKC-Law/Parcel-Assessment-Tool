@@ -1,7 +1,16 @@
 var map;
 var currentParcelData;
 
-function main() {
+
+function openPanel(event){
+  $('.cd-panel').addClass('is-visible');
+  console.log("Hello");
+}
+
+//window.onload = main;
+
+//panel related code
+jQuery(document).ready(function($){
 
   var options = {
     center: [39.08, -94.55],
@@ -83,17 +92,9 @@ function main() {
 //          });
 //        })
 
-}
 
-function openPanel(event){
-  $('.cd-panel').addClass('is-visible');
-  console.log("Hello");
-}
 
-window.onload = main;
 
-//panel related code
-jQuery(document).ready(function($){
 
   $('.cd-panel').on('click', function(event){
     if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
