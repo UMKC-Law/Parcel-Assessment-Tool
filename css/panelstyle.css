@@ -1,7 +1,37 @@
-html, body, #map {
+/* -------------------------------- 
+
+Primary style
+
+-------------------------------- */
+*, *::after, *::before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*::after, *::before {
+  content: '';
+}
+
+body {
+  font-size: 100%;
+  font-family: "Droid Sans", sans-serif;
+  color: #dbe2e9;
+  background: #424f5c;
+}
+
+a {
+  color: #89ba2c;
+  text-decoration: none;
+}
+
+/* -------------------------------- 
+
+Main components 
+
+-------------------------------- */
+html, body {
   height: 100%;
-  margin: 0;
-  padding: 0;
 }
 
 .cd-main-content {
@@ -183,12 +213,12 @@ html, body, #map {
 }
 @media only screen and (min-width: 768px) {
   .cd-panel-header {
-    width: 35%;
+    width: 70%;
   }
 }
 @media only screen and (min-width: 1170px) {
   .cd-panel-header {
-    width: 25%;
+    width: 50%;
   }
 }
 
@@ -302,12 +332,12 @@ html, body, #map {
 }
 @media only screen and (min-width: 768px) {
   .cd-panel-container {
-    width: 35%;
+    width: 70%;
   }
 }
 @media only screen and (min-width: 1170px) {
   .cd-panel-container {
-    width: 25%;
+    width: 50%;
   }
 }
 
