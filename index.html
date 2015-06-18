@@ -39,48 +39,57 @@
 
               <!--side panel content goes here-->
               <div class="row">
-
                 <div class="col-md-4">
-                  <p>Each point displayed represents a parcel centroid, shaded by one of the Zoning Types shown below.</p>
-                  <p>Click on each parcel point to view information about that parcel.</p>
-                  <div id="legendBox">
-                    <ul>
-                      <li>B1-1 Commercial</li>
-                      <li>B3-3 Commercial</li>
-                      <li>B4-2 Commercial</li>
-                      <li>B4-5 Commercial</li>
-                      <li>M1-5 Industrial</li>
-                      <li>MPD Residential</li>
-                      <li>R-0.5 Residential</li>
-                      <li>R-1-5 Residential</li>
-                      <li>R-2.5 Residential</li>
-                      <li>UR</li>
-                    </ul>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">Legend</h3>
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <p>Information goes here?</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="input-group">
-                    <span class="input-group-addon" id="BuildingTypeLabel">Building Type:</span>
-                    <select class="selectpicker form-control" name= "BuildingType[]" data-live-search="true" id="BuildingType">
-                      <option>First Building Type</option>
-                      <option>Second Building Type</option>
-                      <option>Third Building Type</option>
-                    </select>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title" id="BuildingTypeLabel">Building Type:</h3>
+                    </div>
+                    <div class="panel-body">
+                      <select class="form-control" name= "BuildingType[]" data-live-search="true" id="BuildingType">
+                        <option>First Building Type</option>
+                        <option>Second Building Type</option>
+                        <option>Third Building Type</option>
+                      </select>
+                    </div>
                   </div>
-                  <div class="input-group">
-                    <span class="input-group-addon" id="BusinessTypeLabel">Business Type:</span>
-                    <select class='selectpicker form-control' name= "BusinessType[]" data-live-search="true" id="BusinessType">
-                      <option>First Business Type</option>
-                      <option>Second Business Type</option>
-                      <option>Third Business Type</option>
-                    </select>
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title" id="BusinessTypeLabel">Business Type:</h3>
+                    </div>
+                    <div class="panel-body">
+                      <select class='form-control' name= "BusinessType[]" data-live-search="true" id="BusinessType">
+                        <option>First Business Type</option>
+                        <option>Second Business Type</option>
+                        <option>Third Business Type</option>
+                      </select>
+                    </div>
                   </div>
-                  <div class="input-group">
-                    <span class="input-group-addon" id="ZoningLabel">Zoning:</span>
-                    <select class='selectpicker form-control' name= "ZoningType[]" data-live-search="true" id="ZoningType">
-                      <option>First Zone Type</option>
-                      <option>Second Zone Type</option>
-                      <option>Third Zone Type</option>
-                    </select>
+                  
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title" id="ZoningLabel">Zoning:</h3>
+                    </div>
+                    <div class="panel-body">
+                      <select class='selectpicker form-control' name= "ZoningType[]" data-live-search="true" id="ZoningType">
+                        <option>First Zone Type</option>
+                        <option>Second Zone Type</option>
+                        <option>Third Zone Type</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div class="panel panel-default">
