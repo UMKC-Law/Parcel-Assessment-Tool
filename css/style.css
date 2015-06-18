@@ -57,7 +57,7 @@ div.left{
 	z-index: 3;
 }
 
-div.left div#title{
+div#title{
 	width: 428px;
 	height: 195px;
 	/*background: url(../img/title.png) no-repeat;*/

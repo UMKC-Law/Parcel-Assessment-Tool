@@ -31,7 +31,7 @@ function main(){
     sublayer.on('featureClick', function(e, latlng, pos, data, layer) {
       currentParcelData = data;
 
-      $('.cartodb-infowindow').on('click' ,function(){
+      $('.cartodb-infowindow').on('click', '#openpanel' ,function(){
         $('.cd-panel').addClass('is-visible');
       });
     });
