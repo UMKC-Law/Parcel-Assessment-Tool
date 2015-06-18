@@ -13,7 +13,7 @@ function main(){
   };
   
   map = new L.Map('map', options );
-    
+  
   L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
     attribution: 'Positron'
   }).addTo(map);
@@ -36,10 +36,6 @@ function main(){
   });
 }
 
-function openpanel(){
-  $('.cd-panel').addClass('is-visible');
-  console.log("panel should have opened");
-}
 
 jQuery(document).ready(function($){
   main();
@@ -51,7 +47,8 @@ jQuery(document).ready(function($){
     }
   });
 
-  $(document).on('click', '#openpanel', function(event){
+  $('.cartodb-infowindow').on('click', '#openpanel', function(){
+    event.preventDefault();
     $('.cd-panel').addClass('is-visible');
   });
 
