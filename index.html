@@ -32,59 +32,116 @@
 
       <!--Slide Out Panel-->
       <div class="cd-panel from-left">
-        <header class="cd-panel-header">
-          <h1>Parcel Information</h1>
-          <a href="#0" class="cd-panel-close">Close</a>
-        </header>
 
         <div class="cd-panel-container">
           <div class="cd-panel-content">
 
-            <!--side panel content goes here-->
-            <div id="title"></div>
-            <p>Each point displayed represents a parcel centroid, shaded by one of the Zoning Types shown below.</p>
-            <p>Click on each parcel point to view information about that parcel.</p>
-            <div id="legendBox">
-              <ul>
-                <li>B1-1 Commercial</li>
-                <li>B3-3 Commercial</li>
-                <li>B4-2 Commercial</li>
-                <li>B4-5 Commercial</li>
-                <li>M1-5 Industrial</li>
-                <li>MPD Residential</li>
-                <li>R-0.5 Residential</li>
-                <li>R-1-5 Residential</li>
-                <li>R-2.5 Residential</li>
-                <li>UR</li>
-              </ul>
-            </div>
 
-            <div class="input-group">
-              <span class="input-group-addon" id="BuildingTypeLabel">Building Type:</span>
-              <select class="selectpicker form-control" name= "BuildingType[]" data-live-search="true" id="BuildingType">
-                <option>First Building Type</option>
-                <option>Second Building Type</option>
-                <option>Third Building Type</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon" id="BusinessTypeLabel">Business Type:</span>
-              <select class='selectpicker form-control' name= "BusinessType[]" data-live-search="true" id="BusinessType">
-                <option>First Business Type</option>
-                <option>Second Business Type</option>
-                <option>Third Business Type</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon" id="ZoningLabel">Zoning:</span>
-              <select class='selectpicker form-control' name= "ZoningType[]" data-live-search="true" id="ZoningType">
-                <option>First Zone Type</option>
-                <option>Second Zone Type</option>
-                <option>Third Zone Type</option>
-              </select>
-            </div>
-            <!--end side panel content-->
-          
+              <!--side panel content goes here-->
+              <div class="row">
+
+                <div class="col-md-4">
+                  <p>Each point displayed represents a parcel centroid, shaded by one of the Zoning Types shown below.</p>
+                  <p>Click on each parcel point to view information about that parcel.</p>
+                  <div id="legendBox">
+                    <ul>
+                      <li>B1-1 Commercial</li>
+                      <li>B3-3 Commercial</li>
+                      <li>B4-2 Commercial</li>
+                      <li>B4-5 Commercial</li>
+                      <li>M1-5 Industrial</li>
+                      <li>MPD Residential</li>
+                      <li>R-0.5 Residential</li>
+                      <li>R-1-5 Residential</li>
+                      <li>R-2.5 Residential</li>
+                      <li>UR</li>
+                    </ul>
+                  </div>
+
+                  <div class="input-group">
+                    <span class="input-group-addon" id="BuildingTypeLabel">Building Type:</span>
+                    <select class="selectpicker form-control" name= "BuildingType[]" data-live-search="true" id="BuildingType">
+                      <option>First Building Type</option>
+                      <option>Second Building Type</option>
+                      <option>Third Building Type</option>
+                    </select>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon" id="BusinessTypeLabel">Business Type:</span>
+                    <select class='selectpicker form-control' name= "BusinessType[]" data-live-search="true" id="BusinessType">
+                      <option>First Business Type</option>
+                      <option>Second Business Type</option>
+                      <option>Third Business Type</option>
+                    </select>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon" id="ZoningLabel">Zoning:</span>
+                    <select class='selectpicker form-control' name= "ZoningType[]" data-live-search="true" id="ZoningType">
+                      <option>First Zone Type</option>
+                      <option>Second Zone Type</option>
+                      <option>Third Zone Type</option>
+                    </select>
+                  </div>
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">Building Envelope</h3>
+                    </div>
+                    <div class="panel-body">
+                      <p>Max Building Footprint: </p>
+                      <p>Max Floors: </p>
+                      <p>Max Building SqFtg: </p>
+                      <p>Min Parking Stalls: </p>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="col-md-8">
+                  <!--tabbed area-->
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title" id="AddressSpace">00000 null str</h3>
+                    </div>
+
+                    <div class="panel-body">
+                      <!--tabs-->
+                      <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+                        <li role="presentation"><a href="#tax" aria-controls="tax" data-toggle="tab">Tax</a></li>
+                        <li role="presentation"><a href="#neighborhood" aria-controls="neighborhood" data-toggle="tab">Neighborhood</a></li>
+                        <li role="presentation"><a href="#plan" aria-controls="plan" data-toggle="tab">Plan</a></li>
+                        <li role="presentation"><a href="#incentives" aria-controls="incentives" data-toggle="tab">Incentives</a></li>
+                        <li role="presentation"><a href="#links" aria-controls="links" data-toggle="tab">Links</a></li>
+                      </ul>
+                      <!--tab panes-->
+                      <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="general">
+                          <p>general Coming soon!</p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tax">
+                          <p>tax Coming soon!</p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="neighborhood">
+                          <p>neighborhood Coming soon!</p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="plan">
+                          <p>plan Coming soon!</p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="incentives">
+                          <p>incentives Coming soon!</p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="links">
+                          <p>links Coming soon!</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end tabbed area-->
+                </div>
+                <!--end side panel content-->
+              </div>
+
           </div>
         </div>
       </div><!--side panel-->
