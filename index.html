@@ -58,7 +58,6 @@
                 <li>UR</li>
               </ul>
             </div>
-            <!--end side panel content-->
 
             <div class="input-group">
               <span class="input-group-addon" id="BuildingTypeLabel">Building Type:</span>
@@ -84,7 +83,8 @@
                 <option>Third Zone Type</option>
               </select>
             </div>
-
+            <!--end side panel content-->
+          
           </div>
         </div>
       </div><!--side panel-->
@@ -95,6 +95,7 @@
     <!--Custom html for the infowindow customization-->
     <!--You can write simple html or use Mustache templates http://mustache.github.com/-->
     <!--Content.data contains the field info-->
+    <div type="infowindowscript">
     <script type="infowindow/html" id="infowindow_template">
       <div class="cartodb-popup">
         <a href="#close" class="cartodb-popup-close-button close">x</a>
@@ -114,7 +115,7 @@
         
       </div>
     </script>
-
+    </div>
     <!--Include the js. Please be sure that you use a locked version in case you go to production-->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>

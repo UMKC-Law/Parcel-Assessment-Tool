@@ -30,6 +30,10 @@ function main(){
     sublayer.setInteractivity('cartodb_id, address, apn, kivapin, land_ban30, land_ban_6, land_ban_4, land_ban_6, land_ban_7, land_ban10, land_ban36, land_ban56, land_ban60, land_bank_, own_name');
     sublayer.on('featureClick', function(e, latlng, pos, data, layer) {
       currentParcelData = data;
+
+      $('.cartodb-infowindow').on('click' ,function(){
+        $('.cd-panel').addClass('is-visible');
+      });
     });
   }).on('error', function(){
     console.log("Error");
@@ -45,11 +49,6 @@ jQuery(document).ready(function($){
       $('.cd-panel').removeClass('is-visible');
       event.preventDefault();
     }
-  });
-
-  $('.cartodb-infowindow').on('click', '#openpanel', function(){
-    event.preventDefault();
-    $('.cd-panel').addClass('is-visible');
   });
 
 });
