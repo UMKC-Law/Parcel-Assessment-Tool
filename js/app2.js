@@ -1,4 +1,5 @@
 var map;
+var templates;
 
 function main(){
 
@@ -42,9 +43,19 @@ function main(){
 function populatePanel(data){
   $('#AddressTitle').text(data.land_ban60);
 
+  //build the building envelope panel
+    var template = $('#envelope_template').html();
+    var rendered = Mustache.render(template, {
+      maxfootprint: calculateBFootprint(1,1),
+      maxfloors: "n/a",
+      maxsqftg: calculateBSF(1,1,1,1,1,1),
+      minstalls: "n/a"
+    });
+    $('#envelope').html(rendered);
+
   //build the general tab
-  var template = $('#generalbox_template').html();
-  var rendered = Mustache.render(template, {
+    template = $('#generalbox_template').html();
+    rendered = Mustache.render(template, {
       owner: data.own_name, 
       landuse: data.land_bank_, 
       landusecode: data.landusecod,
@@ -101,6 +112,7 @@ function populatePanel(data){
 
   //populate the zoning select
   var zoningselect = $('#ZoningSelect');
+  zoningselect.empty();
   zoningselect.append($("<option \>").val(data.land_ban_3).text(data.land_ban_3));
 
   //TODO: fill in the other select boxes, zoning select should probably have more options, and the fill in the building evelope

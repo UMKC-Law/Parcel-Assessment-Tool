@@ -24,9 +24,7 @@
         <div id="map" class = "cd-main-content"></div>
         <div id="leftBkg"></div>
         <div id="overlay"></div>
-        <div id="pointTT">
-          <p></p>
-        </div>
+        <div id="pointTT"></div>
       </div>
     </main>
 
@@ -88,12 +86,7 @@
                   <div class="panel-heading">
                     <h3 class="panel-title">Building Envelope</h3>
                   </div>
-                  <div class="panel-body">
-                    <p>Max Building Footprint: </p>
-                    <p>Max Floors: </p>
-                    <p>Max Building SqFtg: </p>
-                    <p>Min Parking Stalls: </p>
-                  </div>
+                  <div class="panel-body" id="envelope"></div>
                 </div>
 
               </div>
@@ -254,8 +247,12 @@
       <a href='http://kivaweb.kcmo.org/kivanet/2/land/summary/index.cfm?pin={{kivapin}}' target='new_tab'>Kivaweb</a>
     </script>
 
-
-
+    <script type="x-tmpl-mustache" id="envelope_template">
+      <p>Max Building Footprint: {{maxfootprint}}</p>
+      <p>Max Floors: {{maxfloors}}</p>
+      <p>Max Building SqFtg: {{maxsqftg}} sqft</p>
+      <p>Min Parking Stalls: {{minstalls}}</p>
+    </script>
 
     <!--Include the js. Please be sure that you use a locked version in case you go to production-->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
