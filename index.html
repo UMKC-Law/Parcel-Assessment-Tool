@@ -18,103 +18,96 @@
 
   <body>
 
-      <!--Main Content-->
-      <main class = "cd-main-content">
-        <div>
-          <div id="map" class = "cd-main-content"></div>
-          <div id="leftBkg"></div>
-          <div id="overlay"></div>
-          <div id="pointTT">
-            <p></p>
-          </div>
+    <!--Main Content-->
+    <main class = "cd-main-content">
+      <div>
+        <div id="map" class = "cd-main-content"></div>
+        <div id="leftBkg"></div>
+        <div id="overlay"></div>
+        <div id="pointTT">
+          <p></p>
         </div>
-      </main>
+      </div>
+    </main>
 
-      <!--Slide Out Panel-->
-      <div class="cd-panel from-left">
+    <!--Slide Out Panel-->
+    <div class="cd-panel from-left">
 
-        <div class="cd-panel-container">
-          <div class="cd-panel-content">
+      <div class="cd-panel-container">
+        <div class="cd-panel-content">
 
 
-              <!--side panel content goes here-->
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h3 class="panel-title">Legend</h3>
-                    </div>
-                    <div class="panel-body">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <p>Information goes here?</p>
-                        </div>
+            <!--side panel content goes here-->
+            <div class="row">
+              <div class="col-md-4">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Legend</h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <p>Information goes here?</p>
                       </div>
                     </div>
                   </div>
-
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h3 class="panel-title" id="BuildingTypeLabel">Building Type:</h3>
-                    </div>
-                    <div class="panel-body">
-                      <select class="form-control" name= "BuildingType[]" data-live-search="true" id="BuildingType">
-                        <option>First Building Type</option>
-                        <option>Second Building Type</option>
-                        <option>Third Building Type</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h3 class="panel-title" id="BusinessTypeLabel">Business Type:</h3>
-                    </div>
-                    <div class="panel-body">
-                      <select class='form-control' name= "BusinessType[]" data-live-search="true" id="BusinessType">
-                        <option>First Business Type</option>
-                        <option>Second Business Type</option>
-                        <option>Third Business Type</option>
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h3 class="panel-title" id="ZoningLabel">Zoning:</h3>
-                    </div>
-                    <div class="panel-body">
-                      <select class='selectpicker form-control' name= "ZoningType[]" data-live-search="true" id="ZoningType">
-                        <option>First Zone Type</option>
-                        <option>Second Zone Type</option>
-                        <option>Third Zone Type</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h3 class="panel-title">Building Envelope</h3>
-                    </div>
-                    <div class="panel-body">
-                      <p>Max Building Footprint: </p>
-                      <p>Max Floors: </p>
-                      <p>Max Building SqFtg: </p>
-                      <p>Min Parking Stalls: </p>
-                    </div>
-                  </div>
-
                 </div>
 
-                <div class="col-md-8">
-                  <!--tabbed area-->
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h3 class="panel-title" id="AddressSpace">00000 null str</h3>
-                    </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title" id="BuildingTypeLabel">Building Type:</h3>
+                  </div>
+                  <div class="panel-body">
+                    <select class="form-control" name= "BuildingType[]" id="BuildingSelect">
+                      <option selected value="0">Please Select...</option>
+                    </select>
+                  </div>
+                </div>
 
-                    <div class="panel-body">
-                      <!--tabs-->
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title" id="BusinessTypeLabel">Business Type:</h3>
+                  </div>
+                  <div class="panel-body">
+                    <select class='form-control' name= "BusinessType[]" id="BusinessSelect">
+                      <option selected value="0">Please Select...</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title" id="ZoningLabel">Zoning:</h3>
+                  </div>
+                  <div class="panel-body">
+                    <select class='selectpicker form-control' name= "ZoningType[]" id="ZoningSelect"></select>
+                  </div>
+                </div>
+
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Building Envelope</h3>
+                  </div>
+                  <div class="panel-body">
+                    <p>Max Building Footprint: </p>
+                    <p>Max Floors: </p>
+                    <p>Max Building SqFtg: </p>
+                    <p>Min Parking Stalls: </p>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-md-8">
+                <!--tabbed area-->
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title" id="AddressTitle"></h3>
+                  </div>
+
+                  <div class="panel-body">
+                    <!--tabs-->
+                    <div class="panel panel-default">
                       <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
                         <li role="presentation"><a href="#tax" aria-controls="tax" data-toggle="tab">Tax</a></li>
@@ -125,62 +118,145 @@
                       </ul>
                       <!--tab panes-->
                       <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="general">
-                          <p>general Coming soon!</p>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="tax">
-                          <p>tax Coming soon!</p>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="neighborhood">
-                          <p>neighborhood Coming soon!</p>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="plan">
-                          <p>plan Coming soon!</p>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="incentives">
-                          <p>incentives Coming soon!</p>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="links">
-                          <p>links Coming soon!</p>
-                        </div>
+                        <div role="tabpanel" class="tab-pane active" id="general"></div>
+                        <div role="tabpanel" class="tab-pane" id="tax"></div>
+                        <div role="tabpanel" class="tab-pane" id="neighborhood"></div>
+                        <div role="tabpanel" class="tab-pane" id="plan"></div>
+                        <div role="tabpanel" class="tab-pane" id="incentives"></div>
+                        <div role="tabpanel" class="tab-pane" id="links"></div>
                       </div>
                     </div>
                   </div>
-                  <!--end tabbed area-->
                 </div>
-                <!--end side panel content-->
+                <!--end tabbed area-->
               </div>
+              <!--end side panel content-->
+            </div>
 
-          </div>
         </div>
-      </div><!--side panel-->
-
-
+      </div>
+    </div><!--side panel-->
 
 
     <!--Custom html for the infowindow customization-->
     <!--You can write simple html or use Mustache templates http://mustache.github.com/-->
     <!--Content.data contains the field info-->
     <script type="infowindow/html" id="infowindow_template">
-      <div class="cartodb-popup">
-        <a href="#close" class="cartodb-popup-close-button close">x</a>
-        <div class="cartodb-popup-content-wrapper">
-          <div class="cartodb-popup-content">
-            <span>{{content.data.address}}</span>
-            <!--content for the infowindow-->
-            <h4>Kivapin:</h4>
-            {{content.data.kivapin}}
-            <h4>Land use:</h4>
-            {{content.data.land_bank_}}
-            <div class="span7 text-center">
-              <button type='button' class='btn btn-primary' id='openpanel'>More Info</button>
+        <div class="cartodb-popup">
+          <a href="#close" class="cartodb-popup-close-button close">x</a>
+          <div class="cartodb-popup-content-wrapper">
+            <div class="cartodb-popup-content">
+              <span>{{content.data.address}}</span>
+              <!--content for the infowindow-->
+              <h4>Owner:</h4>
+              {{content.data.own_name}}
+              {{content.data.kivapin}}
+              <h4>Land use:</h4>
+              {{content.data.land_bank_}}
+              <div class="span7 text-center">
+                <button type='button' class='btn btn-primary' id='openpanel'>More Info</button>
+              </div>
             </div>
+            <div class="cartodb-popup-tip-container"></div>
           </div>
-          <div class="cartodb-popup-tip-container"></div>
         </div>
-        
-      </div>
     </script>
+
+
+    <!--templates for the tab boxes-->
+    <script type="x-tmpl-mustache", id="generalbox_template">
+      <table class="table table-hover">
+        <tr>
+          <td class="info">Owner</td><td>{{owner}}</td>
+        </tr>
+        <tr>
+          <td class="info">Council District</td><td>{{council}}</td>
+        </tr>
+        <tr>
+          <td class="info">School District</td><td>{{school}}</td>
+        </tr>
+        <tr>
+          <td class="info">Census Neighborhood</td><td>{{neighborhood}}</td>
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <td class="info">Land Use</td><td>{{landuse}} {{landusecode}}</td>
+        </tr>
+        <tr>
+          <td class="info">Blvd Front Footage</td><td>{{bff}}</td>
+        </tr>
+        <tr>
+          <td class="info">Effective Date</td><td>{{date}}</td>
+        </tr>
+        <tr>
+          <td class="info">Assessed Land</td><td>{{assland}}</td>
+        </tr>
+        <tr>
+          <td class="info">Assessed Improve</td><td>{{assimprove}}</td>
+        </tr>
+        <tr>
+          <td class="info">Exempt Land</td><td>{{exland}}</td>
+        </tr>
+        <tr>
+          <td class="info">Exempt Improve</td><td>{{eximprove}}</td>
+        </tr>
+        <tr>
+          <td class="info">Square Feet</td><td>{{sqrft}} sq ft</td>
+        </tr>
+        <tr>
+          <td class="info">Acres</td><td>{{acres}}</td>
+        </tr>
+        <tr>
+          <td class="info">Perimeter</td><td>{{perimeter}}</td>
+        </tr>
+        <tr>
+          <td class="info">PLSS</td><td>{{plss}}</td>
+        </tr>
+      </table>
+
+    </script>
+
+    <script type="x-tmpl-mustache", id="taxbox_template">
+      <table class="table table-hover">
+        <tr>
+          <td class="info">Assessed Value</td><td>${{assessedvalue}} </td>
+        </tr>
+        <tr>
+          <td class="info">Taxable Value</td><td>${{taxvalue}}</td>
+        </tr>
+        <tr>
+          <td class="info">Levy Rate</td><td>{{levy}}%</td>
+        </tr>
+        <tr>
+          <td class="info">{{prevyear}} Tax</td><td>{{prevtax}}</td>
+        </tr>
+        <tr>
+          <td class="info">Last Assessed</td><td>{{lastassessed}}</td>
+        </tr>
+      </table>
+    </script>
+
+    <script type="x-tmpl-mustache", id="nhoodbox_template">
+      <h4>neighborhood Coming soon!</h2>
+    </script>
+
+    <script type="x-tmpl-mustache", id="planbox_template">
+      <h4>plan Coming soon!</h4>
+    </script>
+
+    <script type="x-tmpl-mustache", id="incentivesbox_template">
+      <h4>incentives Coming soon!</h4>
+    </script>
+
+    <script type="x-tmpl-mustache" id="linksbox_template">
+      <a href='http://kivaweb.kcmo.org/kivanet/2/land/summary/index.cfm?pin={{kivapin}}' target='new_tab'>Kivaweb</a>
+    </script>
+
+
+
+
     <!--Include the js. Please be sure that you use a locked version in case you go to production-->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
