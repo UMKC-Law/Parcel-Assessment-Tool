@@ -115,6 +115,9 @@ function populatePanel(data){
   zoningselect.empty();
   zoningselect.append($("<option \>").val(data.land_ban_3).text(data.land_ban_3));
 
+  //switch back to the general tab (otherwise it will leave the last active tab for the last parcel active)
+  $("#general-tab").tab("show");
+
   //TODO: fill in the other select boxes, zoning select should probably have more options, and the fill in the building evelope
 
 }
