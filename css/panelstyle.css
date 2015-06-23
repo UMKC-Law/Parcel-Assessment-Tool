@@ -78,7 +78,7 @@ html, body {
   height: 100%;
   top: 0;
   background: #dbe2e9;
-  z-index: 1;
+  z-index: 100;
   -webkit-transition-property: -webkit-transform;
   -moz-transition-property: -moz-transform;
   transition-property: transform;
