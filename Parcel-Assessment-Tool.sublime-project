@@ -1,0 +1,15 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"name": "Parcel-Assessment-Tool",
+			"path": ".",
+			"file_exclude_patters": ["*.sublime-project"]
+		}
+	],
+	"settings":
+	{
+		"tab_size": 2
+	}
+}
