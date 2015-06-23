@@ -19,7 +19,7 @@ div#map{
 	bottom: 0;
 	top: 0;
 	right: 0;
-	left: 350px;
+	left: 0px;
 	background-color: #99BDBC;
 }
 
@@ -57,7 +57,7 @@ div.left{
 	z-index: 3;
 }
 
-div.left div#title{
+div#title{
 	width: 428px;
 	height: 195px;
 	/*background: url(../img/title.png) no-repeat;*/
