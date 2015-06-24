@@ -45,11 +45,16 @@ function populatePanel(data){
 
   //build the building envelope panel
     var template = $('#envelope_template').html();
+
+    //store some constantly used variables:
+    var zone = data.land_ban_3;
+    var BSFMax = calculateBSF(data.land_ban30, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["PS"], ZoneTable[zone]["PF"]);
+
     var rendered = Mustache.render(template, {
-      maxfootprint: calculateBFootprint(1,1),
-      maxfloors: "n/a",
-      maxsqftg: calculateBSF(1,1,1,1,1,1),
-      minstalls: "n/a"
+      maxfootprint: (Math.floor(calculateBFootprint(BSFMax, ZoneTable[zone]["St"]) * 100)/100).toFixed(2),
+      maxfloors: ZoneTable[zone]["St"],
+      maxsqftg: (Math.floor(BSFMax * 100)/100).toFixed(2),
+      minstalls: ZoneTable[zone]["PS"]
     });
     $('#envelope').html(rendered);
 
