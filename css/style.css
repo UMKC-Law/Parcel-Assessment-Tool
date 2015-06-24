@@ -11,7 +11,7 @@
 
 body{
 
-    background-color: #99BDBC;
+    background-color: #74B4FA;
 }
 
 div#map{
@@ -21,7 +21,7 @@ div#map{
 	top: 50px;
 	right: 0;
 	left: 350px;
-	background-color: #99BDBC;
+	background-color: #74B4FA;
 }
 
 div#overlay{
