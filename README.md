@@ -14,5 +14,8 @@ and save the developer valuable time.
 For the coder, this would entail gathering data from Kansas City's and Jackson County's
 free public websites.  
 
+We are working on establishing an updated problem statement that reflects the cumulative lessons learned
+realities of data extraction and combination that will inform this project (PAT).
+
 Project overviews can be viewed here.
 http://codeforkc.org/hackkc-projects.html
