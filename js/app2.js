@@ -20,7 +20,7 @@ function main(){
   
   new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
-  var datalayer = 'https://code4kc.cartodb.com/api/v2_1/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
+  var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
 
   cartodb.createLayer(map, datalayer).addTo(map).on('done', function(layer){
     var sublayer = layer.getSubLayer(2); //sublayer generated from the data.json file
