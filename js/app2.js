@@ -20,7 +20,7 @@ function main(){
   
   new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
-  var datalayer = 'https://code4kc.cartodb.com/api/v2_1/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
+  var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
 
   cartodb.createLayer(map, datalayer).addTo(map).on('done', function(layer){
     var sublayer = layer.getSubLayer(2); //sublayer generated from the data.json file
@@ -45,11 +45,16 @@ function populatePanel(data){
 
   //build the building envelope panel
     var template = $('#envelope_template').html();
+
+    //store some constantly used variables:
+    var zone = data.land_ban_3;
+    var BSFMax = calculateBSF(data.land_ban30, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["PS"], ZoneTable[zone]["PF"]);
+
     var rendered = Mustache.render(template, {
-      maxfootprint: calculateBFootprint(1,1),
-      maxfloors: "n/a",
-      maxsqftg: calculateBSF(1,1,1,1,1,1),
-      minstalls: "n/a"
+      maxfootprint: (Math.floor(calculateBFootprint(BSFMax, ZoneTable[zone]["St"]) * 100)/100).toFixed(2),
+      maxfloors: ZoneTable[zone]["St"],
+      maxsqftg: (Math.floor(BSFMax * 100)/100).toFixed(2),
+      minstalls: ZoneTable[zone]["PS"]
     });
     $('#envelope').html(rendered);
 
@@ -114,6 +119,9 @@ function populatePanel(data){
   var zoningselect = $('#ZoningSelect');
   zoningselect.empty();
   zoningselect.append($("<option \>").val(data.land_ban_3).text(data.land_ban_3));
+
+  //switch back to the general tab (otherwise it will leave the last active tab for the last parcel active)
+  $("#general-tab").tab("show");
 
   //TODO: fill in the other select boxes, zoning select should probably have more options, and the fill in the building evelope
 

@@ -18,10 +18,22 @@
 
   <body>
 
+    <!--nav bar-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            <img alt="PAT" src="img/Pat-icon.png">
+          </a>
+        </div>
+      </div>
+    </nav>
+
     <!--Main Content-->
     <main class = "cd-main-content">
+
       <div>
-        <div id="map" class = "cd-main-content"></div>
+        <div id="map"></div>
         <div id="leftBkg"></div>
         <div id="overlay"></div>
           <div class="left">
@@ -43,6 +55,7 @@
               </ul>
             </div>
           </div>
+
         <div id="pointTT"></div>
       </div>
     </main>
@@ -59,18 +72,6 @@
             <!--side panel content goes here-->
             <div class="row">
               <div class="col-md-4">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">Legend</h3>
-                  </div>
-                  <div class="panel-body">
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <p>Information goes here?</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
                 <div class="panel panel-default">
                   <div class="panel-heading">
@@ -123,12 +124,12 @@
                     <!--tabs-->
                     <div class="panel panel-default">
                       <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
-                        <li role="presentation"><a href="#tax" aria-controls="tax" data-toggle="tab">Tax</a></li>
-                        <li role="presentation"><a href="#neighborhood" aria-controls="neighborhood" data-toggle="tab">Neighborhood</a></li>
-                        <li role="presentation"><a href="#plan" aria-controls="plan" data-toggle="tab">Plan</a></li>
-                        <li role="presentation"><a href="#incentives" aria-controls="incentives" data-toggle="tab">Incentives</a></li>
-                        <li role="presentation"><a href="#links" aria-controls="links" data-toggle="tab">Links</a></li>
+                        <li role="presentation" class="active"><a href="#general" id="general-tab" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+                        <li role="presentation"><a href="#tax" id="tax-tab" aria-controls="tax" data-toggle="tab">Tax</a></li>
+                        <li role="presentation"><a href="#neighborhood" id="neighborhood-tab" aria-controls="neighborhood" data-toggle="tab">Neighborhood</a></li>
+                        <li role="presentation"><a href="#plan" id="plan-tab" aria-controls="plan" data-toggle="tab">Plan</a></li>
+                        <li role="presentation"><a href="#incentives" id="incentives-tab" aria-controls="incentives" data-toggle="tab">Incentives</a></li>
+                        <li role="presentation"><a href="#links" id="links-tab" aria-controls="links" data-toggle="tab">Links</a></li>
                       </ul>
                       <!--tab panes-->
                       <div class="tab-content">
@@ -280,8 +281,8 @@
     <script src="http://d3js.org/queue.v1.min.js"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/app2.js"></script>
     <script type="text/javascript" src="js/BSFCalculations.js"></script>
+    <script type="text/javascript" src="js/app2.js"></script>
 
   </body>
 

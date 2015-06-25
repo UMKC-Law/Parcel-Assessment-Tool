@@ -41,3 +41,7 @@ Thumbs.db
 # Settings
 ###########
 settings.py
+
+# Sublime Text files #
+######################
+*.sublime-workspace

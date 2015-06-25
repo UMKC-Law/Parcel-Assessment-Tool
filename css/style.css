@@ -10,17 +10,18 @@
 }
 
 body{
-    background-color: #99BDBC;
+
+    background-color: #74B4FA;
 }
 
 div#map{
 	position: absolute;
 	z-index: 0;
 	bottom: 0;
-	top: 0;
+	top: 50px;
 	right: 0;
-	left: 0px;
-	background-color: #99BDBC;
+	left: 350px;
+	background-color: #74B4FA;
 }
 
 div#overlay{
@@ -60,7 +61,6 @@ div.left{
 div#title{
 	width: 428px;
 	height: 195px;
-	/*background: url(../img/title.png) no-repeat;*/
     background: url(../img/PATtitle.png) no-repeat;
 }
 
