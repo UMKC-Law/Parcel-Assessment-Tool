@@ -46,15 +46,18 @@ function populatePanel(data){
   //build the building envelope panel
     var template = $('#envelope_template').html();
 
-    //store some constantly used variables:
+    //TODO: The building envelope section needs to be refactored to work with changing values
+    //store some variables:
     var zone = data.land_ban_3;
-    var BSFMax = calculateBSF(data.land_ban30, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["PS"], ZoneTable[zone]["PF"]);
+    var BSFMax = calculateBSF(data.land_ban30, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
+    var BuildingComponent = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
+    var ParkingComponent = calculateParkingComponent(BuildingComponent, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"]);
 
     var rendered = Mustache.render(template, {
-      maxfootprint: (Math.floor(calculateBFootprint(BSFMax, ZoneTable[zone]["St"]) * 100)/100).toFixed(2),
+      maxfootprint: calculateBFootprint(BSFMax, ZoneTable[zone]["St"]),
       maxfloors: ZoneTable[zone]["St"],
-      maxsqftg: (Math.floor(BSFMax * 100)/100).toFixed(2),
-      minstalls: ZoneTable[zone]["PS"]
+      maxsqftg: BSFMax,
+      minstalls: calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"])
     });
     $('#envelope').html(rendered);
 

@@ -1,12 +1,20 @@
 /******************************************************************************
 	Summary: Functions and table based on equations from the spreadsheet file
-	GSsf = Gross Square Footage/ "Gross Site Area"
-	LC = Lot Coverage Ratio
-	St = # of Stories
-	PI = Parking Index?
-	PS = Parking Stalls
-	PF = Parkingfloors
-	BSF = Building Square Footage (maximum)
+	GSsf = Gross Square Footage/ "Gross Site Area" (N2)
+	LC = Lot Coverage Ratio (N2)
+	St = # of Stories (N6)
+	PI = Parking Index (N9)
+	PS = Parking Stalls (N16)
+    SA = Parking Stall Area (N10)
+	PF = Parkingfloors (N11)
+	BSF = Maximum Building Area (Building Square Footage Maximum box) 
+    BC = Building Component (N14)
+    PC = Parking Component (N15)
+    FAR = FAR maximum (N4)
+    BFP = Building Footprint (N22)
+    PFP = PArking Footprint (N23)
+    OS = Open Space (N24)
+    TS = Total Site Area (N25)
 ******************************************************************************/
 
 //Building Square Footage Maximum
@@ -23,8 +31,44 @@ function calculatePFootprint(BSF, PS, PF){
 	return BSF * (PS/PF);
 }
 
-function CalculateOpenSpace(GSSF, LC){
-	return GSSF * (1-LC);
+function calculateOpenSpace(GSsF, LC){
+	return GSsF * (1-LC);
+}
+
+function calculateParkingStalls(PC, PA){
+    return PC/PA;
+}
+
+function calculateBuildingComponent(GSsF, LC, St, PI, SA, PF, FAR){
+    var a = (GSsF * LC)/((1/St)+(1/(1000/PI))*(SA/PF));
+    var b = (GSsF * FAR);
+
+    if(a > b) return b;
+    else return a;
+}
+
+function calculateParkingComponent(BC, PI, SA){
+    return (BC/(1000/PI))*SA;
+}
+
+function calculateBuildingFootprint(BC, St)
+{
+    return BC/St;
+}
+
+function calculateParkingFootprint(PC, PF)
+{
+    return PC/PF;
+}
+
+function calculateOpenSpace(GSsF, LC)
+{
+    return GSsF*(1-LC);
+}
+
+function calculateTotalSite(BF, PF, OS)
+{
+    return BF + PF + OS;
 }
 
 //temporary lookup table for values until we get the database setup
@@ -37,7 +81,7 @@ var ZoneTable = {
     "St": 2,
     "PI": 3.00,
     "PF": 1, //placeholder
-    "PS": 300 //placeholder
+    "SA": 300 //placeholder
   },
   "B3-2": {
     "height": 55,
@@ -47,7 +91,7 @@ var ZoneTable = {
     "St": 2,
     "PI": 4.00,
     "PF": 1, //placeholder
-    "PS": 300 //placeholder
+    "SA": 300 //placeholder
   },
   "B4-2": {
     //all are placeholder
@@ -58,7 +102,7 @@ var ZoneTable = {
     "St": 99,
     "PI": 0.99,
     "PF": 1, //placeholder
-    "PS": 300 //placeholder
+    "SA": 300 //placeholder
   },
   "B4-5": {
     //all are placeholder
@@ -69,7 +113,7 @@ var ZoneTable = {
     "St": 99,
     "PI": 0.99,
     "PF": 1, //placeholder
-    "PS": 300 //placeholder
+    "SA": 300 //placeholder
   },
   "R-0.5":{
     //all are placeholder
@@ -80,7 +124,7 @@ var ZoneTable = {
     "St": 99,
     "PI": 0.99,
     "PF": 1, //placeholder
-    "PS": 300 //placeholder
+    "SA": 300 //placeholder
   },
   "R-1.5": {
     "height": 45,
@@ -90,7 +134,7 @@ var ZoneTable = {
     "St": 3,
     "PI": 0.25,
     "PF": 1, //placeholder
-    "PS": 300 //placeholder
+    "SA": 300 //placeholder
   },
   "R-2.5": {
   //all are placeholder
@@ -101,7 +145,7 @@ var ZoneTable = {
     "St": 99,
     "PI": 0.99,
     "PF": 1, //placeholder
-    "PS": 300 //placeholder
+    "SA": 300 //placeholder
   },
   "M1-5": {
     //all are placeholder
@@ -112,7 +156,7 @@ var ZoneTable = {
     "St": 99,
     "PI": 0.99,
     "PF": 1, //placeholder
-    "PS": 300 //placeholder
+    "SA": 300 //placeholder
   },
   "MPD": {
     //all are placeholder
@@ -123,7 +167,7 @@ var ZoneTable = {
     "St": 99,
     "PI": 0.99,
     "PF": 1, //placeholder
-    "PS": 300 //placeholder
+    "SA": 300 //placeholder
   },
   "UR": {
     //all are placeholder
@@ -134,6 +178,6 @@ var ZoneTable = {
     "St": 99,
     "PI": 0.99,
     "PF": 1, //placeholder
-    "PS": 300 //placeholder
+    "SA": 300 //placeholder
   }
 };
