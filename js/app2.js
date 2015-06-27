@@ -44,9 +44,6 @@ var ParcelArea;
 
 function buildEnvelope(zone){
 
-  console.log(zone);
-  console.log(ParcelArea);
-
   var template = $('#envelope_template').html();
   //store some variables:
   var BSFMax = calculateBSF(ParcelArea, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
