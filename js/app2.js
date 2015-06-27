@@ -118,10 +118,17 @@ function populatePanel(data){
   });
   $('#links').html(rendered);
 
-  //populate the zoning select
+  /*populate the zoning select
+  
+  The drop downs will need to be modified later to accomodate building type and business type options
+
   var zoningselect = $('#ZoningSelect');
   zoningselect.empty();
   zoningselect.append($("<option \>").val(data.land_ban_3).text(data.land_ban_3));
+
+  */
+  console.log(zone);
+  $("select#ZoningSelect").val(zone);
 
   //switch back to the general tab (otherwise it will leave the last active tab for the last parcel active)
   $("#general-tab").tab("show");
