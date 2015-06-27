@@ -40,47 +40,56 @@ function main(){
   });
 }
 
+var ParcelArea;
+
+function buildEnvelope(zone){
+
+  console.log(zone);
+  console.log(ParcelArea);
+
+  var template = $('#envelope_template').html();
+  //store some variables:
+  var BSFMax = calculateBSF(ParcelArea, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
+  var BuildingComponent = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
+  var ParkingComponent = calculateParkingComponent(BuildingComponent, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"]);
+
+  //populate the template
+  var rendered = Mustache.render(template, {
+    maxfootprint: calculateBFootprint(BSFMax, ZoneTable[zone]["St"]),
+    maxfloors: ZoneTable[zone]["St"],
+    maxsqftg: BSFMax,
+    minstalls: calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"])
+  });
+  $('#envelope').html(rendered);
+
+}
+
 function populatePanel(data){
   $('#AddressTitle').text(data.land_ban60);
+  var zone = data.land_ban_3;
+  ParcelArea = data.land_ban30;
 
-  //build the building envelope panel
-    var template = $('#envelope_template').html();
-
-    //TODO: The building envelope section needs to be refactored to work with changing values
-    //store some variables:
-    var zone = data.land_ban_3;
-    var BSFMax = calculateBSF(data.land_ban30, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
-    var BuildingComponent = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
-    var ParkingComponent = calculateParkingComponent(BuildingComponent, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"]);
-
-    var rendered = Mustache.render(template, {
-      maxfootprint: calculateBFootprint(BSFMax, ZoneTable[zone]["St"]),
-      maxfloors: ZoneTable[zone]["St"],
-      maxsqftg: BSFMax,
-      minstalls: calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"])
-    });
-    $('#envelope').html(rendered);
+  buildEnvelope(zone);
 
   //build the general tab
-    template = $('#generalbox_template').html();
-    rendered = Mustache.render(template, {
-      owner: data.own_name, 
-      landuse: data.land_bank_, 
-      landusecode: data.landusecod,
-      sqrft: data.land_ban30,
-      council: data.land_ban_7,
-      school: data.land_ban10,
-      neighborhood: data.land_ban_6,
-      bff: "n/a",
-      date: "n/a",
-      assland: "n/a",
-      assimprove: "n/a",
-      exland: "n/a",
-      eximprove: "n/a",
-      acres: "n/a",
-      perimeter: "n/a",
-      plss: "n/a"
-
+  var template = $('#generalbox_template').html();
+  var rendered = Mustache.render(template, {
+    owner: data.own_name, 
+    landuse: data.land_bank_, 
+    landusecode: data.landusecod,
+    sqrft: data.land_ban30,
+    council: data.land_ban_7,
+    school: data.land_ban10,
+    neighborhood: data.land_ban_6,
+    bff: "n/a",
+    date: "n/a",
+    assland: "n/a",
+    assimprove: "n/a",
+    exland: "n/a",
+    eximprove: "n/a",
+    acres: "n/a",
+    perimeter: "n/a",
+    plss: "n/a"
   });
   $('#general').html(rendered);
 
@@ -127,18 +136,22 @@ function populatePanel(data){
   zoningselect.append($("<option \>").val(data.land_ban_3).text(data.land_ban_3));
 
   */
-  console.log(zone);
+  
   $("select#ZoningSelect").val(zone);
-
   //switch back to the general tab (otherwise it will leave the last active tab for the last parcel active)
   $("#general-tab").tab("show");
 
   //TODO: fill in the other select boxes, zoning select should probably have more options, and the fill in the building evelope
+  //TODO: refactor things as objects
 
 }
 
 
 jQuery(document).ready(function($){
+  $("select#ZoningSelect").on('change', function(){
+    buildEnvelope($("select#ZoningSelect").find(":selected").val())
+  });
+
   main();
 
   $('.cd-panel').on('click', function(event){
