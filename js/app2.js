@@ -52,10 +52,10 @@ function buildEnvelope(zone){
 
   //populate the template
   var rendered = Mustache.render(template, {
-    maxfootprint: calculateBFootprint(BSFMax, ZoneTable[zone]["St"]),
+    maxfootprint: Math.floor(calculateBFootprint(BSFMax, ZoneTable[zone]["St"])),
     maxfloors: ZoneTable[zone]["St"],
-    maxsqftg: BSFMax,
-    minstalls: calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"])
+    maxsqftg: Math.floor(BSFMax),
+    minstalls: Math.floor(calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"]))
   });
   $('#envelope').html(rendered);
 

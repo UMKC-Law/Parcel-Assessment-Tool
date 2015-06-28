@@ -26,6 +26,13 @@
             <img alt="PAT" src="img/Pat-icon.png">
           </a>
         </div>
+
+        <form class="navbar-form navbar-right" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" disabled="disabled">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
       </div>
     </nav>
 
@@ -78,7 +85,7 @@
                     <h3 class="panel-title" id="BuildingTypeLabel">Building Type:</h3>
                   </div>
                   <div class="panel-body">
-                    <select name= "BuildingSelect" id="BuildingSelect">
+                    <select name= "BuildingSelect" id="BuildingSelect" class="form-control">
                       <option selected value="0">Please Select...</option>
                     </select>
                   </div>
@@ -89,7 +96,7 @@
                     <h3 class="panel-title" id="BusinessTypeLabel">Business Type:</h3>
                   </div>
                   <div class="panel-body">
-                    <select name= "BusinessSelect" id="BusinessSelect">
+                    <select name= "BusinessSelect" id="BusinessSelect" class="form-control">
                       <option selected value="0">Please Select...</option>
                     </select>
                   </div>
@@ -100,17 +107,25 @@
                     <h3 class="panel-title" id="ZoningLabel">Zoning:</h3>
                   </div>
                   <div class="panel-body">
-                    <select name= "ZoningSelect" id="ZoningSelect">
-                      <option value="B1-1" title="Commercial">B1-1</option>
-                      <option value="B3-2" title="Commercial">B3-2</option>
-                      <option value="B4-2" title="Commercial">B4-2</option>
-                      <option value="B4-5" title="Commercial">B4-5</option>
+                    <select name= "ZoningSelect" id="ZoningSelect" class="form-control">
+                      <optgroup label="Commercial">
+                        <option value="B1-1" title="Commercial">B1-1</option>
+                        <option value="B3-2" title="Commercial">B3-2</option>
+                        <option value="B4-2" title="Commercial">B4-2</option>
+                        <option value="B4-5" title="Commercial">B4-5</option>
+                      </optgroup>
+                       <optgroup label="Industrial">
                       <option value="M1-5" title="Industrial">M1-5</option>
-                      <option value="MPD" title="Residential">MPD</option>
-                      <option value="R-0.5" title="Residential">R-0.5</option>
-                      <option value="R-1.5" title="Residential">R-1.5</option>
-                      <option value="R-2.5" title="Residential">R-2.5</option>
-                      <option value="UR" title="Urban Redevelopment">UR</option>
+                      </optgroup>
+                      <optgroup label="Residential">
+                        <option value="MPD" title="Residential">MPD</option>
+                        <option value="R-0.5" title="Residential">R-0.5</option>
+                        <option value="R-1.5" title="Residential">R-1.5</option>
+                        <option value="R-2.5" title="Residential">R-2.5</option>
+                      </optgroup>
+                      <optgroup label="Urban Redevelopment">
+                        <option value="UR" title="Urban Redevelopment">UR</option>
+                      </optgroup>
                     </select>
                   </div>
                 </div>
