@@ -74,6 +74,7 @@ function populatePanel(data){
     owner: data.own_name, 
     landuse: data.land_bank_, 
     landusecode: data.landusecod,
+    zone: data.land_ban_3,
     sqrft: data.land_ban30,
     council: data.land_ban_7,
     school: data.land_ban10,

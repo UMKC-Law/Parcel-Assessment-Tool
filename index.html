@@ -101,16 +101,16 @@
                   </div>
                   <div class="panel-body">
                     <select name= "ZoningSelect" id="ZoningSelect">
-                      <option value="B1-1">B1-1</option>
-                      <option value="B3-2">B3-2</option>
-                      <option value="B4-2">B4-2</option>
-                      <option value="B4-5">B4-5</option>
-                      <option value="M1-5">M1-5</option>
-                      <option value="MPD">MPD</option>
-                      <option value="R-0.5">R-0.5</option>
-                      <option value="R-1.5">R-1.5</option>
-                      <option value="R-2.5">R-2.5</option>
-                      <option value="UR">UR</option>
+                      <option value="B1-1" title="Commercial">B1-1</option>
+                      <option value="B3-2" title="Commercial">B3-2</option>
+                      <option value="B4-2" title="Commercial">B4-2</option>
+                      <option value="B4-5" title="Commercial">B4-5</option>
+                      <option value="M1-5" title="Industrial">M1-5</option>
+                      <option value="MPD" title="Residential">MPD</option>
+                      <option value="R-0.5" title="Residential">R-0.5</option>
+                      <option value="R-1.5" title="Residential">R-1.5</option>
+                      <option value="R-2.5" title="Residential">R-2.5</option>
+                      <option value="UR" title="Urban Redevelopment">UR</option>
                     </select>
                   </div>
                 </div>
@@ -208,7 +208,10 @@
           <td colspan="2"></td>
         </tr>
         <tr>
-          <td class="info">Land Use</td><td>{{landuse}} {{landusecode}}</td>
+          <td class="info">Current Zoning</td><td>{{zone}}</td>
+        </tr>
+        <tr>
+          <td class="info">Land Use</td><td>{{landusecode}} - {{landuse}}</td>
         </tr>
         <tr>
           <td class="info">Blvd Front Footage</td><td>{{bff}}</td>
