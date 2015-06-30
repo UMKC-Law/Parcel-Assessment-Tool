@@ -20,20 +20,7 @@
 
     <!--nav bar-->
     <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">
-            <img alt="PAT" src="img/Pat-icon.png">
-          </a>
-        </div>
 
-        <form class="navbar-form navbar-right" role="search">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search" disabled="disabled">
-          </div>
-          <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-      </div>
     </nav>
 
     <!--Main Content-->
@@ -189,8 +176,9 @@
             <div class="cartodb-popup-content">
               <span>{{content.data.address}}</span>
               <!--content for the infowindow-->
-              <h4>Owner:</h4>
-              {{content.data.own_name}}
+              <h4>Zoning:</h4>
+              {{content.data.land_ban_3}}
+              <h4>Kiva Pin:</h4>
               {{content.data.kivapin}}
               <h4>Land use:</h4>
               {{content.data.land_bank_}}
