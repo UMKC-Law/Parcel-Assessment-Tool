@@ -135,10 +135,7 @@ function populatePanel(data){
   $("select#ZoningSelect").val(zone);
   //switch back to the general tab (otherwise it will leave the last active tab for the last parcel active)
   $("#general-tab").tab("show");
-
-  //TODO: fill in the other select boxes, zoning select should probably have more options, and the fill in the building evelope
-  //TODO: refactor things as objects
-
+  
 }
 
 
