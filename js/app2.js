@@ -134,8 +134,8 @@ function populatePanel(data){
   
   $("select#ZoningSelect").val(zone);
   //switch back to the general tab (otherwise it will leave the last active tab for the last parcel active)
-  $("#general-tab").tab("show");
-  
+  $("#general").collapse('show');
+
 }
 
 
