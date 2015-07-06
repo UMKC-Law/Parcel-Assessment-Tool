@@ -45,3 +45,7 @@ settings.py
 # Sublime Text files #
 ######################
 *.sublime-workspace
+
+# Document extras #
+###################
+.~lock.*

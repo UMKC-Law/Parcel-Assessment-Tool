@@ -20,13 +20,7 @@
 
     <!--nav bar-->
     <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">
-            <img alt="PAT" src="img/Pat-icon.png">
-          </a>
-        </div>
-      </div>
+
     </nav>
 
     <!--Main Content-->
@@ -78,7 +72,7 @@
                     <h3 class="panel-title" id="BuildingTypeLabel">Building Type:</h3>
                   </div>
                   <div class="panel-body">
-                    <select class="form-control" name= "BuildingType[]" id="BuildingSelect">
+                    <select name= "BuildingSelect" id="BuildingSelect" class="form-control">
                       <option selected value="0">Please Select...</option>
                     </select>
                   </div>
@@ -89,7 +83,7 @@
                     <h3 class="panel-title" id="BusinessTypeLabel">Business Type:</h3>
                   </div>
                   <div class="panel-body">
-                    <select class='form-control' name= "BusinessType[]" id="BusinessSelect">
+                    <select name= "BusinessSelect" id="BusinessSelect" class="form-control">
                       <option selected value="0">Please Select...</option>
                     </select>
                   </div>
@@ -100,7 +94,26 @@
                     <h3 class="panel-title" id="ZoningLabel">Zoning:</h3>
                   </div>
                   <div class="panel-body">
-                    <select class='selectpicker form-control' name= "ZoningType[]" id="ZoningSelect"></select>
+                    <select name= "ZoningSelect" id="ZoningSelect" class="form-control">
+                      <optgroup label="Commercial">
+                        <option value="B1-1" title="Commercial">B1-1</option>
+                        <option value="B3-2" title="Commercial">B3-2</option>
+                        <option value="B4-2" title="Commercial">B4-2</option>
+                        <option value="B4-5" title="Commercial">B4-5</option>
+                      </optgroup>
+                       <optgroup label="Industrial">
+                      <option value="M1-5" title="Industrial">M1-5</option>
+                      </optgroup>
+                      <optgroup label="Residential">
+                        <option value="MPD" title="Residential">MPD</option>
+                        <option value="R-0.5" title="Residential">R-0.5</option>
+                        <option value="R-1.5" title="Residential">R-1.5</option>
+                        <option value="R-2.5" title="Residential">R-2.5</option>
+                      </optgroup>
+                      <optgroup label="Urban Redevelopment">
+                        <option value="UR" title="Urban Redevelopment">UR</option>
+                      </optgroup>
+                    </select>
                   </div>
                 </div>
 
@@ -110,40 +123,86 @@
                   </div>
                   <div class="panel-body" id="envelope"></div>
                 </div>
-
               </div>
 
+
+              <!--accordian tabs area-->
               <div class="col-md-8">
-                <!--tabbed area-->
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3 class="panel-title" id="AddressTitle"></h3>
+                <div class="panel-group" id="accordian" role="tablist" aria-multiselectable="true">
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="general-tab">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#general" aria-expanded="false" aria-controls="general" id="AddressTitle">
+                          
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="general" class="panel-collapse collapse in" role="tabpanel" aria-labbelledby="general">
+                    </div>
                   </div>
 
-                  <div class="panel-body">
-                    <!--tabs-->
-                    <div class="panel panel-default">
-                      <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#general" id="general-tab" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
-                        <li role="presentation"><a href="#tax" id="tax-tab" aria-controls="tax" data-toggle="tab">Tax</a></li>
-                        <li role="presentation"><a href="#neighborhood" id="neighborhood-tab" aria-controls="neighborhood" data-toggle="tab">Neighborhood</a></li>
-                        <li role="presentation"><a href="#plan" id="plan-tab" aria-controls="plan" data-toggle="tab">Plan</a></li>
-                        <li role="presentation"><a href="#incentives" id="incentives-tab" aria-controls="incentives" data-toggle="tab">Incentives</a></li>
-                        <li role="presentation"><a href="#links" id="links-tab" aria-controls="links" data-toggle="tab">Links</a></li>
-                      </ul>
-                      <!--tab panes-->
-                      <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="general"></div>
-                        <div role="tabpanel" class="tab-pane" id="tax"></div>
-                        <div role="tabpanel" class="tab-pane" id="neighborhood"></div>
-                        <div role="tabpanel" class="tab-pane" id="plan"></div>
-                        <div role="tabpanel" class="tab-pane" id="incentives"></div>
-                        <div role="tabpanel" class="tab-pane" id="links"></div>
-                      </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="tax-tab">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#tax" aria-expanded="false" aria-controls="tax">
+                          Tax
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="tax" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="tax">
+                    </div>
+                  </div>
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="neighborhood" id="neighborhood-tab">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#neighborhood" aria-expanded="false" aria-controls="neighborhood">
+                          Neighborhood
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="neighborhood" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="neighborhood">
+                    </div>
+                  </div>
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="plan" id="plan-tab">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#plan" aria-expanded="false" aria-controls="plan">
+                          Plan
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="plan" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="plan">
+                    </div>
+                  </div>
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="incentives" id="incentives-tab">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#incentives" aria-expanded="false" aria-controls="incentives">
+                          Incentives
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="incentives" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="incentives">
+                    </div>
+                  </div>
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="links" id="links-tab">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#links" aria-expanded="false" aria-controls="links">
+                          Links
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="links" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="links">
                     </div>
                   </div>
                 </div>
-                <!--end tabbed area-->
+                <!--End Accordian Tabs Area-->
+
               </div>
               <!--end side panel content-->
             </div>
@@ -161,10 +220,11 @@
           <a href="#close" class="cartodb-popup-close-button close">x</a>
           <div class="cartodb-popup-content-wrapper">
             <div class="cartodb-popup-content">
-              <span>{{content.data.address}}</span>
+              <span style="font-weight:bold;">{{content.data.address}}</span>
               <!--content for the infowindow-->
-              <h4>Owner:</h4>
-              {{content.data.own_name}}
+              <h4>Zoning:</h4>
+              {{content.data.land_ban_3}}
+              <h4>Kiva Pin:</h4>
               {{content.data.kivapin}}
               <h4>Land use:</h4>
               {{content.data.land_bank_}}
@@ -180,56 +240,51 @@
 
     <!--templates for the tab boxes-->
     <script type="x-tmpl-mustache", id="generalbox_template">
-      <table class="table table-hover">
-        <tr>
-          <td class="info">Owner</td><td>{{owner}}</td>
-        </tr>
-        <tr>
-          <td class="info">Council District</td><td>{{council}}</td>
-        </tr>
-        <tr>
-          <td class="info">School District</td><td>{{school}}</td>
-        </tr>
-        <tr>
-          <td class="info">Census Neighborhood</td><td>{{neighborhood}}</td>
-        </tr>
-        <tr>
-          <td colspan="2"></td>
-        </tr>
-        <tr>
-          <td class="info">Land Use</td><td>{{landuse}} {{landusecode}}</td>
-        </tr>
-        <tr>
-          <td class="info">Blvd Front Footage</td><td>{{bff}}</td>
-        </tr>
-        <tr>
-          <td class="info">Effective Date</td><td>{{date}}</td>
-        </tr>
-        <tr>
-          <td class="info">Assessed Land</td><td>{{assland}}</td>
-        </tr>
-        <tr>
-          <td class="info">Assessed Improve</td><td>{{assimprove}}</td>
-        </tr>
-        <tr>
-          <td class="info">Exempt Land</td><td>{{exland}}</td>
-        </tr>
-        <tr>
-          <td class="info">Exempt Improve</td><td>{{eximprove}}</td>
-        </tr>
-        <tr>
-          <td class="info">Square Feet</td><td>{{sqrft}} sq ft</td>
-        </tr>
-        <tr>
-          <td class="info">Acres</td><td>{{acres}}</td>
-        </tr>
-        <tr>
-          <td class="info">Perimeter</td><td>{{perimeter}}</td>
-        </tr>
-        <tr>
-          <td class="info">PLSS</td><td>{{plss}}</td>
-        </tr>
-      </table>
+
+        <table class="table table-hover">
+          <tr>
+            <td class="info">Owner</td><td>{{owner}}</td>
+          </tr>
+          <tr>
+            <td class="info">Council District</td><td>{{council}}</td>
+          </tr>
+          <tr>
+            <td class="info">School District</td><td>{{school}}</td>
+          </tr>
+          <tr>
+            <td class="info">Census Neighborhood</td><td>{{neighborhood}}</td>
+          </tr>
+          <tr>
+            <td colspan="2"></td>
+          </tr>
+          <tr>
+            <td class="info">Current Zoning</td><td>{{zone}}</td>
+          </tr>
+          <tr>
+            <td class="info">Land Use</td><td>{{landusecode}} - {{landuse}}</td>
+          </tr>
+          <tr>
+            <td class="info">Blvd Front Footage</td><td>{{bff}}</td>
+          </tr>
+          <tr>
+            <td class="info">Assessed Land</td><td>{{assland}}</td>
+          </tr>
+          <tr>
+            <td class="info">Assessed Improve</td><td>{{assimprove}}</td>
+          </tr>
+          <tr>
+            <td class="info">Exempt Improve</td><td>{{eximprove}}</td>
+          </tr>
+          <tr>
+            <td class="info">Acres</td><td>{{acres}}</td>
+          </tr>
+          <tr>
+            <td class="info">Perimeter</td><td>{{perimeter}}</td>
+          </tr>
+          <tr>
+            <td class="info">PLSS</td><td>{{plss}}</td>
+          </tr>
+        </table>
 
     </script>
 
@@ -281,7 +336,7 @@
     <script src="http://d3js.org/queue.v1.min.js"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/BSFCalculations.js"></script>
+    <script type="text/javascript" src="js/Formulas.js"></script>
     <script type="text/javascript" src="js/app2.js"></script>
 
   </body>
