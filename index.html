@@ -28,32 +28,30 @@
 
       <div>
         <div id="map"></div>
-        <div id="leftBkg"></div>
         <div id="overlay"></div>
-          <div class="left">
-            <div id="title"></div>
-            <p>Each point displayed represents a parcel centroid, shaded by one of the Zoning Types shown below.</p>
-            <p>Click on each parcel point to view information about that parcel.</p>
-            <div id="legendBox">
-              <ul>
-                <li>B1-1 Commercial</li>
-                <li>B3-3 Commercial</li>
-                <li>B4-2 Commercial</li>
-                <li>B4-5 Commercial</li>
-                <li>M1-5 Industrial</li>
-                <li>MPD Residential</li>
-                <li>R-0.5 Residential</li>
-                <li>R-1-5 Residential</li>
-                <li>R-2.5 Residential</li>
-                <li>UR</li>
-              </ul>
-            </div>
-          </div>
-
         <div id="pointTT"></div>
       </div>
     </main>
 
+
+    <!--Modal-->
+    <div class="modal fade" id="openModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Kansas City Assessment Tool</h4>
+          </div>
+          <div class="modal-body">
+            <p>This tool provides information for users who want to research parcels located in the Kansas City Metropolitan area for development and other purposees.</p>
+            <p>To use the tool you can enter an address in the search bar to view parcels in the imediate surrounding area and then click the parcel to pull up the rest of the information</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Got It!</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 
     <!--Slide Out Panel-->

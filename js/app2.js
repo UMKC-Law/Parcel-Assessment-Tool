@@ -144,7 +144,13 @@ jQuery(document).ready(function($){
     buildEnvelope($("select#ZoningSelect").find(":selected").val())
   });
 
+  $('#openModal').modal()
+
   main();
+
+  $('#openModal').on('shown.bs.modal', function () {
+    $('#myInput').focus()
+  })
 
   $('.cd-panel').on('click', function(event){
     if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
