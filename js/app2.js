@@ -46,7 +46,7 @@ function main() {
         sublayer.on('featureClick', function (e, latlng, pos, data, layer) {
 
 
-            var request_jd_wp = createCORSRequest("get", "http://address-api.localhost/jd_wp/" + data.apn);
+            var request_jd_wp = createCORSRequest("get", "http://address-api.codeforkc.org/jd_wp/" + data.apn);
             var api_data = null;
             if (request_jd_wp) {
                 request_jd_wp.onload = function () {
