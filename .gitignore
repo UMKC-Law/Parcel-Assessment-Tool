@@ -49,3 +49,7 @@ settings.py
 # Document extras #
 ###################
 .~lock.*
+
+# PHP Storm Editor file #
+#########################
+.idea
