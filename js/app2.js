@@ -1,6 +1,21 @@
 var map;
 var templates;
 
+/* From http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/ */
+
+function createCORSRequest(method, url) {
+    var xhr = new XMLHttpRequest();
+    if ("withCredentials" in xhr) {
+        xhr.open(method, url, true);
+    } else if (typeof XDomainRequest != "undefined") {
+        xhr = new XDomainRequest();
+        xhr.open(method, url);
+    } else {
+        xhr = null;
+    }
+    return xhr;
+}
+
 function main(){
 
   var options = {
@@ -29,11 +44,49 @@ function main(){
     //add more data as needed:
     sublayer.setInteractivity('cartodb_id, address, apn, kivapin, land_ban30, land_ban_6, land_ban_4, land_ban_6, land_ban_7, land_ban10, land_ban36, land_ban56, land_ban60, land_bank_, own_name, landusecod, land_ban32, land_ban_3');
     sublayer.on('featureClick', function(e, latlng, pos, data, layer) {
+
+
+var request_jd_wp = createCORSRequest("get", "http://address-api.localhost/jd_wp/" + data.apn);
+var api_data = null;
+if (request_jd_wp) {
+    request_jd_wp.onload = function () {
+        api_data = JSON.parse(request_jd_wp.responseText);
+        console.dir(api_data);
+
+
+    if ( api_data ) {
+      data.blvd_front_footage = api_data.blvd_front_footage;
+      data.assessed_land = api_data.assessed_land;
+      data.assessed_improve = api_data.assessed_improve;
+      data.exempt_improve = api_data.exempt_improve;
+      data.acres = api_data.acres;
+      data.perimeter = api_data.perimeter;
+      data.assessed_value = api_data.assessed_value;
+      data.api_id = api_data.id;
+    } else {
+
+      data.blvd_front_footage = '';
+      data.assessed_land = '';
+      data.assessed_improve = '';
+      data.exempt_improve = '';
+      data.acres = '';
+      data.perimeter = '';
+      data.assessed_value = '';
+      data.api_id = '';
+    }
+
       populatePanel(data);
 
       $('.cartodb-infowindow').on('click', '#openpanel' ,function(){
         $('.cd-panel').addClass('is-visible');
       });
+
+
+    };
+    request_jd_wp.send();
+}
+
+
     });
   }).on('error', function(){
     console.log("Error");
@@ -65,7 +118,6 @@ function populatePanel(data){
   $('#AddressTitle').text(data.land_ban60);
   var zone = data.land_ban_3;
   ParcelArea = data.land_ban30;
-
   buildEnvelope(zone);
 
   //build the general tab
@@ -78,20 +130,20 @@ function populatePanel(data){
     council: data.land_ban_7,
     school: data.land_ban10,
     neighborhood: data.land_ban_6,
-    bff: "n/a",
-    assland: "n/a",
-    assimprove: "n/a",
-    eximprove: "n/a",
-    acres: "n/a",
-    perimeter: "n/a",
-    plss: "n/a"
+    bff: data.blvd_front_footage,
+    assland: data.assessed_land,
+    assimprove: data.assessed_improve,
+    eximprove: data.exempt_improve,
+    acres: data.acres,
+    perimeter: data.perimeter,
+    plss: "n/a" 
   });
   $('#general').html(rendered);
 
   //build the tax tab
   template = $('#taxbox_template').html();
   var rendered = Mustache.render(template, {
-    assessedvalue: "n/a",
+    assessedvalue: data.assessed_value,
     taxvalue: "n/a",
     levy: "n/a",
     prevyear: "2014",
