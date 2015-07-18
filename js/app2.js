@@ -97,8 +97,10 @@ var ParcelArea;
 
 function buildEnvelope(zone){
 
+console.dir(ZoneTable);
   var template = $('#envelope_template').html();
   //store some variables:
+if (ZoneTable[zone]) {
   var BSFMax = calculateBSF(ParcelArea, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
   var BuildingComponent = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
   var ParkingComponent = calculateParkingComponent(BuildingComponent, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"]);
@@ -110,6 +112,7 @@ function buildEnvelope(zone){
     maxsqftg: Math.floor(BSFMax),
     minstalls: Math.floor(calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"]))
   });
+}
   $('#envelope').html(rendered);
 
 }
