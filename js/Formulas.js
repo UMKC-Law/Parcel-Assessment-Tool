@@ -102,7 +102,7 @@ var ZoneTable = {
     "PI": 4.00,
     "PF": 1, //placeholder
     "SA": 300 //placeholder
-  }
+  },
   "B4-2": {
     "height": 70,
     "LC": 0.80,
