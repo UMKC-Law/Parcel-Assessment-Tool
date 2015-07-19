@@ -77,7 +77,7 @@ html, body {
   position: fixed;
   width: 90%;
   height: 100%;
-  top: 50px;
+  top: 0px;
   background: #dbe2e9;
   z-index: 100;
   -webkit-transition-property: -webkit-transform;

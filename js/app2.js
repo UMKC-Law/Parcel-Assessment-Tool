@@ -55,8 +55,8 @@ function initAutocomplete() {
 function main() {
 
     var options = {
-        center: [39.080865, -94.556916],
-        zoom: 17,
+        center: [39.082981, -94.557747],
+        zoom: 16,
         zoomControl: false,  // dont add the zoom overlay (it is added by default)
         loaderControl: false, //dont show tiles loader
         query: 'SELECT * FROM data'
@@ -69,7 +69,7 @@ function main() {
         attribution: 'Positron'
     }).addTo(map);
 
-    new L.Control.Zoom({position: 'bottomright'}).addTo(map);
+    new L.Control.Zoom({position: 'topleft'}).addTo(map);
 
     var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
     var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/4e032b12-1dfe-11e5-8ca7-0e49835281d6/viz.json'
