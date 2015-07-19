@@ -76,8 +76,8 @@ function main() {
 
     // create google maps map
     var mapOptions = {
-      zoom: 10,
-      center: new google.maps.LatLng(39.09, -94.53),
+      zoom: 15,
+      center: new google.maps.LatLng(39.082981, -94.557747),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById('map'),  mapOptions);
