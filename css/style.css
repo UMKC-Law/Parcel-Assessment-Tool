@@ -36,7 +36,7 @@ div#map{
 	position: absolute;
 	z-index: 0;
 	bottom: 0;
-	top: 50px;
+	top: 0;
 	right: 0;
 	left: 0;
 	background-color: #74B4FA;
