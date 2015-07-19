@@ -18,13 +18,10 @@
   </head>
 
   <body>
-  
-    <!--Main Content-->
-    <main class = "cd-main-content">
 
-      <div>
+    <!--Main Content-->
+    <main class = "cd-main-content" id = "mainclass">
         <div id="map"></div>
-      </div>
     </main>
 
 
@@ -45,6 +42,11 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div id="maptoggle" class="btn-group btn-toggle" role="group" aria-label="...">
+      <button id="googlebutton" type="button" class="btn btn-default">Google</button>
+      <button id="leafletbutton" type="button" class="btn btn-default btn-primary active">Leaflet</button>
+    </div>
 
     <!--Slide Out Panel-->
     <div class="cd-panel from-left">
@@ -322,8 +324,8 @@
     </script>
 
     <!--Include the js. Please be sure that you use a locked version in case you go to production-->
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
-    <script src="http://d3js.org/queue.v1.min.js"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>

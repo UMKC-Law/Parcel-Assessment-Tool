@@ -1,5 +1,5 @@
-var map;
 var templates;
+var map;
 
 /* From http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/ */
 
@@ -51,30 +51,49 @@ function initAutocomplete() {
 };
 //console.log("SELECT cartodb_id, address FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address");
 
+function createGoogleMap(){
+	var localmap;
 
-function main() {
+	// create google maps map
+	var mapOptions = {
+		zoom: 15,
+		center: new google.maps.LatLng(39.082981, -94.557747),
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+    localmap = new google.maps.Map(document.getElementById('map'),  mapOptions);
 
-    var options = {
-        center: [39.082981, -94.557747],
-        zoom: 16,
-        zoomControl: false,  // dont add the zoom overlay (it is added by default)
-        loaderControl: false, //dont show tiles loader
-        query: 'SELECT * FROM data'
+    return localmap;
+}
 
-    };
+function createLeafletMap(){
+	var localmap;
 
-    map = new L.Map('map', options);
+	var options = {
+	    center: [39.082981, -94.557747],
+	    zoom: 15,
+	    zoomControl: false,  // dont add the zoom overlay (it is added by default)
+	    loaderControl: false, //dont show tiles loader
+	    query: 'SELECT * FROM data'
 
-    L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-        attribution: 'Positron'
-    }).addTo(map);
+	};
 
-    new L.Control.Zoom({position: 'topleft'}).addTo(map);
+    localmap = new L.Map('map', options);
+
+	L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+	    attribution: 'Positron'
+	}).addTo(localmap);
+
+	new L.Control.Zoom({position: 'topleft'}).addTo(localmap);
+
+	return localmap;
+}
+
+function attachMapLayers(map){
 
     var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
     var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/4e032b12-1dfe-11e5-8ca7-0e49835281d6/viz.json'
 
-    cartodb.createLayer(map, geomlayer).addTo(map).on('done', function(layer){
+    cartodb.createLayer(map, geomlayer).addTo(map, 0).on('done', function(layer){
 		var v = cdb.vis.Overlay.create('search', map.viz, {})
 		v.show();
 		$('#map').append(v.render().el);
@@ -84,7 +103,7 @@ function main() {
     	cartodb.log.log("Error");
     });
 
-    cartodb.createLayer(map, datalayer).addTo(map).on('done', function (layer) {
+    cartodb.createLayer(map, datalayer).addTo(map, 1).on('done', function (layer) {
         var sublayer = layer.getSubLayer(2); //sublayer generated from the data.json file
         sublayer.infowindow.set('template', $('#infowindow_template').html());
         sublayer.setInteraction(true);
@@ -134,7 +153,13 @@ function main() {
     }).on('error', function () {
         console.log("Error");
     });
+}
 
+
+function initializeMap(useGMaps){
+	$('#mainclass').html("<div id='map'></div>");
+	map = useGMaps ? createGoogleMap() : createLeafletMap();
+	attachMapLayers(map)
 }
 
 var ParcelArea;
@@ -244,11 +269,34 @@ jQuery(document).ready(function ($) {
 
 	$('#openModal').modal()
 
-	main();
+	initializeMap(false);
 
 	$('#openModal').on('shown.bs.modal', function () {
-	$('#myInput').focus()
+		$('#myInput').focus()
 	})
+
+	$('.btn-toggle#maptoggle').click(function(){
+		$(this).find('.btn').toggleClass('active');
+
+		if ($(this).find('.btn-primary').size()>0) {
+			$(this).find('.btn').toggleClass('btn-primary');
+		}
+		if ($(this).find('.btn-danger').size()>0) {
+			$(this).find('.btn').toggleClass('btn-danger');
+		}
+		if ($(this).find('.btn-success').size()>0) {
+			$(this).find('.btn').toggleClass('btn-success');
+		}
+		if ($(this).find('.btn-info').size()>0) {
+			$(this).find('.btn').toggleClass('btn-info');
+		}
+
+		$(this).find('.btn').toggleClass('btn-default');
+
+		($(this).find('.active').attr('id') == "leafletbutton") ? initializeMap(false) : initializeMap(true);
+
+
+	});
 
 	$('.cd-panel').on('click', function(event){
 		if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
