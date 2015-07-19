@@ -16,11 +16,47 @@ function createCORSRequest(method, url) {
     return xhr;
 }
 
+function initAutocomplete() {
+//	function log( message ) {
+//		$( "<div>" ).text( message ).prependTo( "#log" );
+//		$( "#log" ).scrollTop( 0 );
+//	}
+	var sql = cartodb.SQL({ user: 'codeforkansascity' });
+	$( ".cartodb-searchbox .text" ).autocomplete({
+		source: function( request, response ) {
+			var s
+			sql.execute("SELECT cartodb_id, address, the_geom FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address")
+			.done(function(data) {
+				response(data.rows.map(function(r) {
+            		//console.log(r);
+					return {
+						label: r.address,
+						value: r.address
+					}
+				}))
+			})
+		},
+		minLength: 2,
+		select: function( event, ui ) {
+			console.log("Selected: " + ui.item.value);
+			//var bounds = new google.maps.LatLngBounds();
+			//for(i=0;i<r.length;i++) {
+			//	bounds.extend(r[i].getPosition());
+			//}
+			//map.fitBounds(bounds);
+			// "Nothing selected, input was " + this.value );
+		}
+	});
+
+};
+//console.log("SELECT cartodb_id, address FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address");
+
+
 function main() {
 
     var options = {
-        center: [39.08, -94.55],
-        zoom: 14,
+        center: [39.080865, -94.556916],
+        zoom: 17,
         zoomControl: false,  // dont add the zoom overlay (it is added by default)
         loaderControl: false, //dont show tiles loader
         query: 'SELECT * FROM data'
@@ -33,9 +69,20 @@ function main() {
         attribution: 'Positron'
     }).addTo(map);
 
-    new L.Control.Zoom({position: 'topright'}).addTo(map);
+    new L.Control.Zoom({position: 'bottomright'}).addTo(map);
 
     var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
+    var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/4e032b12-1dfe-11e5-8ca7-0e49835281d6/viz.json'
+
+    cartodb.createLayer(map, geomlayer).addTo(map).on('done', function(layer){
+		var v = cdb.vis.Overlay.create('search', map.viz, {})
+		v.show();
+		$('#map').append(v.render().el);
+		initAutocomplete();
+    })
+    .on('error', function(){
+    	cartodb.log.log("Error");
+    });
 
     cartodb.createLayer(map, datalayer).addTo(map).on('done', function (layer) {
         var sublayer = layer.getSubLayer(2); //sublayer generated from the data.json file
@@ -44,7 +91,6 @@ function main() {
         //add more data as needed:
         sublayer.setInteractivity('cartodb_id, address, apn, kivapin, land_ban30, land_ban_6, land_ban_4, land_ban_6, land_ban_7, land_ban10, land_ban36, land_ban56, land_ban60, land_bank_, own_name, landusecod, land_ban32, land_ban_3');
         sublayer.on('featureClick', function (e, latlng, pos, data, layer) {
-
 
             var request_jd_wp = createCORSRequest("get", "http://address-api.codeforkc.org/jd_wp/" + data.apn);
             var api_data = null;
@@ -84,11 +130,11 @@ function main() {
                 request_jd_wp.send();
             }
 
-
         });
     }).on('error', function () {
         console.log("Error");
     });
+
 }
 
 var ParcelArea;

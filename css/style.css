@@ -42,70 +42,24 @@ div#map{
 	background-color: #74B4FA;
 }
 
-div#overlay{
-	position: absolute;
-	z-index: 2;
-	bottom: 0;
-	top: 0;
-	right: 0;
-	left: 0;
-	background: url(../img/overlay.png) no-repeat center center fixed;
-	background-size: cover;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	filter: progrid:DXImageTransform.Microsoft.AlphaImage(src='.../img/overlay.png', sizingMethod='scale');
-	-ms-filter: "progrid:DXImageTransform.Microsoft.AlphaImage(src='../img/overlay.png', sizingMethod='scale')";
-	pointer-events: none;
+.cartodb-searchbox {
+	margin: 30px 20px 0 0 !important;
+	width: 200px !important;
+}
+.ui-menu .ui-menu-item a {
+	overflow-y: hidden;
+	overflow-x: hidden;
 }
 
-div#leftBkg{
-	background: url(../img/leftBkg.png) repeat-y;
-	width: 619px;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	bottom: 0px;
-	pointer-events: none;
+.ui-autocomplete {
+	max-height: 100px;
+	overflow-y: hidden;
+	max-width: 200px;
+	overlfow-x: hidden;
 }
-
-div.left{
-	position: absolute;
-	left: 60px;
-	top: 60px;
-	z-index: 3;
-}
-
-div#title{
-	width: 428px;
-	height: 195px;
-    background: url(../img/PATtitle.png) no-repeat;
-}
-
-div.left p{
-	font-family: "robotoregular", Helvetica, Arial, Sans-serif;
-	font-size: 17px;
-	width: 320px;
-	margin: 30px 0 0 10px;
-	opacity: .5;
-}
-
-div.left p a,
-div.left p a:visited{
-	color:#000;
-}
-
-div.left div#legendBox{
-	background: url(../img/legendBullets.png) 0 0 no-repeat;
-	margin: 30px 0 0 10px;
-}
-
-div.left div#legendBox ul li{
-	list-style: none;
-	font-family: "robotoregular", Helvetica, Arial, Sans-serif;
-	font-size: 15px;
-	margin: 7px 0 0 22px;
-	opacity: .5;
+* html .ui-autocomplete {
+	height: 100px;
+	width: 200px;
 }
 
 div.cartodb_tooltip {
@@ -123,6 +77,15 @@ div.cartodb_tooltip p {
     1px -1px 0 #FFF,
     -1px 1px 0 #FFF,
      1px 1px 0 #FFF;
+}
+
+/*Search box */
+.cartodb-searchbox {
+	margin: 30px 20px 0 0 !important;
+	width: 242px !important;
+}
+.ui-menu .ui-menu-item a {
+	padding: 0px .4em !important;
 }
 
 /*SYLES FOR THE CUSTOM INFOWINDOW*/
