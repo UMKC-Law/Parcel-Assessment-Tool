@@ -55,8 +55,8 @@ function initAutocomplete() {
 function main() {
 
     var options = {
-        center: [39.080865, -94.556916],
-        zoom: 17,
+        center: [39.082981, -94.557747],
+        zoom: 16,
         zoomControl: false,  // dont add the zoom overlay (it is added by default)
         loaderControl: false, //dont show tiles loader
         query: 'SELECT * FROM data'
