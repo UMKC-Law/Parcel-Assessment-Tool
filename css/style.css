@@ -200,3 +200,10 @@ div.cartodb-infobox p {
 	font-size:13px;
 	line-height:16px;
 }
+
+#maptoggle{
+	position: fixed;
+	bottom: 10px;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
