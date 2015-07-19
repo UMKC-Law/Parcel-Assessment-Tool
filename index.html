@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, intitial-scale=1, maximum-scale=1, user-scalable=no">
 
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
+    <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -20,7 +21,6 @@
 
     <!--nav bar-->
     <nav class="navbar navbar-default navbar-fixed-top">
-
     </nav>
 
     <!--Main Content-->
@@ -28,33 +28,27 @@
 
       <div>
         <div id="map"></div>
-        <div id="leftBkg"></div>
-        <div id="overlay"></div>
-          <div class="left">
-            <div id="title"></div>
-            <p>Each point displayed represents a parcel centroid, shaded by one of the Zoning Types shown below.</p>
-            <p>Click on each parcel point to view information about that parcel.</p>
-            <div id="legendBox">
-              <ul>
-                <li>B1-1 Commercial</li>
-                <li>B3-3 Commercial</li>
-                <li>B4-2 Commercial</li>
-                <li>B4-5 Commercial</li>
-                <li>M1-5 Industrial</li>
-                <li>MPD Residential</li>
-                <li>R-0.5 Residential</li>
-                <li>R-1-5 Residential</li>
-                <li>R-2.5 Residential</li>
-                <li>UR</li>
-              </ul>
-            </div>
-          </div>
-
-        <div id="pointTT"></div>
       </div>
     </main>
 
 
+    <!--Modal-->
+    <div class="modal" id="openModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" >Kansas City Parcel Assessment Tool</h4>
+          </div>
+          <div class="modal-body">
+            <p>This tool provides information for users who want to research parcels located in the Kansas City Metropolitan area for development and other purposees.</p>
+            <p>To use the tool you can enter an address in the search bar to view parcels in the imediate surrounding area and then click the parcel to see parcel information.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Got It!</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <!--Slide Out Panel-->
     <div class="cd-panel from-left">
@@ -335,6 +329,7 @@
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/Formulas.js"></script>
     <script type="text/javascript" src="js/app2.js"></script>
