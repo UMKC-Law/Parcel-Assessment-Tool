@@ -165,16 +165,17 @@ function buildEnvelope(zone) {
     var template = $('#envelope_template').html();
     //store some variables:
     if (ZoneTable[zone]) {
-        var BSFMax = calculateBSF(ParcelArea, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
-        var BuildingComponent = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
+        var maxfloors = Math.floor((ZoneTable[zone]["maxheight"]/10));
+        var BSFMax = calculateBSF(ParcelArea, ZoneTable[zone]["LC"], maxfloors, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
+        var BuildingComponent = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], maxfloors, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
         var ParkingComponent = calculateParkingComponent(BuildingComponent, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"]);
 
         //populate the template
         var rendered = Mustache.render(template, {
-            maxfootprint: Math.floor(calculateBFootprint(BSFMax, ZoneTable[zone]["St"])),
-            maxfloors: ZoneTable[zone]["St"],
+            maxfootprint: Math.floor(calculateBFootprint(BSFMax, maxfloors)),
+            maxfloors: maxfloors,
             maxsqftg: Math.floor(BSFMax),
-            minstalls: Math.floor(calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"]))
+            minstalls: Math.ceil(calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"]))
         });
     }
     $('#envelope').html(rendered);
