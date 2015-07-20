@@ -1,8 +1,4 @@
-var templates;
-var map;
-
 /* From http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/ */
-
 function createCORSRequest(method, url) {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
@@ -52,7 +48,7 @@ function initAutocomplete() {
 //console.log("SELECT cartodb_id, address FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address");
 
 function createGoogleMap(){
-	var localmap;
+	var map;
 
 	// create google maps map
 	var mapOptions = {
@@ -60,13 +56,13 @@ function createGoogleMap(){
 		center: new google.maps.LatLng(39.082981, -94.557747),
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
-    localmap = new google.maps.Map(document.getElementById('map'),  mapOptions);
+    map = new google.maps.Map(document.getElementById('map'),  mapOptions);
 
-    return localmap;
+    return map;
 }
 
 function createLeafletMap(){
-	var localmap;
+	var map;
 
 	var options = {
 	    center: [39.082981, -94.557747],
@@ -77,15 +73,15 @@ function createLeafletMap(){
 
 	};
 
-    localmap = new L.Map('map', options);
+    map = new L.Map('map', options);
 
 	L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 	    attribution: 'Positron'
-	}).addTo(localmap);
+	}).addTo(map);
 
-	new L.Control.Zoom({position: 'topleft'}).addTo(localmap);
+	new L.Control.Zoom({position: 'topleft'}).addTo(map);
 
-	return localmap;
+	return map;
 }
 
 function attachMapLayers(map){
@@ -156,7 +152,7 @@ function attachMapLayers(map){
 }
 
 
-function initializeMap(useGMaps){
+function initMap(useGMaps){
 	$('#mainclass').html("<div id='map'></div>");
 	map = useGMaps ? createGoogleMap() : createLeafletMap();
 	attachMapLayers(map)
@@ -261,7 +257,6 @@ function populatePanel(data) {
 
 }
 
-
 jQuery(document).ready(function ($) {
     $("select#ZoningSelect").on('change', function () {
         buildEnvelope($("select#ZoningSelect").find(":selected").val())
@@ -269,48 +264,24 @@ jQuery(document).ready(function ($) {
 
 	$('#openModal').modal()
 
-	initializeMap(false);
-
-	$('#openModal').on('shown.bs.modal', function () {
-		$('#myInput').focus()
-	})
+	initMap(false);
 
 	$('.btn-toggle#maptoggle').click(function(){
 		$(this).find('.btn').toggleClass('active');
-
-		if ($(this).find('.btn-primary').size()>0) {
-			$(this).find('.btn').toggleClass('btn-primary');
-		}
-		if ($(this).find('.btn-danger').size()>0) {
-			$(this).find('.btn').toggleClass('btn-danger');
-		}
-		if ($(this).find('.btn-success').size()>0) {
-			$(this).find('.btn').toggleClass('btn-success');
-		}
-		if ($(this).find('.btn-info').size()>0) {
-			$(this).find('.btn').toggleClass('btn-info');
-		}
-
+		$(this).find('.btn').toggleClass('btn-primary');
 		$(this).find('.btn').toggleClass('btn-default');
-
-		($(this).find('.active').attr('id') == "leafletbutton") ? initializeMap(false) : initializeMap(true);
-
-
+		($(this).find('.active').attr('id') == "leafletbutton") ? initMap(false) : initMap(true);
 	});
 
     $(document).keydown(function(e){
         if(e.keyCode == 27){ //escape key
-            $('.cd-panel').removeClass('is-visible');
-            event.preventDefault();
+            ($(document).find('.modal.in').length > 0) 
+                ? $('#openModal').modal('hide') 
+                : $('.cd-panel').removeClass('is-visible');
+
+            e.preventDefault();
         }
     });
-
-	$('.cd-panel').on('click', function(event){
-		if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
-		  $('.cd-panel').removeClass('is-visible');
-		  event.preventDefault();
-		}
-	});
 
 });
 
