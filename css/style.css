@@ -28,7 +28,6 @@
 }
 
 body{
-
     background-color: #74B4FA;
 }
 
@@ -219,29 +218,13 @@ div.cartodb-infobox p {
   content: '';
 }
 
-.cd-main-content {
-  text-align: center;
-}
-.cd-main-content h1 {
-  font-size: 20px;
-  font-size: 1.25rem;
-  color: #64788c;
-  padding: 4em 0;
-}
-@media only screen and (min-width: 1170px) {
-  .cd-main-content h1 {
-    font-size: 32px;
-    font-size: 2rem;
-  }
-}
-
 .cd-panel {
   position: fixed;
   z-index: 99;
   top: 0;
   left: 0;
   height: 100%;
-  width: 100%;
+  width: 50%;
   visibility: hidden;
   -webkit-transition: visibility 0s 1s;
   -moz-transition: visibility 0s 1s;

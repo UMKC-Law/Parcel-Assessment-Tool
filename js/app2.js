@@ -298,6 +298,13 @@ jQuery(document).ready(function ($) {
 
 	});
 
+    $(document).keydown(function(e){
+        if(e.keyCode == 27){ //escape key
+            $('.cd-panel').removeClass('is-visible');
+            event.preventDefault();
+        }
+    });
+
 	$('.cd-panel').on('click', function(event){
 		if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
 		  $('.cd-panel').removeClass('is-visible');
