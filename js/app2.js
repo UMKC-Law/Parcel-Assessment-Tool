@@ -80,7 +80,7 @@ function createLeafletMap(){
 	}).addTo(map);
 
 	new L.Control.Zoom({position: 'topleft'}).addTo(map);
-
+    
 	return map;
 }
 
@@ -100,7 +100,7 @@ function attachMapLayers(map){
     });
 
     cartodb.createLayer(map, datalayer).addTo(map, 1).on('done', function (layer) {
-        var sublayer = layer.getSubLayer(2); //sublayer generated from the data.json file
+        var sublayer = layer.getSubLayer(1); //sublayer generated from the data.json file
         sublayer.infowindow.set('template', $('#infowindow_template').html());
         sublayer.setInteraction(true);
         //add more data as needed:
