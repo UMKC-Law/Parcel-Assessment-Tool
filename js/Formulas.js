@@ -84,77 +84,82 @@ var ZoneTable = {
     "SA": 300 //placeholder
   },
   "B3-2": {
-    "height": 55,
-    "LC": 0.6,
-    "far": 2.5,
-    "maxheight": 55,
+    "height": 60,
+    "LC": 0.8,
+    "far": 3.0,
+    "maxheight": 60,
+    "St": 2,
+    "PI": 4.00,
+    "PF": 1, //placeholder
+    "SA": 300 //placeholder
+  },
+  "B3-3": {
+    "height": 60,
+    "LC": 0.8,
+    "far": 3.0,
+    "maxheight": 60,
     "St": 2,
     "PI": 4.00,
     "PF": 1, //placeholder
     "SA": 300 //placeholder
   },
   "B4-2": {
-    //all are placeholder
-    "height": 99,
-    "LC": 0.99,
-    "far": 0.99,
-    "maxheight": 99,
-    "St": 99,
-    "PI": 0.99,
+    "height": 70,
+    "LC": 0.80,
+    "far": 4.0,
+    "maxheight": 70,
+    "St": 2,
+    "PI": 0.25,
     "PF": 1, //placeholder
     "SA": 300 //placeholder
   },
   "B4-5": {
-    //all are placeholder
-    "height": 99,
-    "LC": 0.99,
-    "far": 0.99,
-    "maxheight": 99,
-    "St": 99,
-    "PI": 0.99,
+    "height": 70,
+    "LC": 0.80,
+    "far": 4.0,
+    "maxheight": 70,
+    "St": 2,
+    "PI": 0.25,
     "PF": 1, //placeholder
     "SA": 300 //placeholder
   },
   "R-0.5":{
-    //all are placeholder
-    "height": 99,
-    "LC": 0.99,
-    "far": 0.99,
-    "maxheight": 99,
-    "St": 99,
-    "PI": 0.99,
+    "height": 164,
+    "LC": 0.60,
+    "far": 1.00,
+    "maxheight": 164,
+    "St": 2,
+    "PI": 1.00,
     "PF": 1, //placeholder
     "SA": 300 //placeholder
   },
   "R-1.5": {
     "height": 45,
-    "LC": 0.48,
+    "LC": 0.60,
     "far": 1,
     "maxheight": 45,
-    "St": 3,
+    "St": 2,
     "PI": 0.25,
     "PF": 1, //placeholder
     "SA": 300 //placeholder
   },
   "R-2.5": {
-  //all are placeholder
-    "height": 99,
-    "LC": 0.99,
-    "far": 0.99,
-    "maxheight": 99,
-    "St": 99,
-    "PI": 0.99,
+    "height": 40,
+    "LC": 0.60,
+    "far": 1,
+    "maxheight": 40,
+    "St": 2,
+    "PI": 1.00,
     "PF": 1, //placeholder
     "SA": 300 //placeholder
   },
   "M1-5": {
-    //all are placeholder
-    "height": 99,
-    "LC": 0.99,
-    "far": 0.99,
-    "maxheight": 99,
-    "St": 99,
-    "PI": 0.99,
+    "height": 80,
+    "LC": 0.80,
+    "far": 5,
+    "maxheight": 80,
+    "St": 2,
+    "PI": 0.25,
     "PF": 1, //placeholder
     "SA": 300 //placeholder
   },

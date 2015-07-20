@@ -11,20 +11,16 @@
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <link href="css/panelstyle.css" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
 
     <title>The Parcel Assessment Tool - PAT</title>
   </head>
 
   <body>
-  
-    <!--Main Content-->
-    <main class = "cd-main-content">
 
-      <div>
+    <!--Main Content-->
+    <main class = "cd-main-content" id = "mainclass">
         <div id="map"></div>
-      </div>
     </main>
 
 
@@ -36,15 +32,21 @@
             <h4 class="modal-title" >Kansas City Parcel Assessment Tool</h4>
           </div>
           <div class="modal-body">
-            <p>This tool provides information for users who want to research parcels located in the Kansas City Metropolitan area for development and other purposees.</p>
-            <p>To use the tool you can enter an address in the search bar to view parcels in the imediate surrounding area and then click the parcel to see parcel information.</p>
+            <p>This tool provides information for users who want to research parcels located in the Kansas City metropolitan area for real estate development and other purposes.</p>
+            <p>To use the tool you can click the polygon representing the parcel you are interested in to see a summary of information about it. Click the more info button to see detailed information about the parcel and the available tools.</p>
+            <p>If there is a particular parcel you are looking for you can enter an address associated with it in the search bar to locate it.</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Got It!</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="confirm">Got It!</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div id="maptoggle" class="btn-group btn-toggle" role="group" aria-label="...">
+      <button id="googlebutton" type="button" class="btn btn-default">Google</button>
+      <button id="leafletbutton" type="button" class="btn btn-default btn-primary active">Leaflet</button>
+    </div>
 
     <!--Slide Out Panel-->
     <div class="cd-panel from-left">
@@ -322,8 +324,8 @@
     </script>
 
     <!--Include the js. Please be sure that you use a locked version in case you go to production-->
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
-    <script src="http://d3js.org/queue.v1.min.js"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
