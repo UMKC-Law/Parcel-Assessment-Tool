@@ -166,19 +166,31 @@ function buildEnvelope(zone) {
     //store some variables:
     if (ZoneTable[zone]) {
         var maxfloors = Math.floor((ZoneTable[zone]["maxheight"]/10));
-        var BSFMax = calculateBSF(ParcelArea, ZoneTable[zone]["LC"], maxfloors, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
-        var BuildingComponent = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], maxfloors, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
+        var BSFMax = calculateBSF(ParcelArea, ZoneTable[zone]["LC"], 1.00, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
+        var BuildingComponent = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], 1.00, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
         var ParkingComponent = calculateParkingComponent(BuildingComponent, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"]);
 
         //populate the template
         var rendered = Mustache.render(template, {
-            maxfootprint: Math.floor(calculateBFootprint(BSFMax, maxfloors)),
-            maxfloors: maxfloors,
+            maxfootprint: calculateBFootprint(BSFMax, maxfloors),
             maxsqftg: Math.floor(BSFMax),
             minstalls: Math.ceil(calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"]))
         });
     }
     $('#envelope').html(rendered);
+
+    floorselect = $('#userfloors');
+    floorselect.empty();
+    for(i =0; i <= maxfloors; i++){
+      floorselect.append($('<option>', {
+        value: i,
+        text: i,
+      }));
+    };
+    floorselect.change(function(){
+      console.log(calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], $(this[this.selectedIndex]).val(), ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]));
+      console.log($(this[this.selectedIndex]).val());
+    });
 
 }
 
