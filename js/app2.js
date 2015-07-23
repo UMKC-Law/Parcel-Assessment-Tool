@@ -90,6 +90,7 @@ function attachMapLayers(map){
     var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/4e032b12-1dfe-11e5-8ca7-0e49835281d6/viz.json'
 
     cartodb.createLayer(map, geomlayer).addTo(map, 0).on('done', function(layer){
+    	console.log(layer.getSubLayerCount())
 		var v = cdb.vis.Overlay.create('search', map.viz, {})
 		v.show();
 		$('#map').append(v.render().el);
@@ -187,6 +188,7 @@ function buildEnvelope(zone) {
         text: i,
       }));
     };
+    //TODO: the results of these values need to be checked
     floorselect.change(function(){
       console.log(calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], $(this[this.selectedIndex]).val(), ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]));
       console.log($(this[this.selectedIndex]).val());
