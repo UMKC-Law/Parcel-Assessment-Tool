@@ -286,6 +286,11 @@ jQuery(document).ready(function ($) {
 		($(this).find('.active').attr('id') == "leafletbutton") ? initMap(false) : initMap(true);
 	});
 
+	$('.cd-panel').on("swipeleft", function(){
+		$('.cd-panel').removeClass('is-visible');
+		console.log("Swipeleft detected on cd-panel")
+	});
+
     $(document).keydown(function(e){
         if(e.keyCode == 27){ //escape key
             ($(document).find('.modal.in').length > 0) 
