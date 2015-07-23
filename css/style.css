@@ -229,6 +229,7 @@ div.cartodb-infobox p {
   -webkit-transition: visibility 0s 1s;
   -moz-transition: visibility 0s 1s;
   transition: visibility 0s 1s;
+  overflow:hidden;
 }
 .cd-panel.is-visible {
   visibility: visible;
@@ -307,7 +308,7 @@ div.cartodb-infobox p {
   width: 100%;
   height: 100%;
   padding: 30px;
-  overflow: auto;
+  overflow:hidden;
   /* smooth scrolling on touch devices */
   -webkit-overflow-scrolling: touch;
 }
