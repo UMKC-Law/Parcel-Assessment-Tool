@@ -1,4 +1,7 @@
 /* From http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/ */
+
+var SavedParcels = [];
+
 function createCORSRequest(method, url) {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
@@ -11,6 +14,22 @@ function createCORSRequest(method, url) {
     }
     return xhr;
 }
+
+/* From http://stackoverflow.com/questions/1988349/array-push-if-does-not-exist */
+
+Array.prototype.inArray = function(comparer) { 
+    for(var i=0; i < this.length; i++) { 
+        if(comparer(this[i])) return true; 
+    }
+    return false; 
+}; 
+
+Array.prototype.pushIfNotExist = function(element, comparer) { 
+    if (!this.inArray(comparer)) {
+        this.push(element);
+    }
+}; 
+/*end from*/
 
 function initAutocomplete() {
 //	function log( message ) {
@@ -135,8 +154,12 @@ function attachMapLayers(map){
                     }
 
                     populatePanel(data);
-
-                    $('.cartodb-infowindow').on('click', '#openpanel', function () {
+                    $('.cartodb-infowindow').off();
+                    $('.cartodb-infowindow').on('click', '#addtofolder', function () {
+                    	SavedParcels.pushIfNotExist(data, function(e){
+                    		return e.apn === data.apn;
+                    	});
+                    	updatePanel();
                         $('.cd-panel').addClass('is-visible');
                     });
 
@@ -193,6 +216,18 @@ function buildEnvelope(zone) {
     });
 
 }
+
+function updatePanel(){
+	if(SavedParcels.length == 0) {
+		$('#ParcelContent').html('<div id="No-Parcels"><p>No Parcels selected!</p><p>To begin select a Parcel on the Map!</p></div>');
+	}else{
+		SavedParcels.forEach(function(parcel){
+			console.log(parcel);
+			//do nothing right now
+		});
+	};
+}
+
 
 function populatePanel(data) {
     $('#AddressTitle').text(data.land_ban60);
@@ -275,8 +310,9 @@ jQuery(document).ready(function ($) {
         buildEnvelope($("select#ZoningSelect").find(":selected").val())
     });
 
-	$('#openModal').modal()
+	$('#openModal').modal();
 
+	updatePanel();
 	initMap(false);
 
 	$('.btn-toggle#maptoggle').click(function(){
@@ -289,6 +325,8 @@ jQuery(document).ready(function ($) {
 	$('.cd-panel').on("swipeleft", function(){
 		$('.cd-panel').removeClass('is-visible');
 	});
+
+	$("#ParcelTabs").sortable();
 
 	$("#HamburgerButton").click(function(){
 		$('.cd-panel').addClass('is-visible');

@@ -41,6 +41,23 @@ div#map{
 	background-color: #74B4FA;
 }
 
+div#ParcelContent{
+  height: 100%;
+}
+
+div#ParcelInfoView{
+  height:100%;
+  background-color: #FFF;
+}
+
+div#No-Parcels{
+  height: 100%;
+  width: 100%;
+  vertical-align: middle;
+  display: inline-block;
+  text-align: center;
+}
+
 .cartodb-searchbox {
 	margin: 30px 20px 0 0 !important;
 	width: 200px !important;
