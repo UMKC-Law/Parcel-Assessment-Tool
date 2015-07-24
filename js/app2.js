@@ -79,7 +79,7 @@ function createLeafletMap(){
 	    attribution: 'Positron'
 	}).addTo(map);
 
-	new L.Control.Zoom({position: 'topleft'}).addTo(map);
+	new L.Control.Zoom({position: 'bottomright'}).addTo(map);
     
 	return map;
 }
@@ -288,6 +288,10 @@ jQuery(document).ready(function ($) {
 
 	$('.cd-panel').on("swipeleft", function(){
 		$('.cd-panel').removeClass('is-visible');
+	});
+
+	$("#HamburgerButton").click(function(){
+		$('.cd-panel').addClass('is-visible');
 	});
 
     $(document).keydown(function(e){
