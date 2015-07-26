@@ -39,20 +39,26 @@ div#map{
 	right: 0;
 	left: 0;
 	background-color: #74B4FA;
+
 }
 
 div#ParcelContent{
   width: 100%;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #FFF;
   /* smooth scrolling on touch devices */
   -webkit-overflow-scrolling: touch;
+
 }
 
 div#ParcelInfoView{
   height: 100%;
+  width: 100%;
   background-color: #FFF;
+  -webkit-position: relative;
+  position: relative;
 }
 
 div#No-Parcels{
@@ -253,7 +259,7 @@ div.cartodb-infobox p {
   top: 0;
   left: 0;
   height: 100%;
-  width: 50%;
+  width: 100%;
   visibility: hidden;
   -webkit-transition: visibility 0s 1s;
   -moz-transition: visibility 0s 1s;
