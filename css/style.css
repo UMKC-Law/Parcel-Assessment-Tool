@@ -42,15 +42,17 @@ div#map{
 }
 
 div#ParcelContent{
-  height: auto;
-  max-width: 100%;
-  overflow:auto;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #FFF;
+  /* smooth scrolling on touch devices */
+  -webkit-overflow-scrolling: touch;
 }
 
 div#ParcelInfoView{
-  height:100%;
+  height: 100%;
   background-color: #FFF;
-  horizontal-align: middle;
 }
 
 div#No-Parcels{

@@ -221,14 +221,18 @@ function addParcel(Parcel){
 		}
 	});
 	
-	if(exists) return;
+	console.log(exists)
+	if(exists)
+	{ 
+		return;
+	}
 
 	publishParcel(Parcel);
 
 }
 
 function publishParcel(Parcel){
-	$('#ParcelTabs').append("<li role='presentation' id='" + Parcel.apn + "Tab'><a href='#" + Parcel.apn + "' aria-controls='" + Parcel.apn + "' role='tab' data-toggle='tab'>" + Parcel.address + "</a></li>");
+	$('#ParcelTabs').append("<li role='presentation' class='parceltab' id='" + Parcel.apn + "Tab'><a href='#" + Parcel.apn + "' aria-controls='" + Parcel.apn + "' role='tab' data-toggle='tab'>" + Parcel.address + "</a></li>");
 	$('#' + Parcel.apn + 'Tab').data("Parcel", Parcel);
 
 	$('a[data-toggle="tab"]').off();
@@ -245,7 +249,6 @@ function removeParcel(Parcel){
 }
 
 function selectParcel(data) {
-	console.log(data);
 
 	//todo: clean this code up
 	var template = $('#parcel_template').html();
