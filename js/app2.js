@@ -1,7 +1,5 @@
 /* From http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/ */
 
-var SavedParcels = [];
-
 function createCORSRequest(method, url) {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
@@ -15,20 +13,6 @@ function createCORSRequest(method, url) {
     return xhr;
 }
 
-/* From http://stackoverflow.com/questions/1988349/array-push-if-does-not-exist */
-
-Array.prototype.inArray = function(comparer) { 
-    for(var i=0; i < this.length; i++) { 
-        if(comparer(this[i])) return true; 
-    }
-    return false; 
-}; 
-
-Array.prototype.pushIfNotExist = function(element, comparer) { 
-    if (!this.inArray(comparer)) {
-        this.push(element);
-    }
-}; 
 /*end from*/
 
 function initAutocomplete() {
@@ -153,13 +137,9 @@ function attachMapLayers(map){
                         data.api_id = '';
                     }
 
-                    populatePanel(data);
-                    $('.cartodb-infowindow').off();
+                    $('.cartodb-infowindow').off('click', '#addtofolder'); 
                     $('.cartodb-infowindow').on('click', '#addtofolder', function () {
-                    	SavedParcels.pushIfNotExist(data, function(e){
-                    		return e.apn === data.apn;
-                    	});
-                    	updatePanel();
+                    	addParcel(data);
                         $('.cd-panel').addClass('is-visible');
                     });
 
@@ -217,19 +197,62 @@ function buildEnvelope(zone) {
 
 }
 
-function updatePanel(){
-	if(SavedParcels.length == 0) {
+function initPanel(){
+
+	savedParcels = 0;
+
+	if(savedParcels === 0) {
 		$('#ParcelContent').html('<div id="No-Parcels"><p>No Parcels selected!</p><p>To begin select a Parcel on the Map!</p></div>');
 	}else{
-		SavedParcels.forEach(function(parcel){
-			console.log(parcel);
-			//do nothing right now
-		});
+		//TODO: Add a way to save the parcels the user has opened (Cookies.js?)
+		//SavedParcels.forEach(function(parcel){
+		//	publishParcel(parcel);
+		//	selectParcelTab(parcel);
+		//});
 	};
 }
 
+function addParcel(Parcel){
+	exists = false;
+	$('.parceltab').each(function(){
+		if(Parcel.apn === $(this).data("Parcel").apn){ 
+			exists = true; 
+			return;
+		}
+	});
+	
+	if(exists) return;
 
-function populatePanel(data) {
+	publishParcel(Parcel);
+
+}
+
+function publishParcel(Parcel){
+	$('#ParcelTabs').append("<li role='presentation' id='" + Parcel.apn + "Tab'><a href='#" + Parcel.apn + "' aria-controls='" + Parcel.apn + "' role='tab' data-toggle='tab'>" + Parcel.address + "</a></li>");
+	$('#' + Parcel.apn + 'Tab').data("Parcel", Parcel);
+
+	$('a[data-toggle="tab"]').off();
+	$('a[data-toggle="tab"]').on('show.bs.tab', function (e, focus) { //have to re-initialize this for new tabs to be noticed
+		selectParcel($(e.target).parent().data("Parcel"));
+	});
+
+	$('#' + Parcel.apn + 'Tab').tab('show');
+	selectParcel(Parcel); //above command doesn't seem to actually propagate the bs.tab.show event properly.
+}
+
+function removeParcel(Parcel){
+	$('#' + Parcel.apn + 'Tab').remove();
+}
+
+function selectParcel(data) {
+	console.log(data);
+
+	//todo: clean this code up
+	var template = $('#parcel_template').html();
+	var rendered = Mustache.render(template);
+	$('#ParcelContent').html(rendered);
+
+
     $('#AddressTitle').text(data.land_ban60);
     var zone = data.land_ban_3;
     ParcelArea = data.land_ban30;
@@ -312,7 +335,7 @@ jQuery(document).ready(function ($) {
 
 	$('#openModal').modal();
 
-	updatePanel();
+	initPanel();
 	initMap(false);
 
 	$('.btn-toggle#maptoggle').click(function(){
@@ -326,7 +349,7 @@ jQuery(document).ready(function ($) {
 		$('.cd-panel').removeClass('is-visible');
 	});
 
-	$("#ParcelTabs").sortable();
+	$("#ParcelTabs").sortable({axis: "x", containment: "parent"});
 
 	$("#HamburgerButton").click(function(){
 		$('.cd-panel').addClass('is-visible');

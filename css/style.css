@@ -42,12 +42,15 @@ div#map{
 }
 
 div#ParcelContent{
-  height: 100%;
+  height: auto;
+  max-width: 100%;
+  overflow:auto;
 }
 
 div#ParcelInfoView{
   height:100%;
   background-color: #FFF;
+  horizontal-align: middle;
 }
 
 div#No-Parcels{
