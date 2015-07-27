@@ -221,7 +221,6 @@ function addParcel(Parcel){
 		}
 	});
 	
-	console.log(exists)
 	if(exists)
 	{ 
 		return;
@@ -232,20 +231,42 @@ function addParcel(Parcel){
 }
 
 function publishParcel(Parcel){
-	$('#ParcelTabs').append("<li role='presentation' class='parceltab' id='" + Parcel.apn + "Tab'><a href='#" + Parcel.apn + "' aria-controls='" + Parcel.apn + "' role='tab' data-toggle='tab'>" + Parcel.address + "</a></li>");
+	$('#ParcelTabs').append("<li role='presentation' class='parceltab' id='" + Parcel.apn + "Tab'><a href='#" + Parcel.apn + "' aria-controls='" + Parcel.apn + "' role='tab' data-toggle='tab'>" + Parcel.address + " <span class='close-tab glyphicon glyphicon-remove'></span></a></li>");
 	$('#' + Parcel.apn + 'Tab').data("Parcel", Parcel);
 
 	$('a[data-toggle="tab"]').off();
 	$('a[data-toggle="tab"]').on('show.bs.tab', function (e, focus) { //have to re-initialize this for new tabs to be noticed
 		selectParcel($(e.target).parent().data("Parcel"));
 	});
+	$('.close-tab').off();
+	$('.close-tab').on('click', function(e){
+		var tab = $($(e.target).parent()).parent();
+		console.log("close tab button was clicked: " + tab);
+		removeParcel(tab);
+		e.preventDefault();
+	});
+
 
 	$('#' + Parcel.apn + 'Tab').tab('show');
 	selectParcel(Parcel); //above command doesn't seem to actually propagate the bs.tab.show event properly.
 }
 
-function removeParcel(Parcel){
-	$('#' + Parcel.apn + 'Tab').remove();
+function removeParcel(Parceltab){
+	if($('.parceltab').length > 1)
+	{
+		if(Parceltab.hasClass('active')){
+			var i = Parceltab.index() - 1;
+			activateTab = $('#ParcelTabs li:eq(' + i + ')');
+			$(activateTab).tab('show');
+			selectParcel($(activateTab).data('Parcel'));
+		}
+	}
+	else
+	{
+		$('#ParcelContent').html('<div id="No-Parcels"><p>No Parcels selected!</p><p>To begin select a Parcel on the Map!</p></div>');
+	}
+
+	$(Parceltab).remove();
 }
 
 function selectParcel(data) {
@@ -314,16 +335,6 @@ function selectParcel(data) {
         kivapin: data.kivapin
     });
     $('#links').html(rendered);
-
-    /*populate the zoning select
-
-     The drop downs will need to be modified later to accomodate building type and business type options
-
-     var zoningselect = $('#ZoningSelect');
-     zoningselect.empty();
-     zoningselect.append($("<option \>").val(data.land_ban_3).text(data.land_ban_3));
-
-     */
 
     $("select#ZoningSelect").val(zone);
     //switch back to the general tab (otherwise it will leave the last active tab for the last parcel active)
