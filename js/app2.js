@@ -194,7 +194,6 @@ function buildEnvelope(zone) {
     floorselect.change(function(){
       //TODO: not implemented yet
     });
-
 }
 
 function initPanel(){
@@ -241,7 +240,6 @@ function publishParcel(Parcel){
 	$('.close-tab').off();
 	$('.close-tab').on('click', function(e){
 		var tab = $($(e.target).parent()).parent();
-		console.log("close tab button was clicked: " + tab);
 		removeParcel(tab);
 		e.preventDefault();
 	});
@@ -337,15 +335,14 @@ function selectParcel(data) {
     $('#links').html(rendered);
 
     $("select#ZoningSelect").val(zone);
-    //switch back to the general tab (otherwise it will leave the last active tab for the last parcel active)
-    $("#general").collapse('show');
+
+    $("select#ZoningSelect").on('change', function () {
+    	buildEnvelope($("select#ZoningSelect").find(":selected").val())
+    });
 
 }
 
 jQuery(document).ready(function ($) {
-    $("select#ZoningSelect").on('change', function () {
-        buildEnvelope($("select#ZoningSelect").find(":selected").val())
-    });
 
 	$('#openModal').modal();
 
@@ -359,7 +356,7 @@ jQuery(document).ready(function ($) {
 		($(this).find('.active').attr('id') == "leafletbutton") ? initMap(false) : initMap(true);
 	});
 
-	$('.cd-panel').on("swipeleft", function(){
+	$('.cd-panel-content').on("swipeleft", function(){
 		$('.cd-panel').removeClass('is-visible');
 	});
 
