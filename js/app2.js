@@ -1,4 +1,5 @@
 /* From http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/ */
+
 function createCORSRequest(method, url) {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
@@ -11,6 +12,8 @@ function createCORSRequest(method, url) {
     }
     return xhr;
 }
+
+/*end from*/
 
 function initAutocomplete() {
 //	function log( message ) {
@@ -79,7 +82,7 @@ function createLeafletMap(){
 	    attribution: 'Positron'
 	}).addTo(map);
 
-	new L.Control.Zoom({position: 'topleft'}).addTo(map);
+	new L.Control.Zoom({position: 'bottomright'}).addTo(map);
     
 	return map;
 }
@@ -134,9 +137,9 @@ function attachMapLayers(map){
                         data.api_id = '';
                     }
 
-                    populatePanel(data);
-
-                    $('.cartodb-infowindow').on('click', '#openpanel', function () {
+                    $('.cartodb-infowindow').off('click', '#addtofolder'); 
+                    $('.cartodb-infowindow').on('click', '#addtofolder', function () {
+                    	addParcel(data);
                         $('.cd-panel').addClass('is-visible');
                     });
 
@@ -165,23 +168,113 @@ function buildEnvelope(zone) {
     var template = $('#envelope_template').html();
     //store some variables:
     if (ZoneTable[zone]) {
-        var BSFMax = calculateBSF(ParcelArea, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
-        var BuildingComponent = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], ZoneTable[zone]["St"], ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
+        var maxfloors = Math.floor((ZoneTable[zone]["maxheight"]/10));
+        var BSFMax = calculateBSF(ParcelArea, ZoneTable[zone]["LC"], 1.00, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"]);
+        var BuildingComponent = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], 1.00, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
         var ParkingComponent = calculateParkingComponent(BuildingComponent, ZoneTable[zone]["PI"], ZoneTable[zone]["SA"]);
 
         //populate the template
         var rendered = Mustache.render(template, {
-            maxfootprint: Math.floor(calculateBFootprint(BSFMax, ZoneTable[zone]["St"])),
-            maxfloors: ZoneTable[zone]["St"],
+            maxfootprint: calculateBFootprint(BSFMax, maxfloors),
             maxsqftg: Math.floor(BSFMax),
-            minstalls: Math.floor(calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"]))
+            minstalls: Math.ceil(calculateParkingStalls(ParkingComponent, ZoneTable[zone]["SA"]))
         });
     }
     $('#envelope').html(rendered);
 
+    floorselect = $('#userfloors');
+    floorselect.empty();
+    for(i =0; i <= maxfloors; i++){
+      floorselect.append($('<option>', {
+        value: i,
+        text: i,
+      }));
+    };
+    //TODO: the results of these values need to be checked
+    floorselect.change(function(){
+      //TODO: not implemented yet
+    });
 }
 
-function populatePanel(data) {
+function initPanel(){
+
+	savedParcels = 0;
+
+	if(savedParcels === 0) {
+		$('#ParcelContent').html('<div id="No-Parcels"><p>No Parcels selected!</p><p>To begin select a Parcel on the Map!</p></div>');
+	}else{
+		//TODO: Add a way to save the parcels the user has opened (Cookies.js?)
+		//SavedParcels.forEach(function(parcel){
+		//	publishParcel(parcel);
+		//	selectParcelTab(parcel);
+		//});
+	};
+}
+
+function addParcel(Parcel){
+	exists = false;
+	$('.parceltab').each(function(){
+		if(Parcel.apn === $(this).data("Parcel").apn){ 
+			exists = true; 
+			return;
+		}
+	});
+	
+	if(exists)
+	{ 
+		return;
+	}
+
+	publishParcel(Parcel);
+
+}
+
+function publishParcel(Parcel){
+	$('#ParcelTabs').append("<li role='presentation' class='parceltab' id='" + Parcel.apn + "Tab'><a href='#" + Parcel.apn + "' aria-controls='" + Parcel.apn + "' role='tab' data-toggle='tab'>" + Parcel.address + " <span class='close-tab glyphicon glyphicon-remove'></span></a></li>");
+	$('#' + Parcel.apn + 'Tab').data("Parcel", Parcel);
+
+	$('a[data-toggle="tab"]').off();
+	$('a[data-toggle="tab"]').on('show.bs.tab', function (e, focus) { //have to re-initialize this for new tabs to be noticed
+		selectParcel($(e.target).parent().data("Parcel"));
+	});
+	$('.close-tab').off();
+	$('.close-tab').on('click', function(e){
+		var tab = $($(e.target).parent()).parent();
+		removeParcel(tab);
+		e.preventDefault();
+	});
+
+
+	$('#' + Parcel.apn + 'Tab').tab('show');
+	selectParcel(Parcel); //above command doesn't seem to actually propagate the bs.tab.show event properly.
+}
+
+function removeParcel(Parceltab){
+	if($('.parceltab').length > 1)
+	{
+		if(Parceltab.hasClass('active')){
+			var i = Parceltab.index() - 1;
+			activateTab = $('#ParcelTabs li:eq(' + i + ')');
+			$(activateTab).tab('show');
+			selectParcel($(activateTab).data('Parcel'));
+		}
+	}
+	else
+	{
+		$('#ParcelContent').html('<div id="No-Parcels"><p>No Parcels selected!</p><p>To begin select a Parcel on the Map!</p></div>');
+	}
+
+	$(Parceltab).remove();
+}
+
+function selectParcel(data) {
+
+	//todo: clean this code up
+	var template = $('#parcel_template').html();
+	var rendered = Mustache.render(template);
+	$('#ParcelContent').html(rendered);
+
+
     $('#AddressTitle').text(data.land_ban60);
     var zone = data.land_ban_3;
     ParcelArea = data.land_ban30;
@@ -241,29 +334,19 @@ function populatePanel(data) {
     });
     $('#links').html(rendered);
 
-    /*populate the zoning select
-
-     The drop downs will need to be modified later to accomodate building type and business type options
-
-     var zoningselect = $('#ZoningSelect');
-     zoningselect.empty();
-     zoningselect.append($("<option \>").val(data.land_ban_3).text(data.land_ban_3));
-
-     */
-
     $("select#ZoningSelect").val(zone);
-    //switch back to the general tab (otherwise it will leave the last active tab for the last parcel active)
-    $("#general").collapse('show');
+
+    $("select#ZoningSelect").on('change', function () {
+    	buildEnvelope($("select#ZoningSelect").find(":selected").val())
+    });
 
 }
 
 jQuery(document).ready(function ($) {
-    $("select#ZoningSelect").on('change', function () {
-        buildEnvelope($("select#ZoningSelect").find(":selected").val())
-    });
 
-	$('#openModal').modal()
+	$('#openModal').modal();
 
+	initPanel();
 	initMap(false);
 
 	$('.btn-toggle#maptoggle').click(function(){
@@ -271,6 +354,16 @@ jQuery(document).ready(function ($) {
 		$(this).find('.btn').toggleClass('btn-primary');
 		$(this).find('.btn').toggleClass('btn-default');
 		($(this).find('.active').attr('id') == "leafletbutton") ? initMap(false) : initMap(true);
+	});
+
+	$('.cd-panel-content').on("swipeleft", function(){
+		$('.cd-panel').removeClass('is-visible');
+	});
+
+	$("#ParcelTabs").sortable({axis: "x", containment: "parent"});
+
+	$("#HamburgerButton").click(function(){
+		$('.cd-panel').addClass('is-visible');
 	});
 
     $(document).keydown(function(e){

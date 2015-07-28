@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8">
     <meta content="text/html" http-equiv="Content-Type">
-    <meta name="viewport" content="width=device-width, intitial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
     <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
@@ -43,9 +43,14 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <!--Floating buttons-->
     <div id="maptoggle" class="btn-group btn-toggle" role="group" aria-label="...">
       <button id="googlebutton" type="button" class="btn btn-default">Google</button>
       <button id="leafletbutton" type="button" class="btn btn-default btn-primary active">Leaflet</button>
+    </div>
+
+    <div id="HamburgerButtonDiv">
+      <button id="HamburgerButton" type="button" class="btn btn-default"><span class="glyphicon glyphicon-option-vertical"></span></button>
     </div>
 
     <!--Slide Out Panel-->
@@ -53,152 +58,12 @@
 
       <div class="cd-panel-container">
         <div class="cd-panel-content">
-
-
-            <!--side panel content goes here-->
-            <div class="row">
-              <div class="col-md-4">
-
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3 class="panel-title" id="BuildingTypeLabel">Building Type:</h3>
-                  </div>
-                  <div class="panel-body">
-                    <select name= "BuildingSelect" id="BuildingSelect" class="form-control">
-                      <option selected value="0">Please Select...</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3 class="panel-title" id="BusinessTypeLabel">Business Type:</h3>
-                  </div>
-                  <div class="panel-body">
-                    <select name= "BusinessSelect" id="BusinessSelect" class="form-control">
-                      <option selected value="0">Please Select...</option>
-                    </select>
-                  </div>
-                </div>
-                
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3 class="panel-title" id="ZoningLabel">Zoning:</h3>
-                  </div>
-                  <div class="panel-body">
-                    <select name= "ZoningSelect" id="ZoningSelect" class="form-control">
-                      <optgroup label="Commercial">
-                        <option value="B1-1" title="Commercial">B1-1</option>
-                        <option value="B3-2" title="Commercial">B3-2</option>
-                        <option value="B4-2" title="Commercial">B4-2</option>
-                        <option value="B4-5" title="Commercial">B4-5</option>
-                      </optgroup>
-                       <optgroup label="Industrial">
-                      <option value="M1-5" title="Industrial">M1-5</option>
-                      </optgroup>
-                      <optgroup label="Residential">
-                        <option value="MPD" title="Residential">MPD</option>
-                        <option value="R-0.5" title="Residential">R-0.5</option>
-                        <option value="R-1.5" title="Residential">R-1.5</option>
-                        <option value="R-2.5" title="Residential">R-2.5</option>
-                      </optgroup>
-                      <optgroup label="Urban Redevelopment">
-                        <option value="UR" title="Urban Redevelopment">UR</option>
-                      </optgroup>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">Building Envelope</h3>
-                  </div>
-                  <div class="panel-body" id="envelope"></div>
-                </div>
-              </div>
-
-
-              <!--accordian tabs area-->
-              <div class="col-md-8">
-                <div class="panel-group" id="accordian" role="tablist" aria-multiselectable="true">
-                  <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="general-tab">
-                      <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#general" aria-expanded="false" aria-controls="general" id="AddressTitle">
-                          
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="general" class="panel-collapse collapse in" role="tabpanel" aria-labbelledby="general">
-                    </div>
-                  </div>
-
-                  <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="tax-tab">
-                      <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#tax" aria-expanded="false" aria-controls="tax">
-                          Tax
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="tax" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="tax">
-                    </div>
-                  </div>
-
-                  <div class="panel panel-default">
-                    <div class="panel-heading" role="neighborhood" id="neighborhood-tab">
-                      <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#neighborhood" aria-expanded="false" aria-controls="neighborhood">
-                          Neighborhood
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="neighborhood" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="neighborhood">
-                    </div>
-                  </div>
-
-                  <div class="panel panel-default">
-                    <div class="panel-heading" role="plan" id="plan-tab">
-                      <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#plan" aria-expanded="false" aria-controls="plan">
-                          Plan
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="plan" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="plan">
-                    </div>
-                  </div>
-
-                  <div class="panel panel-default">
-                    <div class="panel-heading" role="incentives" id="incentives-tab">
-                      <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#incentives" aria-expanded="false" aria-controls="incentives">
-                          Incentives
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="incentives" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="incentives">
-                    </div>
-                  </div>
-
-                  <div class="panel panel-default">
-                    <div class="panel-heading" role="links" id="links-tab">
-                      <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordian" href="#links" aria-expanded="false" aria-controls="links">
-                          Links
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="links" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="links">
-                    </div>
-                  </div>
-                </div>
-                <!--End Accordian Tabs Area-->
-
-              </div>
-              <!--end side panel content-->
-            </div>
-
+          <!--side panel content goes here-->
+          <div id="ParcelInfoView">
+            <ul class="nav nav-tabs" role="tablist" id="ParcelTabs"></ul>
+            <div id='ParcelContent'></div>
+          </div>
+          <!--end side panel content-->
         </div>
       </div>
     </div><!--side panel-->
@@ -221,7 +86,7 @@
               <h4>Land use:</h4>
               {{content.data.land_bank_}}
               <div class="span7 text-center">
-                <button type='button' class='btn btn-primary' id='openpanel'>More Info</button>
+                <button type='button' class='btn btn-primary' id='addtofolder'>Add to Folder</button>
               </div>
             </div>
             <div class="cartodb-popup-tip-container"></div>
@@ -318,9 +183,130 @@
 
     <script type="x-tmpl-mustache" id="envelope_template">
       <p>Max Building Footprint: {{maxfootprint}}</p>
-      <p>Max Floors: {{maxfloors}}</p>
+      <p>Floors: <select class="Form-control" id="userfloors"></select></p>
       <p>Max Building SqFtg: {{maxsqftg}} sqft</p>
+      <p>Selected SqFtg: <span id='selsqft'>{{maxsqftg}}</span> sqft</p>
       <p>Min Parking Stalls: {{minstalls}}</p>
+    </script>
+
+    <script type="x-tmpl-mustache" id="parcel_template">
+      <div class="col-md-4">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title" id="ZoningLabel">Zoning:</h3>
+          </div>
+          <div class="panel-body">
+            <select name= "ZoningSelect" id="ZoningSelect" class="form-control">
+              <optgroup label="Commercial">
+                <option value="B1-1" title="Commercial">B1-1</option>
+                <option value="B3-2" title="Commercial">B3-2</option>
+                <option value="B4-2" title="Commercial">B4-2</option>
+                <option value="B4-5" title="Commercial">B4-5</option>
+              </optgroup>
+               <optgroup label="Industrial">
+              <option value="M1-5" title="Industrial">M1-5</option>
+              </optgroup>
+              <optgroup label="Residential">
+                <option value="MPD" title="Residential">MPD</option>
+                <option value="R-0.5" title="Residential">R-0.5</option>
+                <option value="R-1.5" title="Residential">R-1.5</option>
+                <option value="R-2.5" title="Residential">R-2.5</option>
+              </optgroup>
+              <optgroup label="Urban Redevelopment">
+                <option value="UR" title="Urban Redevelopment">UR</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Building Envelope</h3>
+          </div>
+          <div class="panel-body" id="envelope"></div>
+        </div>
+      </div>
+
+
+      <!--accordian tabs area-->
+      <div class="col-md-8">
+        <div class="panel-group" id="accordian" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="general-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#general" aria-expanded="false" aria-controls="general" id="AddressTitle">
+                  
+                </a>
+              </h4>
+            </div>
+            <div id="general" class="panel-collapse collapse in" role="tabpanel" aria-labbelledby="general">
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="tax-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#tax" aria-expanded="false" aria-controls="tax">
+                  Tax
+                </a>
+              </h4>
+            </div>
+            <div id="tax" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="tax">
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="neighborhood" id="neighborhood-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#neighborhood" aria-expanded="false" aria-controls="neighborhood">
+                  Neighborhood
+                </a>
+              </h4>
+            </div>
+            <div id="neighborhood" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="neighborhood">
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="plan" id="plan-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#plan" aria-expanded="false" aria-controls="plan">
+                  Plan
+                </a>
+              </h4>
+            </div>
+            <div id="plan" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="plan">
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="incentives" id="incentives-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#incentives" aria-expanded="false" aria-controls="incentives">
+                  Incentives
+                </a>
+              </h4>
+            </div>
+            <div id="incentives" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="incentives">
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="links" id="links-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#links" aria-expanded="false" aria-controls="links">
+                  Links
+                </a>
+              </h4>
+            </div>
+            <div id="links" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="links">
+            </div>
+          </div>
+        </div>
+        <!--End Accordian Tabs Area-->
+
+      </div>
     </script>
 
     <!--Include the js. Please be sure that you use a locked version in case you go to production-->
@@ -328,6 +314,7 @@
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile.custom.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/Formulas.js"></script>
     <script type="text/javascript" src="js/app2.js"></script>
