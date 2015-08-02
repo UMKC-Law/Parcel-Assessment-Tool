@@ -13,3 +13,6 @@ and save valuable time.
 For potential contributers, this would entail gathering data from Kansas City, Jackson County, and other sources.  
 
 We are working on establishing an updated problem statement that reflects the cumulative lessons learned, realities of data collection, and steps forward.
+
+#### Interested in contributing?
+Please see our [Road Map](https://github.com/UMKC-Law/Parcel-Assessment-Tool/wiki/Road-Map) and check the ideas for ways that you can contribute!
