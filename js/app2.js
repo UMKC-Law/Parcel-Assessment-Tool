@@ -50,6 +50,7 @@ function initAutocomplete() {
 };
 //console.log("SELECT cartodb_id, address FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address");
 
+/*
 function createGoogleMap(){
 	var map;
 
@@ -63,6 +64,7 @@ function createGoogleMap(){
 
     return map;
 }
+*/
 
 function createLeafletMap(){
 	var map;
@@ -157,8 +159,9 @@ function attachMapLayers(map){
 
 function initMap(useGMaps){
 	$('#mainclass').html("<div id='map'></div>");
-	map = useGMaps ? createGoogleMap() : createLeafletMap();
-	attachMapLayers(map)
+	//map = useGMaps ? createGoogleMap() : createLeafletMap();
+	map = createLeafletMap();
+    attachMapLayers(map)
 }
 
 var ParcelArea;
