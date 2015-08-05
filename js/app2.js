@@ -15,7 +15,7 @@ function createCORSRequest(method, url) {
 
 /*end from*/
 
-function initAutocomplete() {
+function initAutocomplete(map) {
 //	function log( message ) {
 //		$( "<div>" ).text( message ).prependTo( "#log" );
 //		$( "#log" ).scrollTop( 0 );
@@ -23,7 +23,7 @@ function initAutocomplete() {
 	var sql = cartodb.SQL({ user: 'codeforkansascity' });
 	$( ".cartodb-searchbox .text" ).autocomplete({
 		source: function( request, response ) {
-			var s
+			var s;
 			sql.execute("SELECT cartodb_id, address, the_geom FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address")
 			.done(function(data) {
 				response(data.rows.map(function(r) {
@@ -38,7 +38,21 @@ function initAutocomplete() {
 		minLength: 2,
 		select: function( event, ui ) {
 			console.log("Selected: " + ui.item.value);
-			//var bounds = new google.maps.LatLngBounds();
+            sql.execute("WITH query_geom \
+                AS (SELECT the_geom AS geom \
+                    FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd \
+                    WHERE address LIKE '" + ui.item.value + "%') \
+            SELECT parcels.*, ST_X(ST_Centroid(parcels.the_geom)) AS X, ST_Y(ST_Centroid(parcels.the_geom)) AS Y \
+            FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd AS parcels, query_geom \
+            WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5) \
+            ORDER BY ST_Distance(query_geom.geom, the_geom)").done(function(data){
+                map.panTo({lon: data.rows[0].x, lat: data.rows[0].y});
+            });           
+			
+
+
+
+            //var bounds = new google.maps.LatLngBounds();
 			//for(i=0;i<r.length;i++) {
 			//	bounds.extend(r[i].getPosition());
 			//}
@@ -50,7 +64,7 @@ function initAutocomplete() {
 };
 //console.log("SELECT cartodb_id, address FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address");
 
-/*
+
 function createGoogleMap(){
 	var map;
 
@@ -64,7 +78,7 @@ function createGoogleMap(){
 
     return map;
 }
-*/
+
 
 function createLeafletMap(){
 	var map;
@@ -89,6 +103,10 @@ function createLeafletMap(){
 	return map;
 }
 
+function GoToQuery(data){
+
+}
+
 function attachMapLayers(map){
 
     var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
@@ -98,7 +116,7 @@ function attachMapLayers(map){
 		var v = cdb.vis.Overlay.create('search', map.viz, {})
 		v.show();
 		$('#map').append(v.render().el);
-		initAutocomplete();
+		initAutocomplete(map);
     })
     .on('error', function(){
     	cartodb.log.log("Error");
@@ -351,6 +369,16 @@ jQuery(document).ready(function ($) {
 
 	initPanel();
 	initMap(false);
+
+
+    var sql = new cartodb.SQL({user: 'codeforkansascity'});
+    sql.execute("WITH query_geom AS (SELECT the_geom AS geom FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address \
+        LIKE '2509 E 20th St%') SELECT parcels.* FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)").done(function(data){
+        console.log(data);
+        data.rows.forEach(function(data){
+            console.log(data);
+        });
+    });
 
 	$('.btn-toggle#maptoggle').click(function(){
 		$(this).find('.btn').toggleClass('active');
