@@ -371,15 +371,6 @@ jQuery(document).ready(function ($) {
 	initMap(false);
 
 
-    var sql = new cartodb.SQL({user: 'codeforkansascity'});
-    sql.execute("WITH query_geom AS (SELECT the_geom AS geom FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address \
-        LIKE '2509 E 20th St%') SELECT parcels.* FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)").done(function(data){
-        console.log(data);
-        data.rows.forEach(function(data){
-            console.log(data);
-        });
-    });
-
 	$('.btn-toggle#maptoggle').click(function(){
 		$(this).find('.btn').toggleClass('active');
 		$(this).find('.btn').toggleClass('btn-primary');
