@@ -15,6 +15,7 @@ function createCORSRequest(method, url) {
 
 /*end from*/
 
+
 function initAutocomplete(map) {
 //	function log( message ) {
 //		$( "<div>" ).text( message ).prependTo( "#log" );
@@ -38,15 +39,24 @@ function initAutocomplete(map) {
 		minLength: 2,
 		select: function( event, ui ) {
 			console.log("Selected: " + ui.item.value);
-            sql.execute("WITH query_geom \
-                AS (SELECT the_geom AS geom \
-                    FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd \
-                    WHERE address LIKE '" + ui.item.value + "%') \
-            SELECT parcels.*, ST_X(ST_Centroid(parcels.the_geom)) AS X, ST_Y(ST_Centroid(parcels.the_geom)) AS Y \
-            FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd AS parcels, query_geom \
-            WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5) \
-            ORDER BY ST_Distance(query_geom.geom, the_geom)").done(function(data){
+            sql.execute("SELECT ST_X(ST_Centroid(the_geom)) as X, ST_Y(ST_Centroid(the_geom)) as Y \
+                FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd \
+                WHERE address LIKE '" + ui.item.value + "%'").done(function(data){
                 map.panTo({lon: data.rows[0].x, lat: data.rows[0].y});
+                cartodb.createLayer(map, {
+                    user_name:'codeforkansascity', 
+                    type:'cartodb', 
+                    sublayers:[{
+                        sql: "WITH query_geom \
+                        AS (SELECT the_geom AS geom \
+                            FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd \
+                            WHERE address LIKE '" + ui.item.value + "%') \
+                        SELECT parcels.cartodb_id, parcels.kivapin, parcels.the_geom, parcels.the_geom_webmercator \
+                        FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd AS parcels, query_geom \
+                        WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)",
+                    }],
+                }).addTo(map, 4);
+
             });           
 			
 
