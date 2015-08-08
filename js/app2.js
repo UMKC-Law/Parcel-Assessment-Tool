@@ -43,19 +43,16 @@ function initAutocomplete(map) {
                 FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd \
                 WHERE address LIKE '" + ui.item.value + "%'").done(function(data){
                 map.panTo({lon: data.rows[0].x, lat: data.rows[0].y});
-                cartodb.createLayer(map, {
-                    user_name:'codeforkansascity', 
-                    type:'cartodb', 
-                    sublayers:[{
-                        sql: "WITH query_geom \
+
+                var geomQuery = "WITH query_geom \
                         AS (SELECT the_geom AS geom \
                             FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd \
                             WHERE address LIKE '" + ui.item.value + "%') \
                         SELECT parcels.cartodb_id, parcels.kivapin, parcels.the_geom, parcels.the_geom_webmercator \
                         FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd AS parcels, query_geom \
-                        WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)",
-                    }],
-                }).addTo(map, 4);
+                        WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)"
+
+                geomLayer.getSubLayer(0).setSQL(geomQuery);
 
             });           
 			
@@ -117,6 +114,8 @@ function GoToQuery(data){
 
 }
 
+var geomLayer;
+
 function attachMapLayers(map){
 
     var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
@@ -127,6 +126,7 @@ function attachMapLayers(map){
 		v.show();
 		$('#map').append(v.render().el);
 		initAutocomplete(map);
+        geomLayer = layer;
     })
     .on('error', function(){
     	cartodb.log.log("Error");
