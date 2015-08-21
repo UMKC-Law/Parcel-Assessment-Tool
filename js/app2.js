@@ -223,7 +223,10 @@ function buildEnvelope(zone) {
     };
     //TODO: the results of these values need to be checked
     floorselect.change(function(){
-      //TODO: not implemented yet
+        newSqft = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], $(this[this.selectedIndex]).val(), ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
+        console.log(newSqft);
+        $('#selsqft').html(newSqft);
+        //TODO: not implemented yet
     });
 }
 
