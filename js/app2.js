@@ -86,34 +86,6 @@ function createGoogleMap(){
     return map;
 }
 
-
-function createLeafletMap(){
-	var map;
-
-	var options = {
-	    center: [39.082981, -94.557747],
-	    zoom: 15,
-	    zoomControl: false,  // dont add the zoom overlay (it is added by default)
-	    loaderControl: false, //dont show tiles loader
-	    query: 'SELECT * FROM data'
-
-	};
-
-    map = new L.Map('map', options);
-
-	L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-	    attribution: 'Positron'
-	}).addTo(map);
-
-	new L.Control.Zoom({position: 'bottomright'}).addTo(map);
-    
-	return map;
-}
-
-function GoToQuery(data){
-
-}
-
 var geomLayer;
 
 function attachMapLayers(map){
@@ -187,8 +159,7 @@ function attachMapLayers(map){
 
 function initMap(useGMaps){
 	$('#mainclass').html("<div id='map'></div>");
-	//map = useGMaps ? createGoogleMap() : createLeafletMap();
-	map = createLeafletMap();
+		map = createGoogleMap();
     attachMapLayers(map)
 }
 
