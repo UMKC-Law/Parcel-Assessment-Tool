@@ -49,3 +49,5 @@ settings.py
 # Document extras #
 ###################
 .~lock.*
+
+/env/
