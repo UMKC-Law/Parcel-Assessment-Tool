@@ -99,6 +99,15 @@ function attachMapLayers(map){
         subLayer.setInteraction(true);
         subLayer.setInteractivity('apn');
 
+        //use the pointer cursor on featurehover
+        subLayer.on('mouseover', function(){
+            map.setOptions({ draggableCursor: 'pointer' });
+        });
+
+        subLayer.on('mouseout', function(){
+            map.setOptions({ draggableCursor: '' });
+        })
+
         //enable pop up on parcel click
         subLayer.on('featureClick', function(e, latlng, pos, data, layer){
             var request = createCORSRequest(
@@ -115,7 +124,6 @@ function attachMapLayers(map){
                     if (api_data) {
 
                         data = api_data;
-                        console.log(data);
                     } else {
 
                         console.log("no data found for parcel with apn" + data.apn);
