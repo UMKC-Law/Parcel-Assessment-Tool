@@ -69,33 +69,6 @@
       </div>
     </div><!--side panel-->
 
-
-    <!--Custom html for the infowindow customization-->
-    <!--You can write simple html or use Mustache templates http://mustache.github.com/-->
-    <!--Content.data contains the field info-->
-    <script type="infowindow/html" id="infowindow_template">
-        <div class="cartodb-popup">
-          <a href="#close" class="cartodb-popup-close-button close">x</a>
-          <div class="cartodb-popup-content-wrapper">
-            <div class="cartodb-popup-content">
-              <span style="font-weight:bold;">{{content.data.address}}</span>
-              <!--content for the infowindow-->
-              <h4>Zoning:</h4>
-              {{content.data.land_ban_3}}
-              <h4>Kiva Pin:</h4>
-              {{content.data.kivapin}}
-              <h4>Land use:</h4>
-              {{content.data.land_bank_}}
-              <div class="span7 text-center">
-                <button type='button' class='btn btn-primary' id='addtofolder'>Add to Folder</button>
-              </div>
-            </div>
-            <div class="cartodb-popup-tip-container"></div>
-          </div>
-        </div>
-    </script>
-
-
     <!--templates for the tab boxes-->
     <script type="x-tmpl-mustache", id="generalbox_template">
 

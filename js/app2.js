@@ -90,6 +90,8 @@ function attachMapLayers(map){
     //var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/4e032b12-1dfe-11e5-8ca7-0e49835281d6/viz.json';
     var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/2e96078a-4b90-11e5-bb2b-0e9d821ea90d/viz.json';
 
+    //google maps info window
+    var infoWindow = new google.maps.InfoWindow();
 
     cartodb.createLayer(map, geomlayer).addTo(map, 0).on('done', function(layer){
 		var v = cdb.vis.Overlay.create('search', map.viz, {});
@@ -100,7 +102,7 @@ function attachMapLayers(map){
 
         //enable interactivity with the sublayer
         var subLayer = layer.getSubLayer(0); //sublayer generated from this data
-        subLayer.infowindow.set('template', $('#infowindow_template').html());
+        //subLayer.infowindow.set('template', $('#infowindow_template').html());
         subLayer.setInteraction(true);
         subLayer.setInteractivity('apn');
 
@@ -110,6 +112,7 @@ function attachMapLayers(map){
                 "get", 
                 "http://address-api.codeforkc.org/jd_wp/" + data.apn
             );
+
             var api_data = null;
 
             if (request) {
@@ -117,35 +120,31 @@ function attachMapLayers(map){
                     api_data = JSON.parse(request.responseText);
 
                     if (api_data) {
-                        data.blvd_front_footage = api_data.blvd_front_footage;
-                        data.assessed_land = api_data.assessed_land;
-                        data.assessed_improve = api_data.assessed_improve;
-                        data.exempt_improve = api_data.exempt_improve;
-                        data.acres = api_data.acres;
-                        data.perimeter = api_data.perimeter;
-                        data.assessed_value = api_data.assessed_value;
-                        data.api_id = api_data.id;
+
+                        data = api_data;
+                        console.log(data);
                     } else {
 
-                        data.blvd_front_footage = '';
-                        data.assessed_land = '';
-                        data.assessed_improve = '';
-                        data.exempt_improve = '';
-                        data.acres = '';
-                        data.perimeter = '';
-                        data.assessed_value = '';
-                        data.api_id = '';
+                        console.log("no data found for parcel with apn" + data.apn);
                     }
-
-                    $('.cartodb-infowindow').off('click', '#addtofolder'); 
-                    $('.cartodb-infowindow').on('click', '#addtofolder', function () {
-                        addParcel(data);
-                        $('.cd-panel').addClass('is-visible');
-                    });
-
 
                 };
                 request.send();
+
+                console.log(latlng);
+
+                $('#addtofolder').off('click'); 
+                position = new google.maps.LatLng(latlng[0], latlng[1], false);
+                infoWindow.setContent("<button type='button' " +
+                                      "class='btn btn-primary'" + 
+                                      "id='addtofolder'>Add to Folder</button>");
+                infoWindow.setPosition(position);
+                infoWindow.open(map);
+
+                $('#addtofolder').on('click', function () {
+                    addParcel(data);
+                    $('.cd-panel').addClass('is-visible');
+                });
             }
         });
     })
@@ -153,58 +152,6 @@ function attachMapLayers(map){
     	cartodb.log.log("Error");
     });
 
-    /*
-    cartodb.createLayer(map, datalayer).addTo(map, 1).on('done', function (layer) {
-        var sublayer = layer.getSubLayer(1); //sublayer generated from the data.json file
-        sublayer.infowindow.set('template', $('#infowindow_template').html());
-        sublayer.setInteraction(true);
-        //add more data as needed:
-        sublayer.setInteractivity('cartodb_id, address, apn, kivapin, land_ban30, land_ban_6, land_ban_4, land_ban_6, land_ban_7, land_ban10, land_ban36, land_ban56, land_ban60, land_bank_, own_name, landusecod, land_ban32, land_ban_3');
-        sublayer.on('featureClick', function (e, latlng, pos, data, layer) {
-
-            var request_jd_wp = createCORSRequest("get", "http://address-api.codeforkc.org/jd_wp/" + data.apn);
-            var api_data = null;
-            if (request_jd_wp) {
-                request_jd_wp.onload = function () {
-                    api_data = JSON.parse(request_jd_wp.responseText);
-
-                    if (api_data) {
-                        data.blvd_front_footage = api_data.blvd_front_footage;
-                        data.assessed_land = api_data.assessed_land;
-                        data.assessed_improve = api_data.assessed_improve;
-                        data.exempt_improve = api_data.exempt_improve;
-                        data.acres = api_data.acres;
-                        data.perimeter = api_data.perimeter;
-                        data.assessed_value = api_data.assessed_value;
-                        data.api_id = api_data.id;
-                    } else {
-
-                        data.blvd_front_footage = '';
-                        data.assessed_land = '';
-                        data.assessed_improve = '';
-                        data.exempt_improve = '';
-                        data.acres = '';
-                        data.perimeter = '';
-                        data.assessed_value = '';
-                        data.api_id = '';
-                    }
-
-                    $('.cartodb-infowindow').off('click', '#addtofolder'); 
-                    $('.cartodb-infowindow').on('click', '#addtofolder', function () {
-                    	addParcel(data);
-                        $('.cd-panel').addClass('is-visible');
-                    });
-
-
-                };
-                request_jd_wp.send();
-            }
-
-        });
-    }).on('error', function () {
-        console.log("Error");
-    });
-    */
 }
 
 function initMap(useGMaps){
@@ -269,7 +216,7 @@ function initPanel(){
 function addParcel(Parcel){
 	exists = false;
 	$('.parceltab').each(function(){
-		if(Parcel.apn === $(this).data("Parcel").apn){ 
+		if(Parcel.county_apn_link === $(this).data("Parcel").county_apn_link){ 
 			exists = true; 
 			return;
 		}
@@ -285,8 +232,8 @@ function addParcel(Parcel){
 }
 
 function publishParcel(Parcel){
-	$('#ParcelTabs').append("<li role='presentation' class='parceltab' id='" + Parcel.apn + "Tab'><a href='#" + Parcel.apn + "' aria-controls='" + Parcel.apn + "' role='tab' data-toggle='tab'>" + Parcel.address + " <span class='close-tab glyphicon glyphicon-remove'></span></a></li>");
-	$('#' + Parcel.apn + 'Tab').data("Parcel", Parcel);
+	$('#ParcelTabs').append("<li role='presentation' class='parceltab' id='" + Parcel.county_apn_link + "Tab'><a href='#" + Parcel.county_apn_link + "' aria-controls='" + Parcel.county_apn_link + "' role='tab' data-toggle='tab'>" + Parcel.jrd_address + " <span class='close-tab glyphicon glyphicon-remove'></span></a></li>");
+	$('#' + Parcel.county_apn_link + 'Tab').data("Parcel", Parcel);
 
 	$('a[data-toggle="tab"]').off();
 	$('a[data-toggle="tab"]').on('show.bs.tab', function (e, focus) { //have to re-initialize this for new tabs to be noticed
@@ -300,7 +247,7 @@ function publishParcel(Parcel){
 	});
 
 
-	$('#' + Parcel.apn + 'Tab').tab('show');
+	$('#' + Parcel.county_apn_link + 'Tab').tab('show');
 	selectParcel(Parcel); //above command doesn't seem to actually propagate the bs.tab.show event properly.
 }
 
@@ -330,21 +277,20 @@ function selectParcel(data) {
 	$('#ParcelContent').html(rendered);
 
 
-    $('#AddressTitle').text(data.land_ban60);
-    var zone = data.land_ban_3;
-    ParcelArea = data.land_ban30;
+    $('#AddressTitle').text(data.jrd_address);
+    var zone = data.zoning;
+    ParcelArea = data.square_feet;
     buildEnvelope(zone);
 
     //build the general tab
     var template = $('#generalbox_template').html();
     var rendered = Mustache.render(template, {
-        owner: data.own_name,
-        landuse: data.land_bank_,
-        landusecode: data.landusecod,
-        zone: data.land_ban_3,
-        council: data.land_ban_7,
-        school: data.land_ban10,
-        neighborhood: data.land_ban_6,
+        owner: data.owner,
+        landuse: data.land_use,
+        zone: zone,
+        council: data.council_district,
+        school: data.school_distrct,
+        neighborhood: data.census_neigh_borhood,
         bff: data.blvd_front_footage,
         assland: data.assessed_land,
         assimprove: data.assessed_improve,
@@ -385,7 +331,7 @@ function selectParcel(data) {
     //build the links tab
     template = $('#linksbox_template').html();
     rendered = Mustache.render(template, {
-        kivapin: data.kivapin
+        kivapin: data.kiva_pin
     });
     $('#links').html(rendered);
 
