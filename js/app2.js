@@ -86,6 +86,13 @@ function attachMapLayers(map){
 
     //google maps info window
     var infoWindow = new google.maps.InfoWindow();
+    infoWindowClosing = false;
+
+    //prevent another info window from opening at the close button
+    google.maps.event.addListener(infoWindow, 'closeclick', function(){
+        infoWindowClosing = true;
+        window.setTimeout(function(){infoWindowClosing = false;}, 500);
+    });
 
     cartodb.createLayer(map, geomlayer).addTo(map, 0).on('done', function(layer){
 		var v = cdb.vis.Overlay.create('search', map.viz, {});
@@ -100,16 +107,19 @@ function attachMapLayers(map){
         subLayer.setInteractivity('apn');
 
         //use the pointer cursor on featurehover
-        subLayer.on('mouseover', function(){
+        subLayer.on('featureOver', function(e, latlon, pxPos, data, layer){
             map.setOptions({ draggableCursor: 'pointer' });
         });
 
-        subLayer.on('mouseout', function(){
+        subLayer.on('featureOut', function(m, layer){
             map.setOptions({ draggableCursor: '' });
         })
 
         //enable pop up on parcel click
         subLayer.on('featureClick', function(e, latlng, pos, data, layer){
+            //do nothing if the infoWindow was just closed
+            if(infoWindowClosing) return;
+
             var request = createCORSRequest(
                 "get", 
                 "http://address-api.codeforkc.org/jd_wp/" + data.apn
