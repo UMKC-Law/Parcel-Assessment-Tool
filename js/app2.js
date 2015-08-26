@@ -43,8 +43,6 @@ function initAutocomplete(map, subLayer) {
 
                 var geomQuery = "WITH query_geom AS (SELECT the_geom AS geom FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE address LIKE '" + ui.item.value + "%') SELECT parcels.* FROM kcmo_parcels_6_18_2015_wendell_phillips AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)"
 
-                console.log(geomQuery);
-
                 subLayer.setSQL(geomQuery);
                 
             });	
