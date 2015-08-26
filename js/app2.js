@@ -18,7 +18,6 @@ function initAutocomplete(map, subLayer) {
 	var sql = cartodb.SQL({ user: 'codeforkansascity' });
 	$( ".cartodb-searchbox .text" ).autocomplete({
 		source: function( request, response ) {
-			var s;
 			sql.execute("SELECT cartodb_id, address, the_geom \
                 FROM kcmo_parcels_6_18_2015_wendell_phillips \
                 WHERE address LIKE '" + request.term + "%' ORDER BY address")
@@ -41,13 +40,13 @@ function initAutocomplete(map, subLayer) {
 
                 map.panTo({lng: data.rows[0].x, lat: data.rows[0].y});
                 map.setZoom(18);
-                /*
-                var geomQuery = "WITH query_geom AS (SELECT the_geom AS geom FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE address LIKE '" + ui.item.value + "%') SELECT parcels.cartodb_id, parcels.kivapin, parcels.the_geom, parcels.the_geom_webmercator FROM kcmo_parcels_6_18_2015_wendell_phillips AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)"
+
+                var geomQuery = "WITH query_geom AS (SELECT the_geom AS geom FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE address LIKE '" + ui.item.value + "%') SELECT parcels.* FROM kcmo_parcels_6_18_2015_wendell_phillips AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)"
 
                 console.log(geomQuery);
 
                 subLayer.setSQL(geomQuery);
-                */
+                
             });	
 		}
 	});
@@ -70,8 +69,6 @@ function createGoogleMap(){
 
 function attachMapLayers(map){
 
-    //var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/2e96078a-4b90-11e5-bb2b-0e9d821ea90d/viz.json';
-
     //google maps info window
     var infoWindow = new google.maps.InfoWindow();
     infoWindowClosing = false;
@@ -93,7 +90,6 @@ function attachMapLayers(map){
 		var v = cdb.vis.Overlay.create('search', map.viz, {});
 		v.show();
 		$('#map').append(v.render().el);
-        geomLayer = layer;
 
         //enable interactivity with the sublayer
         var subLayer = layer.getSubLayer(0); //sublayer generated from this data
