@@ -14,8 +14,6 @@ function createCORSRequest(method, url) {
 }
 
 /*end from*/
-
-
 function initAutocomplete(map) {
 //	function log( message ) {
 //		$( "<div>" ).text( message ).prependTo( "#log" );
@@ -25,7 +23,9 @@ function initAutocomplete(map) {
 	$( ".cartodb-searchbox .text" ).autocomplete({
 		source: function( request, response ) {
 			var s;
-			sql.execute("SELECT cartodb_id, address, the_geom FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address")
+			sql.execute("SELECT cartodb_id, address, the_geom \
+                FROM kcmo_parcels_6_18_2015_wendell_phillips \
+                WHERE address LIKE '" + request.term + "%' ORDER BY address")
 			.done(function(data) {
 				response(data.rows.map(function(r) {
             		//console.log(r);
@@ -38,6 +38,7 @@ function initAutocomplete(map) {
 		},
 		minLength: 2,
 		select: function( event, ui ) {
+            /* This code is currently unusable for PAT in it's current form, I am only leaving it here for future reference
 			console.log("Selected: " + ui.item.value);
             sql.execute("SELECT ST_X(ST_Centroid(the_geom)) as X, ST_Y(ST_Centroid(the_geom)) as Y \
                 FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd \
@@ -55,10 +56,7 @@ function initAutocomplete(map) {
                 geomLayer.getSubLayer(0).setSQL(geomQuery);
 
             });           
-			
-
-
-
+			*/
             //var bounds = new google.maps.LatLngBounds();
 			//for(i=0;i<r.length;i++) {
 			//	bounds.extend(r[i].getPosition());
@@ -69,8 +67,6 @@ function initAutocomplete(map) {
 	});
 
 };
-//console.log("SELECT cartodb_id, address FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address");
-
 
 function createGoogleMap(){
 	var map;
@@ -90,20 +86,74 @@ var geomLayer;
 
 function attachMapLayers(map){
 
-    var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
-    var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/4e032b12-1dfe-11e5-8ca7-0e49835281d6/viz.json'
+    //var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
+    //var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/4e032b12-1dfe-11e5-8ca7-0e49835281d6/viz.json';
+    var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/2e96078a-4b90-11e5-bb2b-0e9d821ea90d/viz.json';
+
 
     cartodb.createLayer(map, geomlayer).addTo(map, 0).on('done', function(layer){
-		var v = cdb.vis.Overlay.create('search', map.viz, {})
+		var v = cdb.vis.Overlay.create('search', map.viz, {});
 		v.show();
 		$('#map').append(v.render().el);
 		initAutocomplete(map);
         geomLayer = layer;
+
+        //enable interactivity with the sublayer
+        var subLayer = layer.getSubLayer(0); //sublayer generated from this data
+        subLayer.infowindow.set('template', $('#infowindow_template').html());
+        subLayer.setInteraction(true);
+        subLayer.setInteractivity('apn');
+
+        //enable pop up on parcel click
+        subLayer.on('featureClick', function(e, latlng, pos, data, layer){
+            var request = createCORSRequest(
+                "get", 
+                "http://address-api.codeforkc.org/jd_wp/" + data.apn
+            );
+            var api_data = null;
+
+            if (request) {
+                request.onload = function () {
+                    api_data = JSON.parse(request.responseText);
+
+                    if (api_data) {
+                        data.blvd_front_footage = api_data.blvd_front_footage;
+                        data.assessed_land = api_data.assessed_land;
+                        data.assessed_improve = api_data.assessed_improve;
+                        data.exempt_improve = api_data.exempt_improve;
+                        data.acres = api_data.acres;
+                        data.perimeter = api_data.perimeter;
+                        data.assessed_value = api_data.assessed_value;
+                        data.api_id = api_data.id;
+                    } else {
+
+                        data.blvd_front_footage = '';
+                        data.assessed_land = '';
+                        data.assessed_improve = '';
+                        data.exempt_improve = '';
+                        data.acres = '';
+                        data.perimeter = '';
+                        data.assessed_value = '';
+                        data.api_id = '';
+                    }
+
+                    $('.cartodb-infowindow').off('click', '#addtofolder'); 
+                    $('.cartodb-infowindow').on('click', '#addtofolder', function () {
+                        addParcel(data);
+                        $('.cd-panel').addClass('is-visible');
+                    });
+
+
+                };
+                request.send();
+            }
+        });
     })
     .on('error', function(){
     	cartodb.log.log("Error");
     });
 
+    /*
     cartodb.createLayer(map, datalayer).addTo(map, 1).on('done', function (layer) {
         var sublayer = layer.getSubLayer(1); //sublayer generated from the data.json file
         sublayer.infowindow.set('template', $('#infowindow_template').html());
@@ -154,8 +204,8 @@ function attachMapLayers(map){
     }).on('error', function () {
         console.log("Error");
     });
+    */
 }
-
 
 function initMap(useGMaps){
 	$('#mainclass').html("<div id='map'></div>");
