@@ -13,7 +13,7 @@ function createCORSRequest(method, url) {
 }
 
 /*end from*/
-function initAutocomplete(map) {
+function initAutocomplete(map, subLayer) {
 
 	var sql = cartodb.SQL({ user: 'codeforkansascity' });
 	$( ".cartodb-searchbox .text" ).autocomplete({
@@ -24,7 +24,6 @@ function initAutocomplete(map) {
                 WHERE address LIKE '" + request.term + "%' ORDER BY address")
 			.done(function(data) {
 				response(data.rows.map(function(r) {
-            		//console.log(r);
 					return {
 						label: r.address,
 						value: r.address
@@ -34,31 +33,22 @@ function initAutocomplete(map) {
 		},
 		minLength: 2,
 		select: function( event, ui ) {
-            /* This code is currently unusable for PAT in it's current form, I am only leaving it here for future reference
 			console.log("Selected: " + ui.item.value);
             sql.execute("SELECT ST_X(ST_Centroid(the_geom)) as X, ST_Y(ST_Centroid(the_geom)) as Y \
-                FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd \
-                WHERE address LIKE '" + ui.item.value + "%'").done(function(data){
-                map.panTo({lon: data.rows[0].x, lat: data.rows[0].y});
+                FROM kcmo_parcels_6_18_2015_wendell_phillips \
+                WHERE address LIKE '" + ui.item.value + "%'")
+            .done(function(data){
 
-                var geomQuery = "WITH query_geom \
-                        AS (SELECT the_geom AS geom \
-                            FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd \
-                            WHERE address LIKE '" + ui.item.value + "%') \
-                        SELECT parcels.cartodb_id, parcels.kivapin, parcels.the_geom, parcels.the_geom_webmercator \
-                        FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd AS parcels, query_geom \
-                        WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)"
+                map.panTo({lng: data.rows[0].x, lat: data.rows[0].y});
+                map.setZoom(18);
+                /*
+                var geomQuery = "WITH query_geom AS (SELECT the_geom AS geom FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE address LIKE '" + ui.item.value + "%') SELECT parcels.cartodb_id, parcels.kivapin, parcels.the_geom, parcels.the_geom_webmercator FROM kcmo_parcels_6_18_2015_wendell_phillips AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)"
 
-                geomLayer.getSubLayer(0).setSQL(geomQuery);
+                console.log(geomQuery);
 
-            });           
-			*/
-            //var bounds = new google.maps.LatLngBounds();
-			//for(i=0;i<r.length;i++) {
-			//	bounds.extend(r[i].getPosition());
-			//}
-			//map.fitBounds(bounds);
-			// "Nothing selected, input was " + this.value );
+                subLayer.setSQL(geomQuery);
+                */
+            });	
 		}
 	});
 
@@ -78,11 +68,9 @@ function createGoogleMap(){
     return map;
 }
 
-var geomLayer;
-
 function attachMapLayers(map){
 
-    var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/2e96078a-4b90-11e5-bb2b-0e9d821ea90d/viz.json';
+    //var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/2e96078a-4b90-11e5-bb2b-0e9d821ea90d/viz.json';
 
     //google maps info window
     var infoWindow = new google.maps.InfoWindow();
@@ -94,11 +82,17 @@ function attachMapLayers(map){
         window.setTimeout(function(){infoWindowClosing = false;}, 500);
     });
 
-    cartodb.createLayer(map, geomlayer).addTo(map, 0).on('done', function(layer){
+    cartodb.createLayer(map, {
+        user_name: 'codeforkansascity',
+        type: 'cartodb',
+        sublayers: [{
+            sql: "SELECT * FROM kcmo_parcels_6_18_2015_wendell_phillips",
+            cartocss: '#kcmo_parcels_6_18_2015_wendell_phillips{ polygon-fill: #5CA2D1; polygon-opacity: 0.7; line-color: #0F3B82; line-width: 1; line-opacity: 1; }'
+        }]
+    }).addTo(map, 0).on('done', function(layer){
 		var v = cdb.vis.Overlay.create('search', map.viz, {});
 		v.show();
 		$('#map').append(v.render().el);
-		initAutocomplete(map);
         geomLayer = layer;
 
         //enable interactivity with the sublayer
@@ -156,6 +150,10 @@ function attachMapLayers(map){
                 });
             }
         });
+
+        //render the search box
+        initAutocomplete(map, subLayer);
+
     })
     .on('error', function(){
     	cartodb.log.log("Error");
