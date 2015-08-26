@@ -1,5 +1,4 @@
 /* From http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/ */
-
 function createCORSRequest(method, url) {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
@@ -15,10 +14,7 @@ function createCORSRequest(method, url) {
 
 /*end from*/
 function initAutocomplete(map) {
-//	function log( message ) {
-//		$( "<div>" ).text( message ).prependTo( "#log" );
-//		$( "#log" ).scrollTop( 0 );
-//	}
+
 	var sql = cartodb.SQL({ user: 'codeforkansascity' });
 	$( ".cartodb-searchbox .text" ).autocomplete({
 		source: function( request, response ) {
@@ -86,8 +82,6 @@ var geomLayer;
 
 function attachMapLayers(map){
 
-    //var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
-    //var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/4e032b12-1dfe-11e5-8ca7-0e49835281d6/viz.json';
     var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/2e96078a-4b90-11e5-bb2b-0e9d821ea90d/viz.json';
 
     //google maps info window
@@ -102,7 +96,6 @@ function attachMapLayers(map){
 
         //enable interactivity with the sublayer
         var subLayer = layer.getSubLayer(0); //sublayer generated from this data
-        //subLayer.infowindow.set('template', $('#infowindow_template').html());
         subLayer.setInteraction(true);
         subLayer.setInteractivity('apn');
 
@@ -130,8 +123,6 @@ function attachMapLayers(map){
 
                 };
                 request.send();
-
-                console.log(latlng);
 
                 $('#addtofolder').off('click'); 
                 position = new google.maps.LatLng(latlng[0], latlng[1], false);
@@ -206,10 +197,6 @@ function initPanel(){
 		$('#ParcelContent').html('<div id="No-Parcels"><p>No Parcels selected!</p><p>To begin select a Parcel on the Map!</p></div>');
 	}else{
 		//TODO: Add a way to save the parcels the user has opened (Cookies.js?)
-		//SavedParcels.forEach(function(parcel){
-		//	publishParcel(parcel);
-		//	selectParcelTab(parcel);
-		//});
 	};
 }
 
@@ -236,7 +223,8 @@ function publishParcel(Parcel){
 	$('#' + Parcel.county_apn_link + 'Tab').data("Parcel", Parcel);
 
 	$('a[data-toggle="tab"]').off();
-	$('a[data-toggle="tab"]').on('show.bs.tab', function (e, focus) { //have to re-initialize this for new tabs to be noticed
+    //have to re-initialize this for new tabs to be noticed
+	$('a[data-toggle="tab"]').on('show.bs.tab', function (e, focus) {
 		selectParcel($(e.target).parent().data("Parcel"));
 	});
 	$('.close-tab').off();
@@ -248,7 +236,8 @@ function publishParcel(Parcel){
 
 
 	$('#' + Parcel.county_apn_link + 'Tab').tab('show');
-	selectParcel(Parcel); //above command doesn't seem to actually propagate the bs.tab.show event properly.
+    //above command doesn't seem to actually propagate the bs.tab.show event properly.
+	selectParcel(Parcel);
 }
 
 function removeParcel(Parceltab){
