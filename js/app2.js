@@ -184,7 +184,7 @@ function buildEnvelope(zone) {
 
     floorselect = $('#userfloors');
     floorselect.empty();
-    for(i =0; i <= maxfloors; i++){
+    for(i = 1; i <= maxfloors; i++){
       floorselect.append($('<option>', {
         value: i,
         text: i,
