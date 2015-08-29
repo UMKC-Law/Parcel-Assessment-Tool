@@ -90,7 +90,19 @@ function createGoogleMap(){
 	var mapOptions = {
 		zoom: 15,
 		center: new google.maps.LatLng(39.082981, -94.557747),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+        zoomControl: true,
+        zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.DEFAULT,
+            position: google.maps.ControlPosition.RIGHT_CENTER
+        },
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.DEFAULT,
+            position: google.maps.ControlPosition.RIGHT_BOTTOM
+        },
+        panControl: false
+
 	};
     map = new google.maps.Map(document.getElementById('map'),  mapOptions);
 
