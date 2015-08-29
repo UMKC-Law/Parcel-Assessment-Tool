@@ -69,55 +69,7 @@ div#No-Parcels{
   text-align: center;
 }
 
-.close-tab{
-  
-}
-
-.cartodb-searchbox {
-	margin: 30px 20px 0 0 !important;
-	width: 200px !important;
-}
-.ui-menu .ui-menu-item a {
-	overflow-y: hidden;
-	overflow-x: hidden;
-}
-
-.ui-autocomplete {
-	max-height: 100px;
-	overflow-y: hidden;
-	max-width: 200px;
-	overlfow-x: hidden;
-}
-* html .ui-autocomplete {
-	height: 100px;
-	width: 200px;
-}
-
-div.cartodb_tooltip {
-	position: absolute;
-	z-index: 5;
-	display: none;
-}
-
-div.cartodb_tooltip p {
-	font-family: "robotoregular", Helvetica, Arial, Sans-serif;
-	font-size: 15px;
-	color: #333;
-	text-shadow:
-   -1px -1px 0 #FFF,  
-    1px -1px 0 #FFF,
-    -1px 1px 0 #FFF,
-     1px 1px 0 #FFF;
-}
-
-/*Search box */
-.cartodb-searchbox {
-	margin: 20px 20px 0 0 !important;
-	width: 242px !important;
-}
-.ui-menu .ui-menu-item a {
-	padding: 0px .4em !important;
-}
+.close-tab{}
 
 #HamburgerButtonDiv{
   position: fixed;

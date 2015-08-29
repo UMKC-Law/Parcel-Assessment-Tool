@@ -15,40 +15,37 @@ function createCORSRequest(method, url) {
 /*end from*/
 function initAutocomplete(map, subLayer) {
 
-	var sql = cartodb.SQL({ user: 'codeforkansascity' });
-	$( ".cartodb-searchbox .text" ).autocomplete({
-		source: function( request, response ) {
-			sql.execute("SELECT cartodb_id, address, the_geom \
-                FROM kcmo_parcels_6_18_2015_wendell_phillips \
-                WHERE address LIKE '" + request.term + "%' ORDER BY address")
-			.done(function(data) {
-				response(data.rows.map(function(r) {
-					return {
-						label: r.address,
-						value: r.address
-					}
-				}))
-			})
-		},
-		minLength: 2,
-		select: function( event, ui ) {
-			console.log("Selected: " + ui.item.value);
-            sql.execute("SELECT ST_X(ST_Centroid(the_geom)) as X, ST_Y(ST_Centroid(the_geom)) as Y \
-                FROM kcmo_parcels_6_18_2015_wendell_phillips \
-                WHERE address LIKE '" + ui.item.value + "%'")
+    var sql = cartodb.SQL({user: 'codeforkansascity' });
+
+    //map searchbox
+    var searchbox = $("#searchbox");
+
+    searchbox.typeahead({
+        source: function( request, response){ //function that queries cartodb for a list of addresses
+            sql.execute("SELECT cartodb_id, address, the_geom, ST_X(ST_Centroid(the_geom)) AS X, ST_Y(ST_Centroid(the_geom)) AS Y FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE address LIKE '" + request + "%' ORDER BY address")
             .done(function(data){
+                response(data.rows.map(function(r){
+                    return {
+                        id: r.cartodb_id,
+                        name: r.address,
+                        lng: r.x,
+                        lat: r.y
+                    }
+                }))
+            })
+        },
+        minLength: 2, //waits for 2 characters to be input before creating a drop down list
+        afterSelect: function(parcel){
 
-                map.panTo({lng: data.rows[0].x, lat: data.rows[0].y});
-                map.setZoom(18);
+            //zoom to searched location
+            map.panTo({lng: parcel.lng, lat: parcel.lat});
+            map.setZoom(18);
 
-                var geomQuery = "WITH query_geom AS (SELECT the_geom AS geom FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE address LIKE '" + ui.item.value + "%') SELECT parcels.* FROM kcmo_parcels_6_18_2015_wendell_phillips AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)"
-
-                subLayer.setSQL(geomQuery);
-                
-            });	
-		}
-	});
-
+            //filter down to parcels within 5 meters of the searched address's parcel
+            var geomQuery = "WITH query_geom AS (SELECT the_geom AS geom FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE cartodb_id = " + parcel.id + ") SELECT parcels.* FROM kcmo_parcels_6_18_2015_wendell_phillips AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)";
+            subLayer.setSQL(geomQuery);
+        }
+    });
 };
 
 function createGoogleMap(){
