@@ -44,6 +44,21 @@ function initAutocomplete(map, subLayer) {
             //filter down to parcels within 5 meters of the searched address's parcel
             var geomQuery = "WITH query_geom AS (SELECT the_geom AS geom FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE cartodb_id = " + parcel.id + ") SELECT parcels.* FROM kcmo_parcels_6_18_2015_wendell_phillips AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)";
             subLayer.setSQL(geomQuery);
+
+            //switch the search icon to a clear button
+            searchButtonIcon = $("#searchbuttonicon");
+            searchButton = $("#searchbutton");
+
+            searchButtonIcon.removeClass("glyphicon-search");
+            searchButtonIcon.addClass("glyphicon-remove");
+            searchButton.removeClass("search-mode");
+            searchButton.addClas("clear-mode");
+            searchButton.click(function(e){
+                subLayer.setSQL("SELECT * FROM kcmo_parcels_6_18_2015_wendell_phillips");
+                searchbox.val("");
+
+
+            });
         }
     });
 };
@@ -152,9 +167,8 @@ function attachMapLayers(map){
 
 }
 
-function initMap(useGMaps){
-	$('#mainclass').html("<div id='map'></div>");
-		map = createGoogleMap();
+function initMap(){
+	map = createGoogleMap();
     attachMapLayers(map)
 }
 
@@ -344,15 +358,7 @@ jQuery(document).ready(function ($) {
 	$('#openModal').modal();
 
 	initPanel();
-	initMap(false);
-
-
-	$('.btn-toggle#maptoggle').click(function(){
-		$(this).find('.btn').toggleClass('active');
-		$(this).find('.btn').toggleClass('btn-primary');
-		$(this).find('.btn').toggleClass('btn-default');
-		($(this).find('.active').attr('id') == "leafletbutton") ? initMap(false) : initMap(true);
-	});
+	initMap();
 
 	$('.cd-panel-content').on("swipeleft", function(){
 		$('.cd-panel').removeClass('is-visible');
