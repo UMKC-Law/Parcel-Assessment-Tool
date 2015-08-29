@@ -312,6 +312,8 @@ function removeParcel(Parceltab){
 		$('#ParcelContent').html('<div id="No-Parcels"><p>No Parcels selected!</p><p>To begin select a Parcel on the Map!</p></div>');
 	}
 
+    $("#ParcelTabs").tabdrop('layout');
+
 	$(Parceltab).remove();
 }
 
@@ -400,7 +402,7 @@ jQuery(document).ready(function ($) {
 		$('.cd-panel').removeClass('is-visible');
 	});
 
-	$("#ParcelTabs").sortable({axis: "x", containment: "parent"});
+	$("#ParcelTabs").tabdrop({usingBootstrap3: true});
 
 	$("#HamburgerButton").click(function(){
 		$('.cd-panel').addClass('is-visible');
