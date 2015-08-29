@@ -67,10 +67,11 @@ function searchButtonClick(subLayer){
     searchbox = $("#searchbox");
     searchbuttonicon = $("#searchbuttonicon");
 
-    if(searchbutton.hasClass("search-mode")){
+    if(searchbutton.hasClass("search-mode")){ //force the search on click
        searchbox.typeahead('lookup').focus();
     }
-    if(searchbutton.hasClass("clear-mode")){
+
+    if(searchbutton.hasClass("clear-mode")){ //clear the search and reset the map SQL on click
         searchbox.val("");
         subLayer.setSQL("SELECT * FROM kcmo_parcels_6_18_2015_wendell_phillips")
         searchbutton.removeClass("clear-mode");
@@ -148,6 +149,7 @@ function attachMapLayers(map){
             map.setOptions({ draggableCursor: 'pointer' });
         });
 
+        //return to the normal cursor when mouse out
         subLayer.on('featureOut', function(m, layer){
             map.setOptions({ draggableCursor: '' });
         })
@@ -157,6 +159,7 @@ function attachMapLayers(map){
             //do nothing if the infoWindow was just closed
             if(infoWindowClosing) return;
 
+            //search jim's data for the parcel information
             var request = createCORSRequest(
                 "get", 
                 "http://address-api.codeforkc.org/jd_wp/" + data.apn
@@ -179,6 +182,7 @@ function attachMapLayers(map){
                 };
                 request.send();
 
+                //create a pop up infowindow at the point of click over the parcel
                 $('#addtofolder').off('click'); 
                 position = new google.maps.LatLng(latlng[0], latlng[1], false);
                 infoWindow.setContent("<button type='button' " +
@@ -187,6 +191,7 @@ function attachMapLayers(map){
                 infoWindow.setPosition(position);
                 infoWindow.open(map);
 
+                //enable the infowindow's button
                 $('#addtofolder').on('click', function () {
                     addParcel(data);
                     $('.cd-panel').addClass('is-visible');
@@ -395,11 +400,12 @@ function selectParcel(data) {
 }
 
 function initGeolocation(map){
+    //enable the geolocate button if location is enabled in the browser
     if(navigator.geolocation){
         $("#geolocateDiv").html("<button type='button' id='geolocatebutton' class='btn btn-default'><span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span></button>");
         $("#geolocatebutton").click(function(){
+            //pan to the user's position on the map
             navigator.geolocation.getCurrentPosition(function(pos){
-                console.log(pos.coords);
                 map.panTo({lng: pos.coords.longitude, lat: pos.coords.latitude});
                 map.setZoom(18);
             });
