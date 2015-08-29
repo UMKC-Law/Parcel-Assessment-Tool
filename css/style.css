@@ -126,6 +126,14 @@ div.cartodb_tooltip p {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 
+#TypeAheadDiv{
+  position: fixed;
+  top:20px;
+  right: 20px;
+  width: 250px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);  
+}
+
 *, *::after, *::before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

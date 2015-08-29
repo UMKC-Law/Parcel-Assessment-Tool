@@ -43,8 +43,17 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <!-- div for the button that opens the panel-->
     <div id="HamburgerButtonDiv">
-      <button id="HamburgerButton" type="button" class="btn btn-default"><span class="glyphicon glyphicon-option-vertical"></span></button>
+    	<button id="HamburgerButton" type="button" class="btn btn-default"><span class="glyphicon glyphicon-option-vertical"></span></button>
+    </div>
+
+    <!-- div for the search box-->
+    <div id="TypeAheadDiv" class="input-group">
+    	<input type="text" data-provide="typeahead" class="form-control" id="searchbox" autocomplete="off">
+    	<span class="input-group-btn">
+    		<button class="btn btn-default" type="button"><span id="searchbutton" class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+    	</span>
     </div>
 
     <!--Slide Out Panel-->
@@ -282,6 +291,7 @@
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/jquery.mobile.custom.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap3-typeahead.js"></script>
     <script type="text/javascript" src="js/Formulas.js"></script>
     <script type="text/javascript" src="js/app2.js"></script>
 
