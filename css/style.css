@@ -78,7 +78,7 @@ div#No-Parcels{
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 
-#TypeAheadDiv{
+#SearchDiv{
   position: fixed;
   top:20px;
   right: 20px;

@@ -128,6 +128,7 @@ function attachMapLayers(map){
     cartodb.createLayer(map, {
         user_name: 'codeforkansascity',
         type: 'cartodb',
+        search: false,
         sublayers: [{
             sql: "SELECT * FROM kcmo_parcels_6_18_2015_wendell_phillips",
             cartocss: '#kcmo_parcels_6_18_2015_wendell_phillips{ polygon-fill: #5CA2D1; polygon-opacity: 0.7; line-color: #0F3B82; line-width: 1; line-opacity: 1; }'
@@ -205,7 +206,9 @@ function attachMapLayers(map){
 
 function initMap(){
 	map = createGoogleMap();
-    attachMapLayers(map)
+    attachMapLayers(map);
+
+    return map;
 }
 
 var ParcelArea;
@@ -391,12 +394,27 @@ function selectParcel(data) {
 
 }
 
+function initGeolocation(map){
+    if(navigator.geolocation){
+        $("#geolocateDiv").html("<button type='button' id='geolocatebutton' class='btn btn-default'><span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span></button>");
+        $("#geolocatebutton").click(function(){
+            navigator.geolocation.getCurrentPosition(function(pos){
+                console.log(pos.coords);
+                map.panTo({lng: pos.coords.longitude, lat: pos.coords.latitude});
+                map.setZoom(18);
+            });
+        });
+    }
+}
+
 jQuery(document).ready(function ($) {
 
 	$('#openModal').modal();
 
 	initPanel();
-	initMap();
+	map = initMap();
+
+    initGeolocation(map);
 
 	$('.cd-panel-content').on("swipeleft", function(){
 		$('.cd-panel').removeClass('is-visible');

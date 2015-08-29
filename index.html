@@ -49,13 +49,16 @@
     </div>
 
     <!-- div for the search box-->
-    <div id="TypeAheadDiv" class="input-group">
-    	<input type="text" data-provide="typeahead" class="form-control" id="searchbox" autocomplete="off">
-    	<span class="input-group-btn">
-    		<button id="searchbutton" class="btn btn-default search-mode" type="button">
-    			<span id="searchbuttonicon" class="glyphicon glyphicon-search" aria-hidden="true"></span>
-    		</button>
-    	</span>
+    <div id="SearchDiv">
+    	<div class="input-group">
+	    	<input type="text" data-provide="typeahead" class="form-control" id="searchbox" autocomplete="off">
+	    	<span class="input-group-btn">
+	    		<button id="searchbutton" class="btn btn-default search-mode" type="button">
+	    			<span id="searchbuttonicon" class="glyphicon glyphicon-search" aria-hidden="true"></span>
+	    		</button>
+	    	</span>
+    	</div>
+    	<div id="geolocateDiv"></div>
     </div>
 
     <!--Slide Out Panel-->
