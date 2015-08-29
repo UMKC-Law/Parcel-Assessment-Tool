@@ -84,6 +84,7 @@ div#No-Parcels{
   right: 20px;
   width: 250px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);  
+  display:flex;
 }
 
 *, *::after, *::before {
