@@ -45,23 +45,43 @@ function initAutocomplete(map, subLayer) {
             var geomQuery = "WITH query_geom AS (SELECT the_geom AS geom FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE cartodb_id = " + parcel.id + ") SELECT parcels.* FROM kcmo_parcels_6_18_2015_wendell_phillips AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)";
             subLayer.setSQL(geomQuery);
 
-            //switch the search icon to a clear button
+            //switch the search button functionality to a clear button
             searchButtonIcon = $("#searchbuttonicon");
             searchButton = $("#searchbutton");
 
             searchButtonIcon.removeClass("glyphicon-search");
             searchButtonIcon.addClass("glyphicon-remove");
             searchButton.removeClass("search-mode");
-            searchButton.addClas("clear-mode");
-            searchButton.click(function(e){
-                subLayer.setSQL("SELECT * FROM kcmo_parcels_6_18_2015_wendell_phillips");
-                searchbox.val("");
-
-
-            });
+            searchButton.addClass("clear-mode");
         }
     });
+    
+    //add click handler to the search button
+    $("#searchbutton").click(function(){searchButtonClick(subLayer)});
+
 };
+
+function searchButtonClick(subLayer){
+
+    searchbutton = $("#searchbutton");
+    searchbox = $("#searchbox");
+    searchbuttonicon = $("#searchbuttonicon");
+
+    if(searchbutton.hasClass("search-mode")){
+       searchbox.typeahead('lookup').focus();
+    }
+    if(searchbutton.hasClass("clear-mode")){
+        searchbox.val("");
+        subLayer.setSQL("SELECT * FROM kcmo_parcels_6_18_2015_wendell_phillips")
+        searchbutton.removeClass("clear-mode");
+        searchbutton.addClass("search-mode");
+        searchbuttonicon.removeClass("glyphicon-remove");
+        searchbuttonicon.addClass("glyphicon-search");
+    }
+
+    //this function looks terrible?
+
+}
 
 function createGoogleMap(){
 	var map;
