@@ -99,6 +99,10 @@ function createGoogleMap(){
         mapTypeControl: true,
         mapTypeControlOptions: {
             style: google.maps.MapTypeControlStyle.DEFAULT,
+            position: google.maps.ControlPosition.LEFT_BOTTOM
+        },
+        streetViewControl: true,
+        streetViewControlOptions:{
             position: google.maps.ControlPosition.RIGHT_BOTTOM
         },
         panControl: false
