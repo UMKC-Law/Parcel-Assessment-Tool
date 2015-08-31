@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
-    <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/tabdrop.css" rel="stylesheet" type="text/css"/>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
 
@@ -43,14 +43,22 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!--Floating buttons-->
-    <div id="maptoggle" class="btn-group btn-toggle" role="group" aria-label="...">
-      <button id="googlebutton" type="button" class="btn btn-default">Google</button>
-      <button id="leafletbutton" type="button" class="btn btn-default btn-primary active">Leaflet</button>
+    <!-- div for the button that opens the panel-->
+    <div id="HamburgerButtonDiv">
+    	<button id="HamburgerButton" type="button" class="btn btn-default"><span class="glyphicon glyphicon-option-vertical"></span></button>
     </div>
 
-    <div id="HamburgerButtonDiv">
-      <button id="HamburgerButton" type="button" class="btn btn-default"><span class="glyphicon glyphicon-option-vertical"></span></button>
+    <!-- div for the search box-->
+    <div id="SearchDiv">
+    	<div class="input-group">
+	    	<input type="text" data-provide="typeahead" class="form-control" id="searchbox" autocomplete="off">
+	    	<span class="input-group-btn">
+	    		<button id="searchbutton" class="btn btn-default search-mode" type="button">
+	    			<span id="searchbuttonicon" class="glyphicon glyphicon-search" aria-hidden="true"></span>
+	    		</button>
+	    	</span>
+    	</div>
+    	<div id="geolocateDiv"></div>
     </div>
 
     <!--Slide Out Panel-->
@@ -67,33 +75,6 @@
         </div>
       </div>
     </div><!--side panel-->
-
-
-    <!--Custom html for the infowindow customization-->
-    <!--You can write simple html or use Mustache templates http://mustache.github.com/-->
-    <!--Content.data contains the field info-->
-    <script type="infowindow/html" id="infowindow_template">
-        <div class="cartodb-popup">
-          <a href="#close" class="cartodb-popup-close-button close">x</a>
-          <div class="cartodb-popup-content-wrapper">
-            <div class="cartodb-popup-content">
-              <span style="font-weight:bold;">{{content.data.address}}</span>
-              <!--content for the infowindow-->
-              <h4>Zoning:</h4>
-              {{content.data.land_ban_3}}
-              <h4>Kiva Pin:</h4>
-              {{content.data.kivapin}}
-              <h4>Land use:</h4>
-              {{content.data.land_bank_}}
-              <div class="span7 text-center">
-                <button type='button' class='btn btn-primary' id='addtofolder'>Add to Folder</button>
-              </div>
-            </div>
-            <div class="cartodb-popup-tip-container"></div>
-          </div>
-        </div>
-    </script>
-
 
     <!--templates for the tab boxes-->
     <script type="x-tmpl-mustache", id="generalbox_template">
@@ -118,7 +99,7 @@
             <td class="info">Current Zoning</td><td>{{zone}}</td>
           </tr>
           <tr>
-            <td class="info">Land Use</td><td>{{landusecode}} - {{landuse}}</td>
+            <td class="info">Land Use Code</td><td>{{landuse}}</td>
           </tr>
           <tr>
             <td class="info">Blvd Front Footage</td><td>{{bff}}</td>
@@ -142,7 +123,6 @@
             <td class="info">PLSS</td><td>{{plss}}</td>
           </tr>
         </table>
-
     </script>
 
     <script type="x-tmpl-mustache", id="taxbox_template">
@@ -313,9 +293,10 @@
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/jquery.mobile.custom.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap3-typeahead.js"></script>
+    <script type="text/javascript" src="js/bootstrap-tabdrop.js"></script>
     <script type="text/javascript" src="js/Formulas.js"></script>
     <script type="text/javascript" src="js/app2.js"></script>
 

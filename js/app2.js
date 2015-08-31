@@ -1,5 +1,4 @@
 /* From http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/ */
-
 function createCORSRequest(method, url) {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
@@ -14,41 +13,76 @@ function createCORSRequest(method, url) {
 }
 
 /*end from*/
+function initAutocomplete(map, subLayer) {
 
-function initAutocomplete() {
-//	function log( message ) {
-//		$( "<div>" ).text( message ).prependTo( "#log" );
-//		$( "#log" ).scrollTop( 0 );
-//	}
-	var sql = cartodb.SQL({ user: 'codeforkansascity' });
-	$( ".cartodb-searchbox .text" ).autocomplete({
-		source: function( request, response ) {
-			var s
-			sql.execute("SELECT cartodb_id, address, the_geom FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address")
-			.done(function(data) {
-				response(data.rows.map(function(r) {
-            		//console.log(r);
-					return {
-						label: r.address,
-						value: r.address
-					}
-				}))
-			})
-		},
-		minLength: 2,
-		select: function( event, ui ) {
-			console.log("Selected: " + ui.item.value);
-			//var bounds = new google.maps.LatLngBounds();
-			//for(i=0;i<r.length;i++) {
-			//	bounds.extend(r[i].getPosition());
-			//}
-			//map.fitBounds(bounds);
-			// "Nothing selected, input was " + this.value );
-		}
-	});
+    var sql = cartodb.SQL({user: 'codeforkansascity' });
+
+    //map searchbox
+    var searchbox = $("#searchbox");
+
+    searchbox.typeahead({
+        source: function( request, response){ //function that queries cartodb for a list of addresses
+            sql.execute("SELECT cartodb_id, address, the_geom, ST_X(ST_Centroid(the_geom)) AS X, ST_Y(ST_Centroid(the_geom)) AS Y FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE address LIKE '" + request + "%' ORDER BY address")
+            .done(function(data){
+                response(data.rows.map(function(r){
+                    return {
+                        id: r.cartodb_id,
+                        name: r.address,
+                        lng: r.x,
+                        lat: r.y
+                    }
+                }))
+            })
+        },
+        minLength: 2, //waits for 2 characters to be input before creating a drop down list
+        afterSelect: function(parcel){
+
+            //zoom to searched location
+            map.panTo({lng: parcel.lng, lat: parcel.lat});
+            map.setZoom(18);
+
+            //filter down to parcels within 5 meters of the searched address's parcel
+            var geomQuery = "WITH query_geom AS (SELECT the_geom AS geom FROM kcmo_parcels_6_18_2015_wendell_phillips WHERE cartodb_id = " + parcel.id + ") SELECT parcels.* FROM kcmo_parcels_6_18_2015_wendell_phillips AS parcels, query_geom WHERE ST_DWithin(query_geom.geom::geography, parcels.the_geom::geography, 5)";
+            subLayer.setSQL(geomQuery);
+
+            //switch the search button functionality to a clear button
+            searchButtonIcon = $("#searchbuttonicon");
+            searchButton = $("#searchbutton");
+
+            searchButtonIcon.removeClass("glyphicon-search");
+            searchButtonIcon.addClass("glyphicon-remove");
+            searchButton.removeClass("search-mode");
+            searchButton.addClass("clear-mode");
+        }
+    });
+    
+    //add click handler to the search button
+    $("#searchbutton").click(function(){searchButtonClick(subLayer)});
 
 };
-//console.log("SELECT cartodb_id, address FROM codeforkansascity.kcmo_parcels_6_18_2015_kiva_nbrhd WHERE address LIKE '" + request.term + "%' ORDER BY address");
+
+function searchButtonClick(subLayer){
+
+    searchbutton = $("#searchbutton");
+    searchbox = $("#searchbox");
+    searchbuttonicon = $("#searchbuttonicon");
+
+    if(searchbutton.hasClass("search-mode")){ //force the search on click
+       searchbox.typeahead('lookup').focus();
+    }
+
+    if(searchbutton.hasClass("clear-mode")){ //clear the search and reset the map SQL on click
+        searchbox.val("");
+        subLayer.setSQL("SELECT * FROM kcmo_parcels_6_18_2015_wendell_phillips")
+        searchbutton.removeClass("clear-mode");
+        searchbutton.addClass("search-mode");
+        searchbuttonicon.removeClass("glyphicon-remove");
+        searchbuttonicon.addClass("glyphicon-search");
+    }
+
+    //this function looks terrible?
+
+}
 
 function createGoogleMap(){
 	var map;
@@ -57,108 +91,129 @@ function createGoogleMap(){
 	var mapOptions = {
 		zoom: 15,
 		center: new google.maps.LatLng(39.082981, -94.557747),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+        zoomControl: true,
+        zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.DEFAULT,
+            position: google.maps.ControlPosition.RIGHT_CENTER
+        },
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.DEFAULT,
+            position: google.maps.ControlPosition.LEFT_BOTTOM
+        },
+        streetViewControl: true,
+        streetViewControlOptions:{
+            position: google.maps.ControlPosition.RIGHT_BOTTOM
+        },
+        panControl: false
+
 	};
     map = new google.maps.Map(document.getElementById('map'),  mapOptions);
 
     return map;
 }
 
-function createLeafletMap(){
-	var map;
-
-	var options = {
-	    center: [39.082981, -94.557747],
-	    zoom: 15,
-	    zoomControl: false,  // dont add the zoom overlay (it is added by default)
-	    loaderControl: false, //dont show tiles loader
-	    query: 'SELECT * FROM data'
-
-	};
-
-    map = new L.Map('map', options);
-
-	L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-	    attribution: 'Positron'
-	}).addTo(map);
-
-	new L.Control.Zoom({position: 'bottomright'}).addTo(map);
-    
-	return map;
-}
-
 function attachMapLayers(map){
 
-    var datalayer = 'https://code4kc.cartodb.com/api/v2/viz/8167c2b8-0cf3-11e5-8080-0e9d821ea90d/viz.json';
-    var geomlayer = 'https://codeforamerica.cartodb.com/u/codeforkansascity/api/v2/viz/4e032b12-1dfe-11e5-8ca7-0e49835281d6/viz.json'
+    //google maps info window
+    var infoWindow = new google.maps.InfoWindow();
+    infoWindowClosing = false;
 
-    cartodb.createLayer(map, geomlayer).addTo(map, 0).on('done', function(layer){
-		var v = cdb.vis.Overlay.create('search', map.viz, {})
+    //prevent another info window from opening at the close button
+    google.maps.event.addListener(infoWindow, 'closeclick', function(){
+        infoWindowClosing = true;
+        window.setTimeout(function(){infoWindowClosing = false;}, 500);
+    });
+
+    cartodb.createLayer(map, {
+        user_name: 'codeforkansascity',
+        type: 'cartodb',
+        search: false,
+        sublayers: [{
+            sql: "SELECT * FROM kcmo_parcels_6_18_2015_wendell_phillips",
+            cartocss: '#kcmo_parcels_6_18_2015_wendell_phillips{ polygon-fill: #5CA2D1; polygon-opacity: 0.7; line-color: #0F3B82; line-width: 1; line-opacity: 1; }'
+        }]
+    }).addTo(map, 0).on('done', function(layer){
+		var v = cdb.vis.Overlay.create('search', map.viz, {});
 		v.show();
 		$('#map').append(v.render().el);
-		initAutocomplete();
+
+        //enable interactivity with the sublayer
+        var subLayer = layer.getSubLayer(0); //sublayer generated from this data
+        subLayer.setInteraction(true);
+        subLayer.setInteractivity('apn');
+
+        //use the pointer cursor on featurehover
+        subLayer.on('featureOver', function(e, latlon, pxPos, data, layer){
+            map.setOptions({ draggableCursor: 'pointer' });
+        });
+
+        //return to the normal cursor when mouse out
+        subLayer.on('featureOut', function(m, layer){
+            map.setOptions({ draggableCursor: '' });
+        })
+
+        //enable pop up on parcel click
+        subLayer.on('featureClick', function(e, latlng, pos, data, layer){
+            //do nothing if the infoWindow was just closed
+            if(infoWindowClosing) return;
+
+            //search jim's data for the parcel information
+            var request = createCORSRequest(
+                "get", 
+                "http://address-api.codeforkc.org/jd_wp/" + data.apn
+            );
+
+            var api_data = null;
+
+            if (request) {
+                request.onload = function () {
+                    api_data = JSON.parse(request.responseText);
+
+                    if (api_data) {
+
+                        data = api_data;
+                    } else {
+
+                        console.log("no data found for parcel with apn" + data.apn);
+                    }
+
+                };
+                request.send();
+
+                //create a pop up infowindow at the point of click over the parcel
+                $('#addtofolder').off('click'); 
+                position = new google.maps.LatLng(latlng[0], latlng[1], false);
+                infoWindow.setContent("<button type='button' " +
+                                      "class='btn btn-primary'" + 
+                                      "id='addtofolder'>Add to Folder</button>");
+                infoWindow.setPosition(position);
+                infoWindow.open(map);
+
+                //enable the infowindow's button
+                $('#addtofolder').on('click', function () {
+                    addParcel(data);
+                    $('.cd-panel').addClass('is-visible');
+                });
+            }
+        });
+
+        //render the search box
+        initAutocomplete(map, subLayer);
+
     })
     .on('error', function(){
     	cartodb.log.log("Error");
     });
 
-    cartodb.createLayer(map, datalayer).addTo(map, 1).on('done', function (layer) {
-        var sublayer = layer.getSubLayer(1); //sublayer generated from the data.json file
-        sublayer.infowindow.set('template', $('#infowindow_template').html());
-        sublayer.setInteraction(true);
-        //add more data as needed:
-        sublayer.setInteractivity('cartodb_id, address, apn, kivapin, land_ban30, land_ban_6, land_ban_4, land_ban_6, land_ban_7, land_ban10, land_ban36, land_ban56, land_ban60, land_bank_, own_name, landusecod, land_ban32, land_ban_3');
-        sublayer.on('featureClick', function (e, latlng, pos, data, layer) {
-
-            var request_jd_wp = createCORSRequest("get", "http://address-api.codeforkc.org/jd_wp/" + data.apn);
-            var api_data = null;
-            if (request_jd_wp) {
-                request_jd_wp.onload = function () {
-                    api_data = JSON.parse(request_jd_wp.responseText);
-
-                    if (api_data) {
-                        data.blvd_front_footage = api_data.blvd_front_footage;
-                        data.assessed_land = api_data.assessed_land;
-                        data.assessed_improve = api_data.assessed_improve;
-                        data.exempt_improve = api_data.exempt_improve;
-                        data.acres = api_data.acres;
-                        data.perimeter = api_data.perimeter;
-                        data.assessed_value = api_data.assessed_value;
-                        data.api_id = api_data.id;
-                    } else {
-
-                        data.blvd_front_footage = '';
-                        data.assessed_land = '';
-                        data.assessed_improve = '';
-                        data.exempt_improve = '';
-                        data.acres = '';
-                        data.perimeter = '';
-                        data.assessed_value = '';
-                        data.api_id = '';
-                    }
-
-                    $('.cartodb-infowindow').off('click', '#addtofolder'); 
-                    $('.cartodb-infowindow').on('click', '#addtofolder', function () {
-                    	addParcel(data);
-                        $('.cd-panel').addClass('is-visible');
-                    });
-
-
-                };
-                request_jd_wp.send();
-            }
-
-        });
-    }).on('error', function () {
-        console.log("Error");
-    });
 }
 
+function initMap(){
+	map = createGoogleMap();
+    attachMapLayers(map);
 
-function initMap(useGMaps){
-	$('#mainclass').html("<div id='map'></div>");
-	map = useGMaps ? createGoogleMap() : createLeafletMap();
-	attachMapLayers(map)
+    return map;
 }
 
 var ParcelArea;
@@ -184,7 +239,7 @@ function buildEnvelope(zone) {
 
     floorselect = $('#userfloors');
     floorselect.empty();
-    for(i =0; i <= maxfloors; i++){
+    for(i = 1; i <= maxfloors; i++){
       floorselect.append($('<option>', {
         value: i,
         text: i,
@@ -192,7 +247,10 @@ function buildEnvelope(zone) {
     };
     //TODO: the results of these values need to be checked
     floorselect.change(function(){
-      //TODO: not implemented yet
+        newSqft = calculateBuildingComponent(BSFMax, ZoneTable[zone]["LC"], $(this[this.selectedIndex]).val(), ZoneTable[zone]["PI"], ZoneTable[zone]["SA"], ZoneTable[zone]["PF"], ZoneTable[zone]["far"]);
+        console.log(newSqft);
+        $('#selsqft').html(newSqft);
+        //TODO: not implemented yet
     });
 }
 
@@ -204,17 +262,13 @@ function initPanel(){
 		$('#ParcelContent').html('<div id="No-Parcels"><p>No Parcels selected!</p><p>To begin select a Parcel on the Map!</p></div>');
 	}else{
 		//TODO: Add a way to save the parcels the user has opened (Cookies.js?)
-		//SavedParcels.forEach(function(parcel){
-		//	publishParcel(parcel);
-		//	selectParcelTab(parcel);
-		//});
 	};
 }
 
 function addParcel(Parcel){
 	exists = false;
 	$('.parceltab').each(function(){
-		if(Parcel.apn === $(this).data("Parcel").apn){ 
+		if(Parcel.county_apn_link === $(this).data("Parcel").county_apn_link){ 
 			exists = true; 
 			return;
 		}
@@ -230,11 +284,12 @@ function addParcel(Parcel){
 }
 
 function publishParcel(Parcel){
-	$('#ParcelTabs').append("<li role='presentation' class='parceltab' id='" + Parcel.apn + "Tab'><a href='#" + Parcel.apn + "' aria-controls='" + Parcel.apn + "' role='tab' data-toggle='tab'>" + Parcel.address + " <span class='close-tab glyphicon glyphicon-remove'></span></a></li>");
-	$('#' + Parcel.apn + 'Tab').data("Parcel", Parcel);
+	$('#ParcelTabs').append("<li role='presentation' class='parceltab' id='" + Parcel.county_apn_link + "Tab'><a href='#" + Parcel.county_apn_link + "' aria-controls='" + Parcel.county_apn_link + "' role='tab' data-toggle='tab'>" + Parcel.jrd_address + " <span class='close-tab glyphicon glyphicon-remove'></span></a></li>");
+	$('#' + Parcel.county_apn_link + 'Tab').data("Parcel", Parcel);
 
 	$('a[data-toggle="tab"]').off();
-	$('a[data-toggle="tab"]').on('show.bs.tab', function (e, focus) { //have to re-initialize this for new tabs to be noticed
+    //have to re-initialize this for new tabs to be noticed
+	$('a[data-toggle="tab"]').on('show.bs.tab', function (e, focus) {
 		selectParcel($(e.target).parent().data("Parcel"));
 	});
 	$('.close-tab').off();
@@ -245,8 +300,9 @@ function publishParcel(Parcel){
 	});
 
 
-	$('#' + Parcel.apn + 'Tab').tab('show');
-	selectParcel(Parcel); //above command doesn't seem to actually propagate the bs.tab.show event properly.
+	$('#' + Parcel.county_apn_link + 'Tab').tab('show');
+    //above command doesn't seem to actually propagate the bs.tab.show event properly.
+	selectParcel(Parcel);
 }
 
 function removeParcel(Parceltab){
@@ -264,6 +320,8 @@ function removeParcel(Parceltab){
 		$('#ParcelContent').html('<div id="No-Parcels"><p>No Parcels selected!</p><p>To begin select a Parcel on the Map!</p></div>');
 	}
 
+    $("#ParcelTabs").tabdrop('layout');
+
 	$(Parceltab).remove();
 }
 
@@ -275,21 +333,20 @@ function selectParcel(data) {
 	$('#ParcelContent').html(rendered);
 
 
-    $('#AddressTitle').text(data.land_ban60);
-    var zone = data.land_ban_3;
-    ParcelArea = data.land_ban30;
+    $('#AddressTitle').text(data.jrd_address);
+    var zone = data.zoning;
+    ParcelArea = data.square_feet;
     buildEnvelope(zone);
 
     //build the general tab
     var template = $('#generalbox_template').html();
     var rendered = Mustache.render(template, {
-        owner: data.own_name,
-        landuse: data.land_bank_,
-        landusecode: data.landusecod,
-        zone: data.land_ban_3,
-        council: data.land_ban_7,
-        school: data.land_ban10,
-        neighborhood: data.land_ban_6,
+        owner: data.owner,
+        landuse: data.land_use,
+        zone: zone,
+        council: data.council_district,
+        school: data.school_distrct,
+        neighborhood: data.census_neigh_borhood,
         bff: data.blvd_front_footage,
         assland: data.assessed_land,
         assimprove: data.assessed_improve,
@@ -330,7 +387,7 @@ function selectParcel(data) {
     //build the links tab
     template = $('#linksbox_template').html();
     rendered = Mustache.render(template, {
-        kivapin: data.kivapin
+        kivapin: data.kiva_pin
     });
     $('#links').html(rendered);
 
@@ -342,25 +399,34 @@ function selectParcel(data) {
 
 }
 
+function initGeolocation(map){
+    //enable the geolocate button if location is enabled in the browser
+    if(navigator.geolocation){
+        $("#geolocateDiv").html("<button type='button' id='geolocatebutton' class='btn btn-default'><span class='glyphicon glyphicon-screenshot' aria-hidden='true'></span></button>");
+        $("#geolocatebutton").click(function(){
+            //pan to the user's position on the map
+            navigator.geolocation.getCurrentPosition(function(pos){
+                map.panTo({lng: pos.coords.longitude, lat: pos.coords.latitude});
+                map.setZoom(18);
+            });
+        });
+    }
+}
+
 jQuery(document).ready(function ($) {
 
 	$('#openModal').modal();
 
 	initPanel();
-	initMap(false);
+	map = initMap();
 
-	$('.btn-toggle#maptoggle').click(function(){
-		$(this).find('.btn').toggleClass('active');
-		$(this).find('.btn').toggleClass('btn-primary');
-		$(this).find('.btn').toggleClass('btn-default');
-		($(this).find('.active').attr('id') == "leafletbutton") ? initMap(false) : initMap(true);
-	});
+    initGeolocation(map);
 
 	$('.cd-panel-content').on("swipeleft", function(){
 		$('.cd-panel').removeClass('is-visible');
 	});
 
-	$("#ParcelTabs").sortable({axis: "x", containment: "parent"});
+	$("#ParcelTabs").tabdrop({usingBootstrap3: true});
 
 	$("#HamburgerButton").click(function(){
 		$('.cd-panel').addClass('is-visible');
