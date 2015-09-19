@@ -422,15 +422,10 @@ jQuery(document).ready(function ($) {
 
     initGeolocation(map);
 
-	$('.cd-panel-content').on("swipeleft", function(){
-		$('.cd-panel').removeClass('is-visible');
-	});
-
 	$("#ParcelTabs").tabdrop({usingBootstrap3: true});
 
-	$("#HamburgerButton").click(function(){
-		$('.cd-panel').addClass('is-visible');
-	});
+    //enable the side bar
+    var sidebar = $('#sidebar').sidebar();
 
     $(document).keydown(function(e){
         if(e.keyCode == 27){ //escape key
