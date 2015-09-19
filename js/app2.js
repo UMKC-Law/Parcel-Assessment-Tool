@@ -191,10 +191,13 @@ function attachMapLayers(map){
                 infoWindow.setPosition(position);
                 infoWindow.open(map);
 
-                //enable the infowindow's button
+                //add parcel to the envelope
                 $('#addtofolder').on('click', function () {
                     addParcel(data);
-                    $('.cd-panel').addClass('is-visible');
+
+                    //currently opening with this command breaks the sidebar
+                    //for some reason; looking for a work around or fix;
+                    //$('#sidebar').sidebar().open('home');
                 });
             }
         });
@@ -430,8 +433,7 @@ jQuery(document).ready(function ($) {
     $(document).keydown(function(e){
         if(e.keyCode == 27){ //escape key
             ($(document).find('.modal.in').length > 0) 
-                ? $('#openModal').modal('hide') 
-                : $('.cd-panel').removeClass('is-visible');
+                ? $('#openModal').modal('hide') : console.log("no open modal");
 
             e.preventDefault();
         }
