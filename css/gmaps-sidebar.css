@@ -57,10 +57,10 @@
       transition: all 80ms; }
       .sidebar-tabs > li:hover, .sidebar-tabs > ul > li:hover {
         color: #000;
-        background-color: #fff9e6; }
+        background-color: #E3F0FE; }
       .sidebar-tabs > li.active, .sidebar-tabs > ul > li.active {
         color: #000;
-        background-color: #febf00; }
+        background-color: #74B4FA; }
       .sidebar-tabs > li.disabled, .sidebar-tabs > ul > li.disabled {
         color: rgba(102, 102, 102, 0.4); }
         .sidebar-tabs > li.disabled:hover, .sidebar-tabs > ul > li.disabled:hover {
@@ -119,7 +119,7 @@
   line-height: 40px;
   font-size: 14.4pt;
   color: #000;
-  background-color: #febf00; }
+  background-color: #74B4FA; } /*#febf00*/
   .sidebar-right .sidebar-header {
     padding-left: 40px; }
 
