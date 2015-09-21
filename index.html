@@ -9,7 +9,7 @@
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="css/tabdrop.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="css/gmaps-sidebar.css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -63,13 +63,22 @@
       <div class="sidebar-tabs">
         <ul role="tablist">
           <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+          <li><a href="#info" role="tab"><i class="fa fa-info-circle"></i></a></li>
+          <li><a href="#calc" role="tab"><i class="fa fa-calculator"></i></a></li>
+        </ul>
+
+        <ul role="tablist">
+          <li><a href="#zone" role="tab"><i class="fa fa-industry"></i></a></li>
+          <li><a href="#sett" role="tab"><i class="fa fa-gear"></i></a></li>
         </ul>
       </div>
       <!--tab panes-->
       <div class="sidebar-content">
+
+        <!--Home pane-->
         <div class="sidebar-pane" id="home">
           <h1 class="sidebar-header">
-            "side bar"
+            Parcel Assessment Dash Board
             <div class="sidebar-close"><i class="fa fa-caret-left"></i></div>
           </h1>
 
@@ -77,12 +86,62 @@
             <ul class="nav nav-tabs" role="tablist" id="ParcelTabs"></ul>
             <div id='ParcelContent'></div>
           </div>
+        </div><!--end home pane-->
 
+        <!--Info pane-->
+        <div class="sidebar-pane" id="info">
+          <h1 class="sidebar-header">
+            (insert Address Here) PARCEL INFO
+            <div class="sidebar-close"><i class="fa fa-caret-left"></i></div>
+          </h1>
 
-          <!--end home pane-->
+          <div id="ParcelInfo">
+            <p>To be implemented soon!</p>
+          </div>
+        </div>
+        <!--end info pane-->
+
+        <!--Building Calculator pane-->
+        <div class="sidebar-pane" id="calc">
+          <h1 class="sidebar-header">
+            Building Calculator For (Parcel Address)
+            <div class="sidebar-close"><i class="fa fa-caret-left"></i></div>
+          </h1>
+
+          <div id="BuildingCalculator">
+            <p>To be implemented soon!</p>
+          </div>
+        </div>
+        <!--end Building Calculator pane-->
+
+        <!--Zoning Info pane-->
+        <div class="sidebar-pane" id="zone">
+          <h1 class="sidebar-header">
+            Zoning Definition Summaries
+            <div class="sidebar-close"><i class="fa fa-caret-left"></i></div>
+          </h1>
+
+          <div id="zoning">
+            <p>To be implemented soon!</p>
+          </div>
         </div>
 
-        <!--end pane content-->
+        <!--End zoning info pane-->
+
+        <!--setting pane-->
+        <div class="sidebar-pane" id="sett">
+          <h1 class="sidebar-header">
+            Settings
+            <div class="sidebar-close"><i class="fa fa-caret-left"></i></div>
+          </h1>
+
+          <div id="settings">
+            <p>No settings to be seen here...</p>
+          </div>
+        </div>
+        <!--end settings pane-->
+
+        <!--end pane contents-->
       </div>
     </div><!--end sidebar-->
 
