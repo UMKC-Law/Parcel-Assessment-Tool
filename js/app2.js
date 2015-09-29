@@ -328,6 +328,49 @@ function removeParcel(Parceltab){
 	$(Parceltab).remove();
 }
 
+
+//temp global var while I'm testing
+var SelectedParcel;
+
+function selectParcel(data){
+    SelectedParcel = data;
+
+    //load up the info tab template
+    var template = $('#Info_Tab').html();
+
+    //generate the html using the data available
+    var rendered = Mustache.render(template, {
+        owner: data.owner,
+        landuse: data.land_use,
+        zone: zone,
+        council: data.council_district,
+        school: data.school_distrct,
+        neighborhood: data.census_neigh_borhood,
+        bff: data.blvd_front_footage,
+        assland: data.assessed_land,
+        assimprove: data.assessed_improve,
+        eximprove: data.exempt_improve,
+        acres: data.acres,
+        perimeter: data.perimeter,
+        plss: "n/a",
+        assessedvalue: data.assessed_value,
+        taxvalue: "n/a",
+        levy: "n/a",
+        prevyear: "2014",
+        prevtax: "n/a",
+        lastassessed: "n/a",
+        kivapin: data.kiva_pin
+
+    });
+
+    //Apply the html to the info tab
+    $('#ParcelInfo').html(rendered);
+
+
+}
+
+
+/*
 function selectParcel(data) {
 
 	//todo: clean this code up
@@ -401,6 +444,7 @@ function selectParcel(data) {
     });
 
 }
+*/
 
 function initGeolocation(map){
     //enable the geolocate button if location is enabled in the browser
