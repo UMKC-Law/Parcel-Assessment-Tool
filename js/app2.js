@@ -100,11 +100,11 @@ function createGoogleMap(){
         mapTypeControl: true,
         mapTypeControlOptions: {
             style: google.maps.MapTypeControlStyle.DEFAULT,
-            position: google.maps.ControlPosition.LEFT_BOTTOM
+            position: google.maps.ControlPosition.RIGHT_BOTTOM
         },
         streetViewControl: true,
         streetViewControlOptions:{
-            position: google.maps.ControlPosition.RIGHT_BOTTOM
+            position: google.maps.ControlPosition.RIGHT_CENTER
         },
         panControl: false
 
@@ -191,10 +191,13 @@ function attachMapLayers(map){
                 infoWindow.setPosition(position);
                 infoWindow.open(map);
 
-                //enable the infowindow's button
+                //add parcel to the envelope
                 $('#addtofolder').on('click', function () {
                     addParcel(data);
-                    $('.cd-panel').addClass('is-visible');
+
+                    //currently opening with this command breaks the sidebar
+                    //for some reason; looking for a work around or fix;
+                    //$('#sidebar').sidebar().open('home');
                 });
             }
         });
@@ -325,6 +328,49 @@ function removeParcel(Parceltab){
 	$(Parceltab).remove();
 }
 
+
+//temp global var while I'm testing
+var SelectedParcel;
+
+function selectParcel(data){
+    SelectedParcel = data;
+
+    //load up the info tab template
+    var template = $('#Info_Tab').html();
+
+    //generate the html using the data available
+    var rendered = Mustache.render(template, {
+        owner: data.owner,
+        landuse: data.land_use,
+        zone: zone,
+        council: data.council_district,
+        school: data.school_distrct,
+        neighborhood: data.census_neigh_borhood,
+        bff: data.blvd_front_footage,
+        assland: data.assessed_land,
+        assimprove: data.assessed_improve,
+        eximprove: data.exempt_improve,
+        acres: data.acres,
+        perimeter: data.perimeter,
+        plss: "n/a",
+        assessedvalue: data.assessed_value,
+        taxvalue: "n/a",
+        levy: "n/a",
+        prevyear: "2014",
+        prevtax: "n/a",
+        lastassessed: "n/a",
+        kivapin: data.kiva_pin
+
+    });
+
+    //Apply the html to the info tab
+    $('#ParcelInfo').html(rendered);
+
+
+}
+
+
+/*
 function selectParcel(data) {
 
 	//todo: clean this code up
@@ -398,6 +444,7 @@ function selectParcel(data) {
     });
 
 }
+*/
 
 function initGeolocation(map){
     //enable the geolocate button if location is enabled in the browser
@@ -422,21 +469,15 @@ jQuery(document).ready(function ($) {
 
     initGeolocation(map);
 
-	$('.cd-panel-content').on("swipeleft", function(){
-		$('.cd-panel').removeClass('is-visible');
-	});
-
 	$("#ParcelTabs").tabdrop({usingBootstrap3: true});
 
-	$("#HamburgerButton").click(function(){
-		$('.cd-panel').addClass('is-visible');
-	});
+    //enable the side bar
+    var sidebar = $('#sidebar').sidebar();
 
     $(document).keydown(function(e){
         if(e.keyCode == 27){ //escape key
             ($(document).find('.modal.in').length > 0) 
-                ? $('#openModal').modal('hide') 
-                : $('.cd-panel').removeClass('is-visible');
+                ? $('#openModal').modal('hide') : console.log("no open modal");
 
             e.preventDefault();
         }

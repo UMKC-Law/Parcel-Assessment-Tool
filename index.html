@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="eng" class="no-js">
   <head>
@@ -9,7 +9,9 @@
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="css/tabdrop.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/gmaps-sidebar.css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
 
@@ -43,11 +45,6 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!-- div for the button that opens the panel-->
-    <div id="HamburgerButtonDiv">
-    	<button id="HamburgerButton" type="button" class="btn btn-default"><span class="glyphicon glyphicon-option-vertical"></span></button>
-    </div>
-
     <!-- div for the search box-->
     <div id="SearchDiv">
     	<div class="input-group">
@@ -61,105 +58,237 @@
     	<div id="geolocateDiv"></div>
     </div>
 
-    <!--Slide Out Panel-->
-    <div class="cd-panel from-left">
+    <div id="sidebar" class="sidebar collapsed">
+      <!-- Nav Tabs -->
+      <div class="sidebar-tabs">
+        <ul role="tablist">
+          <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+          <li><a href="#info" role="tab"><i class="fa fa-info-circle"></i></a></li>
+          <li><a href="#calc" role="tab"><i class="fa fa-calculator"></i></a></li>
+        </ul>
 
-      <div class="cd-panel-container">
-        <div class="cd-panel-content">
-          <!--side panel content goes here-->
+        <ul role="tablist">
+          <li><a href="#zone" role="tab"><i class="fa fa-industry"></i></a></li>
+          <li><a href="#sett" role="tab"><i class="fa fa-gear"></i></a></li>
+        </ul>
+      </div>
+      <!--tab panes-->
+      <div class="sidebar-content">
+
+        <!--Home pane-->
+        <div class="sidebar-pane" id="home">
+          <h1 class="sidebar-header">
+            Parcel Assessment Dash Board
+            <div class="sidebar-close"><i class="fa fa-caret-left"></i></div>
+          </h1>
+
           <div id="ParcelInfoView">
             <ul class="nav nav-tabs" role="tablist" id="ParcelTabs"></ul>
             <div id='ParcelContent'></div>
           </div>
-          <!--end side panel content-->
+        </div><!--end home pane-->
+
+        <!--Info pane-->
+        <div class="sidebar-pane" id="info">
+          <h1 class="sidebar-header">
+            (insert Address Here) PARCEL INFO
+            <div class="sidebar-close"><i class="fa fa-caret-left"></i></div>
+          </h1>
+
+          <div id="ParcelInfo">
+            <p>To be implemented soon!</p>
+          </div>
         </div>
+        <!--end info pane-->
+
+        <!--Building Calculator pane-->
+        <div class="sidebar-pane" id="calc">
+          <h1 class="sidebar-header">
+            Building Calculator For (Parcel Address)
+            <div class="sidebar-close"><i class="fa fa-caret-left"></i></div>
+          </h1>
+
+          <div id="BuildingCalculator">
+            <p>To be implemented soon!</p>
+          </div>
+        </div>
+        <!--end Building Calculator pane-->
+
+        <!--Zoning Info pane-->
+        <div class="sidebar-pane" id="zone">
+          <h1 class="sidebar-header">
+            Zoning Definition Summaries
+            <div class="sidebar-close"><i class="fa fa-caret-left"></i></div>
+          </h1>
+
+          <div id="zoning">
+            <p>To be implemented soon!</p>
+          </div>
+        </div>
+
+        <!--End zoning info pane-->
+
+        <!--setting pane-->
+        <div class="sidebar-pane" id="sett">
+          <h1 class="sidebar-header">
+            Settings
+            <div class="sidebar-close"><i class="fa fa-caret-left"></i></div>
+          </h1>
+
+          <div id="settings">
+            <p>No settings to be seen here...</p>
+          </div>
+        </div>
+        <!--end settings pane-->
+
+        <!--end pane contents-->
       </div>
-    </div><!--side panel-->
+    </div><!--end sidebar-->
 
-    <!--templates for the tab boxes-->
-    <script type="x-tmpl-mustache", id="generalbox_template">
+    <!--Info Tab Template-->
+    <script type="x-tmpl-mustache" id="Info_Tab">
+      <div class="col-md-12">
+        <div class="panel-group" id="accordian" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="general-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#general" aria-expanded="false" aria-controls="general" id="AddressTitle">
+                  
+                </a>
+              </h4>
+            </div>
+            <div id="general" class="panel-collapse collapse in" role="tabpanel" aria-labbelledby="general">
+              <table class="table table-hover">
+                <tr>
+                  <td class="info">Owner</td><td>{{owner}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Council District</td><td>{{council}}</td>
+                </tr>
+                <tr>
+                  <td class="info">School District</td><td>{{school}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Census Neighborhood</td><td>{{neighborhood}}</td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                </tr>
+                <tr>
+                  <td class="info">Current Zoning</td><td>{{zone}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Land Use Code</td><td>{{landuse}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Blvd Front Footage</td><td>{{bff}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Assessed Land</td><td>{{assland}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Assessed Improve</td><td>{{assimprove}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Exempt Improve</td><td>{{eximprove}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Acres</td><td>{{acres}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Perimeter</td><td>{{perimeter}}</td>
+                </tr>
+                <tr>
+                  <td class="info">PLSS</td><td>{{plss}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
 
-        <table class="table table-hover">
-          <tr>
-            <td class="info">Owner</td><td>{{owner}}</td>
-          </tr>
-          <tr>
-            <td class="info">Council District</td><td>{{council}}</td>
-          </tr>
-          <tr>
-            <td class="info">School District</td><td>{{school}}</td>
-          </tr>
-          <tr>
-            <td class="info">Census Neighborhood</td><td>{{neighborhood}}</td>
-          </tr>
-          <tr>
-            <td colspan="2"></td>
-          </tr>
-          <tr>
-            <td class="info">Current Zoning</td><td>{{zone}}</td>
-          </tr>
-          <tr>
-            <td class="info">Land Use Code</td><td>{{landuse}}</td>
-          </tr>
-          <tr>
-            <td class="info">Blvd Front Footage</td><td>{{bff}}</td>
-          </tr>
-          <tr>
-            <td class="info">Assessed Land</td><td>{{assland}}</td>
-          </tr>
-          <tr>
-            <td class="info">Assessed Improve</td><td>{{assimprove}}</td>
-          </tr>
-          <tr>
-            <td class="info">Exempt Improve</td><td>{{eximprove}}</td>
-          </tr>
-          <tr>
-            <td class="info">Acres</td><td>{{acres}}</td>
-          </tr>
-          <tr>
-            <td class="info">Perimeter</td><td>{{perimeter}}</td>
-          </tr>
-          <tr>
-            <td class="info">PLSS</td><td>{{plss}}</td>
-          </tr>
-        </table>
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="tax-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#tax" aria-expanded="false" aria-controls="tax">
+                  Tax
+                </a>
+              </h4>
+            </div>
+            <div id="tax" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="tax">
+              <table class="table table-hover">
+                <tr>
+                  <td class="info">Assessed Value</td><td>${{assessedvalue}} </td>
+                </tr>
+                <tr>
+                  <td class="info">Taxable Value</td><td>${{taxvalue}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Levy Rate</td><td>{{levy}}%</td>
+                </tr>
+                <tr>
+                  <td class="info">{{prevyear}} Tax</td><td>{{prevtax}}</td>
+                </tr>
+                <tr>
+                  <td class="info">Last Assessed</td><td>{{lastassessed}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="neighborhood" id="neighborhood-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#neighborhood" aria-expanded="false" aria-controls="neighborhood">
+                  Neighbourhood
+                </a>
+              </h4>
+            </div>
+            <div id="neighborhood" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="neighborhood">
+              <h4>neighborhood Coming soon!</h4>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="plan" id="plan-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#plan" aria-expanded="false" aria-controls="plan">
+                  Plan
+                </a>
+              </h4>
+            </div>
+            <div id="plan" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="plan">
+              <h4>Plan Coming soon!</h4>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="incentives" id="incentives-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#incentives" aria-expanded="false" aria-controls="incentives">
+                  Incentives
+                </a>
+              </h4>
+            </div>
+            <div id="incentives" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="incentives">
+              <h4>incentives Coming soon!</h4>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="links" id="links-tab">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordian" href="#links" aria-expanded="false" aria-controls="links">
+                  Links
+                </a>
+              </h4>
+            </div>
+            <div id="links" class="panel-collapse collapse out" role="tabpanel" aria-labbelledby="links">
+              <a href='http://kivaweb.kcmo.org/kivanet/2/land/summary/index.cfm?pin={{kivapin}}' target='new_tab'>Kivaweb</a>
+            </div>
+          </div>
+        </div>
+
     </script>
 
-    <script type="x-tmpl-mustache", id="taxbox_template">
-      <table class="table table-hover">
-        <tr>
-          <td class="info">Assessed Value</td><td>${{assessedvalue}} </td>
-        </tr>
-        <tr>
-          <td class="info">Taxable Value</td><td>${{taxvalue}}</td>
-        </tr>
-        <tr>
-          <td class="info">Levy Rate</td><td>{{levy}}%</td>
-        </tr>
-        <tr>
-          <td class="info">{{prevyear}} Tax</td><td>{{prevtax}}</td>
-        </tr>
-        <tr>
-          <td class="info">Last Assessed</td><td>{{lastassessed}}</td>
-        </tr>
-      </table>
-    </script>
-
-    <script type="x-tmpl-mustache", id="nhoodbox_template">
-      <h4>neighborhood Coming soon!</h2>
-    </script>
-
-    <script type="x-tmpl-mustache", id="planbox_template">
-      <h4>plan Coming soon!</h4>
-    </script>
-
-    <script type="x-tmpl-mustache", id="incentivesbox_template">
-      <h4>incentives Coming soon!</h4>
-    </script>
-
-    <script type="x-tmpl-mustache" id="linksbox_template">
-      <a href='http://kivaweb.kcmo.org/kivanet/2/land/summary/index.cfm?pin={{kivapin}}' target='new_tab'>Kivaweb</a>
-    </script>
 
     <script type="x-tmpl-mustache" id="envelope_template">
       <p>Max Building Footprint: {{maxfootprint}}</p>
@@ -297,6 +426,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/bootstrap3-typeahead.js"></script>
     <script type="text/javascript" src="js/bootstrap-tabdrop.js"></script>
+    <script src="js/jquery-sidebar.min.js"></script>
     <script type="text/javascript" src="js/Formulas.js"></script>
     <script type="text/javascript" src="js/app2.js"></script>
 
