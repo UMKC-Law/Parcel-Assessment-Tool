@@ -16,3 +16,5 @@ We are working on establishing an updated problem statement that reflects the cu
 
 #### Interested in contributing?
 Please see our [Road Map](https://github.com/UMKC-Law/Parcel-Assessment-Tool/wiki/Road-Map) and check the ideas for ways that you can contribute!
+
+Visit our issue board [![Stories in Ready](https://badge.waffle.io/UMKC-Law/Parcel-Assessment-Tool.svg?label=ready&title=Ready)](http://waffle.io/UMKC-Law/Parcel-Assessment-Tool)
