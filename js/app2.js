@@ -162,7 +162,7 @@ function attachMapLayers(map){
             //search jim's data for the parcel information
             var request = createCORSRequest(
                 "get", 
-                "http://address-api.codeforkc.org/jd_wp/" + data.apn
+                "http://api.codeforkc.org/jd_wp/" + data.apn
             );
 
             var api_data = null;
